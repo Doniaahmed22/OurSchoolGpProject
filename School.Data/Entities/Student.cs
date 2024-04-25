@@ -19,17 +19,16 @@ namespace School.Data.Entities
         public string? Address { get; set; }
         public string Nationality { get; set; }
         public Char Gender { get; set; }
-        public Parent Parent { get; set; }
-        public int ParentId { get; set; }
-        public Level Level { get; set; }
-        public int LevelId { get; set; }
-        public Department Department { get; set; }
-        public int DepartmentId { get; set; }
-        public Class Class { get; set; }
-        public int ClassId { get; set; }
-        public List<StudentSubject> StudentSubjects { get; set; }
-        public List<Attendence> Attendences { get; set; }
-
+        public Parent? Parent { get; set; }
+        public int? ParentId { get; set; }
+        public Level? Level { get; set; }
+        public int? LevelId { get; set; }
+        public Department? Department { get; set; }
+        public int? DepartmentId { get; set; }
+        public Class? Class { get; set; }
+        public int? ClassId { get; set; }
+        public List<StudentSubject>? StudentSubjects { get; set; }
+        public List<Attendence>? Attendences { get; set; }
 
     }
 }
