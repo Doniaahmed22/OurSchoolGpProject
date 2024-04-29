@@ -52,7 +52,5 @@ namespace School.Data.Context
         public DbSet<SchoolInfo> SchoolInfo { get; set; }
         public DbSet<TeacherSubjectLevel> TeacherSubjectLevels { get; set; }
         public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
-
-        //public DbSet<Parent> parents { get; set; }
     }
 }

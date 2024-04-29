@@ -1,14 +1,13 @@
-﻿using System;
+﻿using School.Data.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.StudentDto
 {
-    public class Student : BaseEntity
+    public class StudentDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -29,6 +28,5 @@ namespace School.Data.Entities
         public int? ClassId { get; set; }
         public List<StudentSubject>? StudentSubjects { get; set; }
         public List<Attendence>? Attendences { get; set; }
-
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using School.API.Extensions;
 using School.Data.Context;
 
 namespace School.API
@@ -17,6 +18,8 @@ namespace School.API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddSchoolServices();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

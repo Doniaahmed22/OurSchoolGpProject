@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.ParentDto
 {
-    public class Parent : BaseEntity
+    public class ParentDto
     {
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string? PhoneNumber { get; set; }

@@ -1,78 +1,62 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
-using School.Data.Entities;
+using School.Services.Dtos.StudentDto;
+using School.Services.Services.StudentServices;
 
 namespace School.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class StudentController : ControllerBase
     {
+        private readonly IStudentServices _studentServices;
         private readonly SchoolDbContext _context;
 
-        public StudentController(SchoolDbContext Context)
+        public StudentController(IStudentServices studentServices, SchoolDbContext context)
         {
-            _context = Context;
+            _studentServices = studentServices;
+            _context = context;
         }
 
         [HttpGet]
         [Route("GetStudents")]
-        public async Task<IActionResult> GetStudents()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
-            return Ok(await _context.Students.ToListAsync());
+            var students = await _studentServices.GetAllStudents();
+            return Ok(students);
         }
 
         [HttpGet]
         [Route("GetStudentById/{id}")]
-        public async Task<IActionResult> GetStudentById(int? id)
+        public async Task<ActionResult<StudentDto>> GetStudentById(int id)
         {
-            if (id == null || id < 1)
-            {
-                return BadRequest();
-            }
-            var Student = await _context.Students.FindAsync(id);
-            if (Student == null)
+            var student = await _studentServices.GetStudentById(id);
+            if (student == null)
             {
                 return NotFound();
             }
-            return Ok(Student);
+            return Ok(student);
         }
 
         [HttpPost]
         [Route("AddStudent")]
-        public async Task<IActionResult> AddStudent(Student student)
+        public async Task<IActionResult> AddStudent (StudentDto studentDto)
         {
-            _context.Add(student);
-            await _context.SaveChangesAsync();
+            if (studentDto == null)
+            {
+                return BadRequest("Student is Empty");
+            }
+            await _studentServices.AddStudent(studentDto);
             return Ok();
         }
 
+
         [HttpPut]
         [Route("UpdateStudent")]
-        public async Task<IActionResult> UpdateStudent(Student student)
+        public async Task<IActionResult> UpdateStudent(StudentDto studentDto)
         {
-            if (student == null || student.Id == 0)
-                return BadRequest();
-
-            var NewStudent = await _context.Students.FindAsync(student.Id);
-            if (NewStudent == null)
-                return NotFound();
-            NewStudent.Name = student.Name;
-            NewStudent.Age = student.Age;
-            NewStudent.Address = student.Address;
-            NewStudent.PhoneNumber = student.PhoneNumber;
-            NewStudent.BirthDay = student.BirthDay;
-            NewStudent.Gender = student.Gender;
-            NewStudent.Religion = student.Religion;
-            NewStudent.Nationality = student.Nationality;
-            NewStudent.ParentId = student.ParentId;
-            NewStudent.ClassId = student.ClassId;
-            NewStudent.DepartmentId = student.DepartmentId;
-            NewStudent.LevelId = student.LevelId;
-
-            await _context.SaveChangesAsync();
+            await _studentServices.UpdateStudent(studentDto);
             return Ok();
         }
 
@@ -85,12 +69,12 @@ namespace School.API.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null)
                 return NotFound();
-            if(student.ParentId != null)
+            if (student.ParentId != null)
             {
                 var students = await _context.Students.ToListAsync();
                 foreach (var s in students)
                 {
-                    if(s.ParentId == student.ParentId && s.Id != id)
+                    if (s.ParentId == student.ParentId && s.Id != id)
                     {
                         flag = true;
                         break;
@@ -103,8 +87,7 @@ namespace School.API.Controllers
 
                 }
             }
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+            await _studentServices.DeleteStudent(id);
             return Ok();
         }
     }
