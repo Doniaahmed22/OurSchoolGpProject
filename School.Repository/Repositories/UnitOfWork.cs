@@ -34,9 +34,17 @@ namespace School.Repository.Repositories
             var entityKey = typeof(TEntity).Name;
             if (!_repositores.ContainsKey(entityKey))
             {
+                
+
                 var repositoryType = typeof(GenericRepository<>);
                 var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _context);
-                _repositores.Add(entityKey, repositoryInstance);
+               // _repositores.Add(entityKey, repositoryInstance);
+               // 
+                 if (typeof(TEntity) == typeof(Subject))
+                    _repositores.Add(entityKey, new SubjectRepository(_context));
+                 else
+                     _repositores.Add(entityKey, repositoryInstance);
+                 
             }
             return (IGenericRepository<TEntity>)_repositores[entityKey];
         }

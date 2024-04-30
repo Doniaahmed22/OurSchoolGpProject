@@ -2,6 +2,7 @@
 using School.Data.Entities;
 using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.StudentDto;
+using School.Services.Dtos.TeacherDto;
 
 namespace School.Services.Services.ProfileServices
 {
@@ -14,6 +15,12 @@ namespace School.Services.Services.ProfileServices
             
             CreateMap<Parent, ParentDto>();
             CreateMap<ParentDto, Parent>();
+
+            CreateMap<Teacher, TeacherDto>();
+            CreateMap<TeacherDto,Teacher>();
+            CreateMap<Teacher, TeacherDtoWithId>();
+
+
             // Other mappings
         }
     }

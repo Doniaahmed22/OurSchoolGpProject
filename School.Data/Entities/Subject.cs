@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class Subject
+    public class Subject:BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

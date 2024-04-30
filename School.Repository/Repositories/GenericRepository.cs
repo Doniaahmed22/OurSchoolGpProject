@@ -12,7 +12,7 @@ namespace School.Repository.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly SchoolDbContext _context;
+        protected readonly SchoolDbContext _context;
 
         public GenericRepository(SchoolDbContext context)
         {

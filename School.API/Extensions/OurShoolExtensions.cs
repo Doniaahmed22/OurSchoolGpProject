@@ -7,6 +7,8 @@ using School.Repository.Repositories;
 using School.Services.Services.ParentServices;
 using School.Services.Services.ProfileServices;
 using School.Services.Services.StudentServices;
+using School.Services.Services.SubjectServices;
+using School.Services.Services.TeacherServices;
 using System;
 
 namespace School.API.Extensions
@@ -18,6 +20,9 @@ namespace School.API.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IParentServices, ParentServices>();
+            services.AddScoped<ITeacherServices, TeacherServices>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<ISubjectServices, SubjectServices>();
 
             services.AddAutoMapper(typeof(MappingProfile));
 

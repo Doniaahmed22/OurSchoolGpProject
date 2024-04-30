@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.TeacherDto
 {
-    public class Term
+    public class TeacherDtoWithId:TeacherDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<SubjectTerm> SubjectTerms { get; set;}
     }
 }

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.TeacherDto
 {
-    public class Teacher:BaseEntity
+    public class TeacherDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string? PhoneNumber { get; set; }
         public Char Gender { get; set; }
@@ -17,9 +16,5 @@ namespace School.Data.Entities
         public string Nationality { get; set; }
         public string Degree { get; set; }
 
-        public List<Attendence> Attendences { get; set; }
-        public List<TeacherLevel> TeacherLevels { get; set; }
-        public List<TeacherSubjectLevel> TeacherSubjectLevels { get; set; }
-        public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
     }
 }

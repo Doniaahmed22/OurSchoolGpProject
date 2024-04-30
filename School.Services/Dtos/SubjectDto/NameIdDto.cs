@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.SubjectDto
 {
-    public class Term
+    public class NameIdDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<SubjectTerm> SubjectTerms { get; set;}
     }
 }
