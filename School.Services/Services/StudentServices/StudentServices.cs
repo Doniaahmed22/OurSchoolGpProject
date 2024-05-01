@@ -16,27 +16,26 @@ namespace School.Services.Services.StudentServices
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<StudentDto>> GetAllStudents()
+        public async Task<IEnumerable<StudentDtoWithId>> GetAllStudents()
         {
             var students = await _unitOfWork.repository<Student>().GetAll();
-            return _mapper.Map<IEnumerable<StudentDto>>(students);
+            return _mapper.Map<IEnumerable<StudentDtoWithId>>(students);
         }
 
-        public async Task<StudentDto> GetStudentById(int id)
+        public async Task<StudentDtoWithId> GetStudentById(int id)
         {
             var student = await _unitOfWork.repository<Student>().GetById(id);
-            return _mapper.Map<StudentDto>(student);
+            return _mapper.Map<StudentDtoWithId>(student);
         }
 
-        public async Task AddStudent(StudentDto studentDto)
+        public async Task AddStudent(AddStudentDto studentDto)
         {
             var student = _mapper.Map<Student>(studentDto);
             await _unitOfWork.repository<Student>().Add(student);
         }
 
-        public async Task UpdateStudent(StudentDto studentDto)
+        public async Task UpdateStudent(int id,AddStudentDto studentDto)
         {
-            var id = studentDto.Id;
             var existingStudent = await _unitOfWork.repository<Student>().GetById(id);
             if (existingStudent == null)
             {

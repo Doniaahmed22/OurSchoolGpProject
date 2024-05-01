@@ -9,10 +9,10 @@ namespace School.Services.Services.StudentServices
 {
     public interface IStudentServices
     {
-        Task<IEnumerable<StudentDto>> GetAllStudents();
-        Task<StudentDto> GetStudentById(int id);
-        Task AddStudent(StudentDto studentDto);
-        Task UpdateStudent(StudentDto entity);
+        Task<IEnumerable<StudentDtoWithId>> GetAllStudents();
+        Task<StudentDtoWithId> GetStudentById(int id);
+        Task AddStudent(AddStudentDto studentDto);
+        Task UpdateStudent(int id,AddStudentDto entity);
         Task DeleteStudent(int id);
     }
 }

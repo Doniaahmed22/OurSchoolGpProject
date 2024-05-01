@@ -16,16 +16,16 @@ namespace School.Services.Services.ParentServices
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ParentDto>> GetAllParents()
+        public async Task<IEnumerable<ParentDtoWithId>> GetAllParents()
         {
             var parents = await _unitOfWork.repository<Parent>().GetAll();
-            return _mapper.Map<IEnumerable<ParentDto>>(parents);
+            return _mapper.Map<IEnumerable<ParentDtoWithId>>(parents);
         }
 
-        public async Task<ParentDto> GetParentById(int id)
+        public async Task<ParentDtoWithId> GetParentById(int id)
         {
             var parent = await _unitOfWork.repository<Parent>().GetById(id);
-            return _mapper.Map<ParentDto>(parent);
+            return _mapper.Map<ParentDtoWithId>(parent);
         }
 
         public async Task AddParent(ParentDto parentDto)
@@ -34,9 +34,8 @@ namespace School.Services.Services.ParentServices
             await _unitOfWork.repository<Parent>().Add(student);
         }
 
-        public async Task UpdateParent(ParentDto parentDto)
+        public async Task UpdateParent(int id,ParentDto parentDto)
         {
-            var id = parentDto.Id;
             var existingParent = await _unitOfWork.repository<Parent>().GetById(id);
             if (existingParent == null)
             {
