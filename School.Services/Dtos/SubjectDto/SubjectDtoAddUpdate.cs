@@ -8,8 +8,7 @@ namespace School.Services.Dtos.SubjectDto
 {
     public class SubjectDtoAddUpdate
     {
-        public string Name { get; set; }
-
+        public int SubjectId {  get; set; }
         public int TermId { get; set; }
         public int DepatmentId { get; set; }
         public int LevelId { get; set; }

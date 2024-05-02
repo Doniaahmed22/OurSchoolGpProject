@@ -29,33 +29,24 @@ namespace School.Services.Services.SubjectServices
         {
             
             ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            IEnumerable<Subject> subjects = SubjectRepository.GetSubjectwithTermLevelDepartment();
+            IEnumerable<SubjectLevelDepartmentTerm> SubjectLevelDepartmentTerms = SubjectRepository.GetSubjectLevelDepartmentTerm();
             
             //IEnumerable<Subject> subjects = _subjectRepository.GetSubjectwithTermLevelDepartment();
             List <BaseSubjectInfoDto> SubjectsDto = new List<BaseSubjectInfoDto>();
-            foreach (Subject subject in subjects)
+            foreach (var SubLevelDeptTerm in SubjectLevelDepartmentTerms)
             {
                 BaseSubjectInfoDto SubjectDto =  new BaseSubjectInfoDto();
-                SubjectDto.Id = subject.Id;
-                SubjectDto.Name = subject.Name;
-                foreach(SubjectTerm subjectTerm in subject.SubjectTerms)
-                {
-                    SubjectDto.SubjectTerms.Add(
-                        new NameIdDto() {  Id = subjectTerm.Term.Id, Name = subjectTerm.Term.Name}
-                    ); 
-                }
-                foreach (SubjectDepartment subjectDept in subject.SubjectDepartments)
-                {
-                    SubjectDto.SubjectDepartments.Add(
-                        new NameIdDto() { Id = subjectDept.Department.Id , Name = subjectDept.Department.Name }
-                    ); 
-                }
-                foreach (SubjectLevel subjectLevel in subject.SubjectLevels)
-                {
-                    SubjectDto.SubjectLevels.Add(
-                        new NameIdDto() { Id = subjectLevel.Level.Id , Name = subjectLevel.Level.Name }
-                    ); 
-                }
+                SubjectDto.SubLevlDeptTermId = SubLevelDeptTerm.Id;
+                SubjectDto.Subject.Name = SubLevelDeptTerm.Subject.Name;
+                SubjectDto.Subject.Id = SubLevelDeptTerm.SubjectId;
+
+                SubjectDto.SubjectLevel.Name = SubLevelDeptTerm.Level.Name;
+                SubjectDto.SubjectLevel.Id = SubLevelDeptTerm.LevelId;
+                SubjectDto.SubjectDepartment.Name = SubLevelDeptTerm.Department.Name;
+                SubjectDto.SubjectDepartment.Id = SubLevelDeptTerm.DepartmentId;
+                SubjectDto.SubjectTerm.Name = SubLevelDeptTerm.Term.Name;
+                SubjectDto.SubjectTerm.Id = SubLevelDeptTerm.TermId;
+
                 SubjectsDto.Add( SubjectDto );
 
             }
@@ -68,46 +59,33 @@ namespace School.Services.Services.SubjectServices
         {
 
             ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            var subject = await SubjectRepository.GetSubjectwithTermLevelDeptById(id);
+            var SubLevelDeptTermId = await SubjectRepository.GetSubjectwithTermLevelDeptById(id);
 
-            if (subject == null)
+            if (SubLevelDeptTermId == null)
                 return null;
 
 
             BaseSubjectInfoDto SubjectDto = new BaseSubjectInfoDto();
-            SubjectDto.Id = subject.Id;
-            SubjectDto.Name = subject.Name;
-            foreach (SubjectTerm subjectTerm in subject.SubjectTerms)
-            {
-                SubjectDto.SubjectTerms.Add(
-                new NameIdDto() { Id = subjectTerm.Term.Id, Name = subjectTerm.Term.Name }
-                );
-            }
-            foreach (SubjectDepartment subjectDept in subject.SubjectDepartments)
-            {
-                SubjectDto.SubjectDepartments.Add(
-                new NameIdDto() { Id = subjectDept.Department.Id, Name = subjectDept.Department.Name }
-                );
-            }
-            foreach (SubjectLevel subjectLevel in subject.SubjectLevels)
-            {
-               SubjectDto.SubjectLevels.Add(
-               new NameIdDto() { Id = subjectLevel.Level.Id, Name = subjectLevel.Level.Name }
-              );
-            }
+            SubjectDto.SubLevlDeptTermId = SubLevelDeptTermId.Id;
+            SubjectDto.Subject.Name = SubLevelDeptTermId.Subject.Name;
+            SubjectDto.Subject.Id = SubLevelDeptTermId.Subject.Id;
+            SubjectDto.SubjectLevel.Name = SubLevelDeptTermId.Level.Name;
+            SubjectDto.SubjectLevel.Id = SubLevelDeptTermId.LevelId;
+            SubjectDto.SubjectDepartment.Name = SubLevelDeptTermId.Department.Name;
+            SubjectDto.SubjectDepartment.Id = SubLevelDeptTermId.DepartmentId;
+            SubjectDto.SubjectTerm.Name = SubLevelDeptTermId.Term.Name;
+            SubjectDto.SubjectTerm.Id = SubLevelDeptTermId.TermId;
             return SubjectDto;
         }
 
         public async Task AddSubject(SubjectDtoAddUpdate SubjectDto)
         {
-            Subject subject = new Subject();
-            subject.Name = SubjectDto.Name;
-            subject.SubjectDepartments = new List<SubjectDepartment>();
-            subject.SubjectDepartments.Add(new SubjectDepartment { DepartmentId = SubjectDto.DepatmentId });
-            subject.SubjectTerms = new List<SubjectTerm>();
-            subject.SubjectTerms.Add(new SubjectTerm { TermId = SubjectDto.TermId });
-            subject.SubjectLevels = new List<SubjectLevel>();
-            subject.SubjectLevels.Add(new SubjectLevel { LevelId = SubjectDto.LevelId });
+            SubjectLevelDepartmentTerm SubLevelDeptTerm = new SubjectLevelDepartmentTerm();
+            SubLevelDeptTerm.SubjectId = SubjectDto.SubjectId;
+            SubLevelDeptTerm.LevelId = SubjectDto.LevelId;
+            SubLevelDeptTerm.DepartmentId = SubjectDto.DepatmentId;
+            SubLevelDeptTerm.TermId = SubjectDto.TermId;
+
 
             await _unitOfWork.repository<Subject>().Add(subject);
         }
@@ -124,6 +102,6 @@ namespace School.Services.Services.SubjectServices
             await _unitOfWork.repository<Subject>().Delete(id); //???can we make delete function in generic just delete not find id ? 
             return subject;
         }
-
+        
     }
 }

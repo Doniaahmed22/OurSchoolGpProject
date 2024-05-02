@@ -17,23 +17,16 @@ namespace School.Repository.Repositories
         {
         }
 
-        public IEnumerable<Subject> GetSubjectwithTermLevelDepartment()
+        public IEnumerable<SubjectLevelDepartmentTerm> GetSubjectLevelDepartmentTerm()
         {
-              return _context.Subjects.Include(s=>s.SubjectTerms).
-                 ThenInclude(subTerm=> subTerm.Term)
-                .Include(s=>s.SubjectDepartments).ThenInclude(SubDep=>SubDep.Department)
-                .Include(s=>s.SubjectLevels).ThenInclude(sublevel=>sublevel.Level);
+              return _context.SubjectLevelDepartmentTerms.Include(s=>s.Subject)
+                .Include(s=>s.Level).Include(s=>s.Department).Include(s=>s.Term);
         }
-        public async Task< Subject>GetSubjectwithTermLevelDeptById(int id)
+        public async Task<SubjectLevelDepartmentTerm> GetSubjectwithTermLevelDeptById(int id)
         {
-          var Subjects= 
-                _context.Subjects.Include(s => s.SubjectTerms)
-                .ThenInclude(subTerm => subTerm.Term)
-                .Include(s => s.SubjectDepartments)
-                .ThenInclude(SubDep => SubDep.Department)
-                .Include(s => s.SubjectLevels)
-                .ThenInclude(sublevel => sublevel.Level);
-            return await Subjects.FirstOrDefaultAsync(s => s.Id == id);
+          var SubjectLevelDepartmentTerms = _context.SubjectLevelDepartmentTerms.Include(s => s.Subject)
+                .Include(s => s.Level).Include(s => s.Department).Include(s => s.Term);
+            return await SubjectLevelDepartmentTerms.FirstOrDefaultAsync(s => s.Id == id);
 
         }
     }

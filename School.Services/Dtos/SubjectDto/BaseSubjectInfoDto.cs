@@ -9,10 +9,10 @@ namespace School.Services.Dtos.SubjectDto
 {
     public class BaseSubjectInfoDto
     {
-        public int? Id { get; set; }
-        public string Name { get; set; }
-        public List<NameIdDto> SubjectTerms { get; set; } = new List<NameIdDto>();
-        public List<NameIdDto> SubjectDepartments { get; set; } = new List<NameIdDto>();
-        public List<NameIdDto> SubjectLevels { get; set; } = new List<NameIdDto>();
+        public int SubLevlDeptTermId { get; set; }
+        public NameIdDto Subject { get; set; }
+        public NameIdDto SubjectTerm { get; set; } 
+        public NameIdDto SubjectDepartment { get; set; } 
+        public NameIdDto SubjectLevel { get; set; } 
     }
 }
