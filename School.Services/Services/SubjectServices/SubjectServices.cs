@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using School.Data.Entities;
 using School.Repository.Interfaces;
-using School.Repository.Repositories;
-using School.Services.Dtos.SubjectDto;
-using School.Services.Dtos.TeacherDto;
+using School.Services.Dtos.ParentDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,96 +10,50 @@ using System.Threading.Tasks;
 
 namespace School.Services.Services.SubjectServices
 {
-    public class SubjectServices:ISubjectServices
+    public class SubjectServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISubjectRepository _subjectRepository;
         private readonly IMapper _mapper;
 
-        public SubjectServices(IUnitOfWork unitOfWork, ISubjectRepository _subjectRepository, IMapper mapper)
+        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            this._subjectRepository = _subjectRepository;
             _mapper = mapper;
         }
 
-        public IEnumerable<BaseSubjectInfoDto> GetAllSubject()
+        public async Task<IEnumerable<SubjectDto>> GetAllSubject()
         {
-            
-            ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            IEnumerable<SubjectLevelDepartmentTerm> SubjectLevelDepartmentTerms = SubjectRepository.GetSubjectLevelDepartmentTerm();
-            
-            //IEnumerable<Subject> subjects = _subjectRepository.GetSubjectwithTermLevelDepartment();
-            List <BaseSubjectInfoDto> SubjectsDto = new List<BaseSubjectInfoDto>();
-            foreach (var SubLevelDeptTerm in SubjectLevelDepartmentTerms)
-            {
-                BaseSubjectInfoDto SubjectDto =  new BaseSubjectInfoDto();
-                SubjectDto.SubLevlDeptTermId = SubLevelDeptTerm.Id;
-                SubjectDto.Subject.Name = SubLevelDeptTerm.Subject.Name;
-                SubjectDto.Subject.Id = SubLevelDeptTerm.SubjectId;
-
-                SubjectDto.SubjectLevel.Name = SubLevelDeptTerm.Level.Name;
-                SubjectDto.SubjectLevel.Id = SubLevelDeptTerm.LevelId;
-                SubjectDto.SubjectDepartment.Name = SubLevelDeptTerm.Department.Name;
-                SubjectDto.SubjectDepartment.Id = SubLevelDeptTerm.DepartmentId;
-                SubjectDto.SubjectTerm.Name = SubLevelDeptTerm.Term.Name;
-                SubjectDto.SubjectTerm.Id = SubLevelDeptTerm.TermId;
-
-                SubjectsDto.Add( SubjectDto );
-
-            }
-            return SubjectsDto;
+            var subjects = await _unitOfWork.repository<Subject>().GetAll();
+            return _mapper.Map<IEnumerable<SubjectDto>>(subjects);
         }
 
-
-
-        public async Task<BaseSubjectInfoDto> GetSubjectById(int id)
+        public async Task<SubjectDto> GetSubjectById(int id)
         {
-
-            ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            var SubLevelDeptTermId = await SubjectRepository.GetSubjectwithTermLevelDeptById(id);
-
-            if (SubLevelDeptTermId == null)
-                return null;
-
-
-            BaseSubjectInfoDto SubjectDto = new BaseSubjectInfoDto();
-            SubjectDto.SubLevlDeptTermId = SubLevelDeptTermId.Id;
-            SubjectDto.Subject.Name = SubLevelDeptTermId.Subject.Name;
-            SubjectDto.Subject.Id = SubLevelDeptTermId.Subject.Id;
-            SubjectDto.SubjectLevel.Name = SubLevelDeptTermId.Level.Name;
-            SubjectDto.SubjectLevel.Id = SubLevelDeptTermId.LevelId;
-            SubjectDto.SubjectDepartment.Name = SubLevelDeptTermId.Department.Name;
-            SubjectDto.SubjectDepartment.Id = SubLevelDeptTermId.DepartmentId;
-            SubjectDto.SubjectTerm.Name = SubLevelDeptTermId.Term.Name;
-            SubjectDto.SubjectTerm.Id = SubLevelDeptTermId.TermId;
-            return SubjectDto;
+            var subject = await _unitOfWork.repository<Subject>().GetById(id);
+            return _mapper.Map<SubjectDto>(subject);
         }
 
-        public async Task AddSubject(SubjectDtoAddUpdate SubjectDto)
+        public async Task AddSubject(SubjectDto SubDto)
         {
-            SubjectLevelDepartmentTerm SubLevelDeptTerm = new SubjectLevelDepartmentTerm();
-            SubLevelDeptTerm.SubjectId = SubjectDto.SubjectId;
-            SubLevelDeptTerm.LevelId = SubjectDto.LevelId;
-            SubLevelDeptTerm.DepartmentId = SubjectDto.DepatmentId;
-            SubLevelDeptTerm.TermId = SubjectDto.TermId;
-
-
+            var subject = _mapper.Map<Subject>(SubDto);
             await _unitOfWork.repository<Subject>().Add(subject);
         }
 
-        public async Task<Subject> UpdateSubject(int id, SubjectDtoAddUpdate dto)
+        public async Task UpdateParent(int id, SubjectDto SubDto)
         {
-            throw new NotImplementedException();
+            var existingSubject = await _unitOfWork.repository<Subject>().GetById(id);
+            if (existingSubject == null)
+            {
+                throw new InvalidOperationException("Student not found");
+            }
+
+            _mapper.Map(SubDto, existingSubject);
+            await _unitOfWork.repository<Subject>().Update(existingSubject);
         }
-        public async Task<Subject> DeleteSubject(int id)
+
+        public async Task DeleteParent(int id)
         {
-            var subject = await _unitOfWork.repository<Subject>().GetById(id);
-            if (subject == null)
-                return null;
-            await _unitOfWork.repository<Subject>().Delete(id); //???can we make delete function in generic just delete not find id ? 
-            return subject;
+            await _unitOfWork.repository<Subject>().Delete(id);
         }
-        
     }
 }

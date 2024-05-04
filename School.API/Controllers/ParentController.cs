@@ -23,7 +23,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetParents")]
-        public async Task<ActionResult<IEnumerable<ParentDtoWithId>>> GetParents()
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetParents()
         {
             var Parents = await _parentServices.GetAllParents();
             return Ok(Parents);
@@ -31,7 +31,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetParentById/{id}")]
-        public async Task<ActionResult<ParentDtoWithId>> GetParentById(int id)
+        public async Task<ActionResult<SubjectDto>> GetParentById(int id)
         {
             var parent = await _parentServices.GetParentById(id);
             if (parent == null)
@@ -43,7 +43,7 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("AddParent")]
-        public async Task<IActionResult> AddParent(ParentDto parentDto)
+        public async Task<IActionResult> AddParent(SubjectDto parentDto)
         {
             if (parentDto == null)
             {
@@ -56,7 +56,7 @@ namespace School.API.Controllers
 
         [HttpPut]
         [Route("UpdateParent")]
-        public async Task<IActionResult> UpdateParent(int id, ParentDto parentDto)
+        public async Task<IActionResult> UpdateParent(int id, SubjectDto parentDto)
         {
             await _parentServices.UpdateParent(id, parentDto);
             return Ok();

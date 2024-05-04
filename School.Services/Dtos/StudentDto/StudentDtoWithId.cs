@@ -18,7 +18,7 @@ namespace School.Services.Dtos.StudentDto
         public string? Address { get; set; }
         public string Nationality { get; set; }
         public Char Gender { get; set; }
-        public Parent? Parent { get; set; }
+        public Subject? Parent { get; set; }
         public int? ParentId { get; set; }
         public Level? Level { get; set; }
         public int? LevelId { get; set; }

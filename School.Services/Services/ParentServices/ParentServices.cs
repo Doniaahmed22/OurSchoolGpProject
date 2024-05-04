@@ -16,39 +16,39 @@ namespace School.Services.Services.ParentServices
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ParentDtoWithId>> GetAllParents()
+        public async Task<IEnumerable<SubjectDto>> GetAllParents()
         {
-            var parents = await _unitOfWork.repository<Parent>().GetAll();
-            return _mapper.Map<IEnumerable<ParentDtoWithId>>(parents);
+            var parents = await _unitOfWork.repository<Subject>().GetAll();
+            return _mapper.Map<IEnumerable<SubjectDto>>(parents);
         }
 
-        public async Task<ParentDtoWithId> GetParentById(int id)
+        public async Task<SubjectDto> GetParentById(int id)
         {
-            var parent = await _unitOfWork.repository<Parent>().GetById(id);
-            return _mapper.Map<ParentDtoWithId>(parent);
+            var parent = await _unitOfWork.repository<Subject>().GetById(id);
+            return _mapper.Map<SubjectDto>(parent);
         }
 
-        public async Task AddParent(ParentDto parentDto)
+        public async Task AddParent(SubjectDto parentDto)
         {
-            var student = _mapper.Map<Parent>(parentDto);
-            await _unitOfWork.repository<Parent>().Add(student);
+            var student = _mapper.Map<Subject>(parentDto);
+            await _unitOfWork.repository<Subject>().Add(student);
         }
 
-        public async Task UpdateParent(int id,ParentDto parentDto)
+        public async Task UpdateParent(int id,SubjectDto parentDto)
         {
-            var existingParent = await _unitOfWork.repository<Parent>().GetById(id);
+            var existingParent = await _unitOfWork.repository<Subject>().GetById(id);
             if (existingParent == null)
             {
                 throw new InvalidOperationException("Student not found");
             }
 
             _mapper.Map(parentDto, existingParent);
-            await _unitOfWork.repository<Parent>().Update(existingParent);
+            await _unitOfWork.repository<Subject>().Update(existingParent);
         }
 
         public async Task DeleteParent(int id)
         {
-            await _unitOfWork.repository<Parent>().Delete(id);
+            await _unitOfWork.repository<Subject>().Delete(id);
         }
     }
 }

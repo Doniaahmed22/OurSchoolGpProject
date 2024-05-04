@@ -11,8 +11,8 @@ namespace School.Services.Services.SubjectServices
     public interface ISubjectServices
     {
         IEnumerable<BaseSubjectInfoDto> GetAllSubject();
-        Task<BaseSubjectInfoDto> GetSubjectById(int id);
-        Task AddSubject(SubjectDtoAddUpdate SubjectDto);
+        Task<BaseSubjectInfoDto> GetSubjectRecordById(int id);
+        Task<SubjectLevelDepartmentTerm> AddSubject(SubjectDtoAdd SubjectDto);
         Task<Subject> DeleteSubject(int id);
 
     }

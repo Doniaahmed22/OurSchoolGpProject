@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class SubjectLevelDepartmentTerm
+    public class SubjectLevelDepartmentTerm:BaseEntity
     {
         
         public int Id;

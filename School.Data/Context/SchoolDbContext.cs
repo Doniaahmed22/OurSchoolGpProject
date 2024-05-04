@@ -34,7 +34,7 @@ namespace School.Data.Context
 
         }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Parent> Parents { get; set; }
+        public DbSet<Subject> Parents { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Class> Classes { get; set; }

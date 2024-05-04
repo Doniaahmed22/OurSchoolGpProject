@@ -10,10 +10,10 @@ namespace School.Services.Services.ParentServices
 {
     public interface IParentServices
     {
-        Task<IEnumerable<ParentDtoWithId>> GetAllParents();
-        Task<ParentDtoWithId> GetParentById(int id);
-        Task AddParent(ParentDto parentDto);
-        Task UpdateParent(int id ,ParentDto entity);
+        Task<IEnumerable<SubjectDto>> GetAllParents();
+        Task<SubjectDto> GetParentById(int id);
+        Task AddParent(SubjectDto parentDto);
+        Task UpdateParent(int id ,SubjectDto entity);
         Task DeleteParent(int id);
     }
 }

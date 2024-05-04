@@ -15,10 +15,10 @@ namespace School.Services.Services.ProfileServices
             CreateMap<Student, StudentDtoWithId>();
             CreateMap<StudentDtoWithId, Student>();
 
-            CreateMap<Parent, ParentDto>();
-            CreateMap<ParentDto, Parent>();
-            CreateMap<Parent, ParentDtoWithId>();
-            CreateMap<ParentDtoWithId, Parent>();
+            CreateMap<Subject, SubjectDto>();
+            CreateMap<SubjectDto, Subject>();
+            CreateMap<Subject, SubjectDto>();
+            CreateMap<SubjectDto, Subject>();
 
             CreateMap<Teacher, TeacherDto>();
             CreateMap<TeacherDto,Teacher>();

@@ -21,16 +21,16 @@ namespace School.API.Controllers
             return Ok(subjects);
         }
         [HttpGet("GetById/{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public  IActionResult GetById(int id)
         {
-            var subject = await SubjectServices.GetSubjectById(id);
+            var subject =  SubjectServices.GetSubjectRecordById(id);
             if (subject == null)
                 return NotFound();
             return Ok(subject);
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(SubjectDtoAddUpdate SubjectDto)
+        public async Task<IActionResult> Add(SubjectDtoAdd SubjectDto)
         {
             if(SubjectDto == null)
                 return BadRequest("subject is empty");

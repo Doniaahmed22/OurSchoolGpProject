@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.ParentDto
 {
-    public class ParentDtoWithId
+    public class SubjectDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
