@@ -21,9 +21,8 @@ namespace School.API.Extensions
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IParentServices, ParentServices>();
             services.AddScoped<ITeacherServices, TeacherServices>();
-            services.AddScoped<ISubjectRepository, SubjectRepository>();
+ //           services.AddScoped<ISubjectServices, SubjectServices>();
             services.AddScoped<ISubjectServices, SubjectServices>();
-
             services.AddAutoMapper(typeof(MappingProfile));
 
             return services;

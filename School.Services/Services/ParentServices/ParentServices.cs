@@ -43,7 +43,7 @@ namespace School.Services.Services.ParentServices
             }
 
             _mapper.Map(parentDto, existingParent);
-            await _unitOfWork.repository<Parent>().Update(existingParent);
+            await _unitOfWork.repository<Parent>().Update( existingParent);
         }
 
         public async Task DeleteParent(int id)

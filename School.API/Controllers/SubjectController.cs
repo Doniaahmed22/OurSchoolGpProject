@@ -16,8 +16,8 @@ namespace School.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public IActionResult GetAll() {
-            var subjects = SubjectServices.GetAllSubject();
+        public async Task< IActionResult >GetAll() {
+            var subjects = await SubjectServices.GetAllSubject();
             return Ok(subjects);
         }
         [HttpGet("GetById/{id:int}")]
@@ -30,21 +30,23 @@ namespace School.API.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(SubjectDtoAddUpdate SubjectDto)
+        public async Task<IActionResult> Add(SubjectDto SubjectDto)
         {
             if(SubjectDto == null)
                 return BadRequest("subject is empty");
             await SubjectServices.AddSubject(SubjectDto);
             return Ok();
         }
-/*
-        [HttpPost("Upadate/{id:int}")]
-        public async Task<IActionResult> Upadate(int id,SubjectDtoAddUpdate SubjectDto)
-        {
 
+        [HttpPut("Upadate/{id:int}")]
+        public async Task<IActionResult> Update(int id,SubjectDto SubjectDto)
+        {
+             var sub= await SubjectServices.UpdateSubject(id,SubjectDto);
+             if (sub == null)
+                return  NotFound();
             return Ok();
         }
-*/
+
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -54,4 +56,5 @@ namespace School.API.Controllers
             return Ok();
         }
     }
+    
 }

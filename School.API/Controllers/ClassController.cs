@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities;
-
+/*
 namespace School.API.Controllers
 {
     [Route("api/")]
@@ -87,3 +87,4 @@ namespace School.API.Controllers
         }
     }
 }
+*/

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/*
 namespace School.Services.Dtos.ClassDto
 {
     public class ClassDto
@@ -17,4 +17,4 @@ namespace School.Services.Dtos.ClassDto
         public int LevelId { get; set; }
         public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
     }
-}
+}*/

@@ -9,10 +9,10 @@ namespace School.Repository.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        Task Update(TEntity entity);
+        Task Update( TEntity new_entity);
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> GetById(int id);
         Task Add(TEntity entity);
-        Task Delete(int id);
+        Task<TEntity> Delete(int id);
     }
 }

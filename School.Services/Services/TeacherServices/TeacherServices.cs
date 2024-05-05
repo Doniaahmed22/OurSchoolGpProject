@@ -51,7 +51,7 @@ namespace School.Services.Services.TeacherServices
             if (teacher == null)
                 return null;
             _mapper.Map(dto, teacher);
-            await _unitOfWork.repository<Teacher>().Update(teacher);
+            await _unitOfWork.repository<Teacher>().Update( teacher);
             return teacher;
         }
         public async Task<Teacher> DeleteTeacher(int id)

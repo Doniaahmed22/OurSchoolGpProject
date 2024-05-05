@@ -15,115 +15,53 @@ namespace School.Services.Services.SubjectServices
     public class SubjectServices:ISubjectServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISubjectRepository _subjectRepository;
         private readonly IMapper _mapper;
 
-        public SubjectServices(IUnitOfWork unitOfWork, ISubjectRepository _subjectRepository, IMapper mapper)
+        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            this._subjectRepository = _subjectRepository;
             _mapper = mapper;
         }
 
-        public IEnumerable<BaseSubjectInfoDto> GetAllSubject()
+        public async Task<IEnumerable<SubjectDtoWithId>> GetAllSubject()
         {
-            
-            ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            IEnumerable<Subject> subjects = SubjectRepository.GetSubjectwithTermLevelDepartment();
-            
-            //IEnumerable<Subject> subjects = _subjectRepository.GetSubjectwithTermLevelDepartment();
-            List <BaseSubjectInfoDto> SubjectsDto = new List<BaseSubjectInfoDto>();
-            foreach (Subject subject in subjects)
-            {
-                BaseSubjectInfoDto SubjectDto =  new BaseSubjectInfoDto();
-                SubjectDto.Id = subject.Id;
-                SubjectDto.Name = subject.Name;
-                foreach(SubjectTerm subjectTerm in subject.SubjectTerms)
-                {
-                    SubjectDto.SubjectTerms.Add(
-                        new NameIdDto() {  Id = subjectTerm.Term.Id, Name = subjectTerm.Term.Name}
-                    ); 
-                }
-                foreach (SubjectDepartment subjectDept in subject.SubjectDepartments)
-                {
-                    SubjectDto.SubjectDepartments.Add(
-                        new NameIdDto() { Id = subjectDept.Department.Id , Name = subjectDept.Department.Name }
-                    ); 
-                }
-                foreach (SubjectLevel subjectLevel in subject.SubjectLevels)
-                {
-                    SubjectDto.SubjectLevels.Add(
-                        new NameIdDto() { Id = subjectLevel.Level.Id , Name = subjectLevel.Level.Name }
-                    ); 
-                }
-                SubjectsDto.Add( SubjectDto );
-
-            }
-            return SubjectsDto;
+            var subjects = await _unitOfWork.repository<Subject>().GetAll();
+            return _mapper.Map<IEnumerable<SubjectDtoWithId>>(subjects);
         }
 
-
-
-        public async Task<BaseSubjectInfoDto> GetSubjectById(int id)
+        public async Task<SubjectDtoWithId> GetSubjectById(int id)
         {
-
-            ISubjectRepository SubjectRepository = (ISubjectRepository)_unitOfWork.repository<Subject>();
-            var subject = await SubjectRepository.GetSubjectwithTermLevelDeptById(id);
-
-            if (subject == null)
-                return null;
-
-
-            BaseSubjectInfoDto SubjectDto = new BaseSubjectInfoDto();
-            SubjectDto.Id = subject.Id;
-            SubjectDto.Name = subject.Name;
-            foreach (SubjectTerm subjectTerm in subject.SubjectTerms)
-            {
-                SubjectDto.SubjectTerms.Add(
-                new NameIdDto() { Id = subjectTerm.Term.Id, Name = subjectTerm.Term.Name }
-                );
-            }
-            foreach (SubjectDepartment subjectDept in subject.SubjectDepartments)
-            {
-                SubjectDto.SubjectDepartments.Add(
-                new NameIdDto() { Id = subjectDept.Department.Id, Name = subjectDept.Department.Name }
-                );
-            }
-            foreach (SubjectLevel subjectLevel in subject.SubjectLevels)
-            {
-               SubjectDto.SubjectLevels.Add(
-               new NameIdDto() { Id = subjectLevel.Level.Id, Name = subjectLevel.Level.Name }
-              );
-            }
-            return SubjectDto;
+            var subject = await _unitOfWork.repository<Subject>().GetById(id);
+            return _mapper.Map<SubjectDtoWithId>(subject);
         }
 
-        public async Task AddSubject(SubjectDtoAddUpdate SubjectDto)
+        public async Task AddSubject(SubjectDto SubDto)
         {
-            Subject subject = new Subject();
-            subject.Name = SubjectDto.Name;
-            subject.SubjectDepartments = new List<SubjectDepartment>();
-            subject.SubjectDepartments.Add(new SubjectDepartment { DepartmentId = SubjectDto.DepatmentId });
-            subject.SubjectTerms = new List<SubjectTerm>();
-            subject.SubjectTerms.Add(new SubjectTerm { TermId = SubjectDto.TermId });
-            subject.SubjectLevels = new List<SubjectLevel>();
-            subject.SubjectLevels.Add(new SubjectLevel { LevelId = SubjectDto.LevelId });
-
+            var subject = _mapper.Map<Subject>(SubDto);
             await _unitOfWork.repository<Subject>().Add(subject);
         }
 
-        public async Task<Subject> UpdateSubject(int id, SubjectDtoAddUpdate dto)
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<Subject> DeleteSubject(int id)
+        public async Task<Subject> UpdateSubject(int id, SubjectDto SubDto)
         {
             var subject = await _unitOfWork.repository<Subject>().GetById(id);
             if (subject == null)
                 return null;
-            await _unitOfWork.repository<Subject>().Delete(id); //???can we make delete function in generic just delete not find id ? 
+            _mapper.Map(SubDto, subject);
+            await _unitOfWork.repository<Subject>().Update(subject);
             return subject;
+            /*
+            var subject = await _unitOfWork.repository<Subject>().GetById(id);
+            if (subject == null)
+                return null;
+            _mapper.Map(SubDto, subject);
+            
+            await _unitOfWork.repository<Subject>().Update( subject);
+            return subject;*/
         }
 
+        public async Task<Subject> DeleteSubject(int id)
+        {
+            return await _unitOfWork.repository<Subject>().Delete(id);
+        }
     }
 }

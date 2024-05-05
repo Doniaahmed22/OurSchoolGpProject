@@ -10,10 +10,10 @@ namespace School.Services.Services.SubjectServices
 {
     public interface ISubjectServices
     {
-        IEnumerable<BaseSubjectInfoDto> GetAllSubject();
-        Task<BaseSubjectInfoDto> GetSubjectById(int id);
-        Task AddSubject(SubjectDtoAddUpdate SubjectDto);
-        Task<Subject> DeleteSubject(int id);
-
+        Task<IEnumerable<SubjectDtoWithId>> GetAllSubject();
+        Task<SubjectDtoWithId> GetSubjectById(int id);
+        Task AddSubject(SubjectDto SubDto);
+         Task<Subject> DeleteSubject(int id);
+        Task<Subject> UpdateSubject(int id, SubjectDto SubDto);
     }
 }

@@ -33,20 +33,24 @@ namespace School.Repository.Repositories
             _context.Set<TEntity>().Add(entity);
             await _context.SaveChangesAsync();
         }
-        public async Task Update(TEntity entity)
+        public async Task Update( TEntity new_entity)
         {
-            _context.Set<TEntity>().Update(entity);
+            _context.Set<TEntity>().Update(new_entity);
             await _context.SaveChangesAsync();
+
         }
 
-        public async Task Delete(int id)
+        public async Task<TEntity> Delete(int id)
         {
-            var entity = await _context.Set<TEntity>().FindAsync(id);
+            var entity = await GetById(id);
             if (entity != null)
             {
                 _context.Set<TEntity>().Remove(entity);
                 await _context.SaveChangesAsync();
+                return entity;
+
             }
+            return null;            
         }
     }
 }

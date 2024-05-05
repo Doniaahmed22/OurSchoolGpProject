@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.SubjectDto
 {
-    public class SubjectDtoAddUpdate
+    public class SubjectDtoWithId
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        public int TermId { get; set; }
-        public int DepatmentId { get; set; }
-        public int LevelId { get; set; }
-
     }
 }

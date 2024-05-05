@@ -1,8 +1,8 @@
 using AutoMapper;
 using School.Data.Entities;
 using School.Repository.Interfaces;
-using School.Services.Dtos.ClassDto;
-
+//using School.Services.Dtos.ClassDto;
+/*
 namespace School.Services.Services.ClassServices
 {
     public class ClassServices : IClassServices
@@ -52,3 +52,4 @@ namespace School.Services.Services.ClassServices
         }
     }
 }
+*/

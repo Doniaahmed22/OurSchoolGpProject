@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.SubjectDto
 {
-    public class NameIdDto
+    public class SubjectDto
     {
-        public int Id { get; set; }
+
         public string Name { get; set; }
     }
 }

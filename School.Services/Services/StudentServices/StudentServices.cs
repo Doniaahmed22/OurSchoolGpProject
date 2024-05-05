@@ -43,12 +43,13 @@ namespace School.Services.Services.StudentServices
             }
 
             _mapper.Map(studentDto, existingStudent);
-            await _unitOfWork.repository<Student>().Update(existingStudent);           
+            await _unitOfWork.repository<Student>().Update( existingStudent);           
         }
 
         public async Task DeleteStudent(int id)
         {
             await _unitOfWork.repository<Student>().Delete(id);
+
         }
     }
 }

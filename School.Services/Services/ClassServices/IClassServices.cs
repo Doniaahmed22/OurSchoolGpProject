@@ -1,10 +1,10 @@
-using School.Services.Dtos.ClassDto;
+//using School.Services.Dtos.ClassDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/*
 namespace School.Services.Services.ClassServices
 {
     public interface IClassServices
@@ -16,3 +16,4 @@ namespace School.Services.Services.ClassServices
         Task DeleteClass(int id);
     }
 }
+*/
