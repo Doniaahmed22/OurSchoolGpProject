@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using School.Data.Entities;
+using School.Services.Dtos.ClassDto;
 using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.StudentDto;
 using School.Services.Dtos.SubjectDto;
+using School.Services.Dtos.SubjectRecord;
 using School.Services.Dtos.TeacherDto;
 
 namespace School.Services.Services.ProfileServices
@@ -11,8 +13,8 @@ namespace School.Services.Services.ProfileServices
     {
         public MappingProfile()
         {
-            CreateMap<Student, AddStudentDto>();
-            CreateMap<AddStudentDto, Student>();             
+            CreateMap<Student, Dtos.StudentDto.StudentDto>();
+            CreateMap<Dtos.StudentDto.StudentDto, Student>();             
             CreateMap<Student, StudentDtoWithId>();
             CreateMap<StudentDtoWithId, Student>();
 
@@ -30,6 +32,13 @@ namespace School.Services.Services.ProfileServices
 
             CreateMap<Subject, SubjectDtoWithId>();
             CreateMap<SubjectDtoWithId, Subject>();
+
+            CreateMap<SubjectLevelDepartmentTerm, Dtos.SubjectRecord.SubjectRecordAddUpdateDto>();
+            CreateMap<Dtos.SubjectRecord.SubjectRecordAddUpdateDto, SubjectLevelDepartmentTerm>();
+
+            CreateMap < Class, ClassAddUpdateDto>();
+            CreateMap<ClassAddUpdateDto, Class>();
+            // CreateMap<SubjectLevelDepartmentTerm, SubjectRecordDto>();
             // Other mappings
         }
     }

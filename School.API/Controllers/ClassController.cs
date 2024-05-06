@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities;
-/*
+using School.Services.Dtos.ClassDto;
+using School.Services.Services.ClassServices;
+
 namespace School.API.Controllers
 {
     [Route("api/")]
@@ -11,17 +13,18 @@ namespace School.API.Controllers
     public class ClassController : ControllerBase
     {
         private readonly SchoolDbContext _context;
-
-        public ClassController(SchoolDbContext context)
+        private readonly IClassServices classServices;
+        public ClassController(IClassServices classServices,SchoolDbContext context)
         {
+            this.classServices = classServices;
             _context = context;
         }
 
         [HttpGet]
         [Route("GetClasses")]
-        public async Task<IActionResult> GetClasses()
+        public IActionResult GetAllClasses()
         {
-            var classes = await _context.Classes.ToListAsync();
+            var classes = classServices.GetAllClasses();
             return Ok(classes);
         }
 
@@ -29,7 +32,7 @@ namespace School.API.Controllers
         [Route("GetClassById/{id}")]
         public async Task<IActionResult> GetClassById(int id)
         {
-            var classItem = await _context.Classes.FindAsync(id);
+            var classItem = await classServices.GetClassById(id);
             if (classItem == null)
             {
                 return NotFound();
@@ -39,34 +42,26 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("AddClass")]
-        public async Task<IActionResult> AddClass(Class classItem)
+        public async Task<IActionResult> AddClass(ClassAddUpdateDto classItem)
         {
-            _context.Classes.Add(classItem);
-            await _context.SaveChangesAsync();
+            await classServices.AddClass(classItem);
             return Ok();
         }
 
         [HttpPut]
-        [Route("UpdateClass")]
-        public async Task<IActionResult> UpdateClass(Class classItem)
+        [Route("UpdateClass/{id:int}")]
+        public async Task<IActionResult> UpdateClass(int id,ClassAddUpdateDto classItem)
         {
-            if (classItem == null || classItem.Id == 0)
+            if (classItem == null || id == 0)
             {
                 return BadRequest();
             }
 
-            var existingClass = await _context.Classes.FindAsync(classItem.Id);
+            var existingClass = await classServices.UpdateClass(id,classItem);
             if (existingClass == null)
             {
                 return NotFound();
             }
-
-            existingClass.Name = classItem.Name;
-            existingClass.NumOfStudent = classItem.NumOfStudent;
-            existingClass.DepartmentId = classItem.DepartmentId;
-            existingClass.LevelId = classItem.LevelId;
-
-            await _context.SaveChangesAsync();
             return Ok();
         }
 
@@ -75,16 +70,12 @@ namespace School.API.Controllers
         [Route("DeleteClass/{id}")]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            var classItem = await _context.Classes.FindAsync(id);
+            var classItem = await classServices.DeleteClass(id);
             if (classItem == null)
             {
                 return NotFound();
             }
-
-            _context.Classes.Remove(classItem);
-            await _context.SaveChangesAsync();
             return Ok();
         }
     }
 }
-*/

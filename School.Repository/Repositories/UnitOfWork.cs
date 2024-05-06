@@ -38,14 +38,16 @@ namespace School.Repository.Repositories
 
                 var repositoryType = typeof(GenericRepository<>);
                 var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _context);
-                _repositores.Add(entityKey, repositoryInstance);
+                //_repositores.Add(entityKey, repositoryInstance);
                // 
-               /*
-                 if (typeof(TEntity) == typeof(Subject))
-                    _repositores.Add(entityKey, new SubjectRepository(_context));
-                 else
+           
+                 if (typeof(TEntity) == typeof(SubjectLevelDepartmentTerm))
+                    _repositores.Add(entityKey, new SubjectRecordRepository(_context));
+                else if (typeof(TEntity) == typeof(Class))
+                    _repositores.Add(entityKey, new ClassRepository(_context));
+                else
                      _repositores.Add(entityKey, repositoryInstance);
-   */              
+                 
             }
             return (IGenericRepository<TEntity>)_repositores[entityKey];
         }

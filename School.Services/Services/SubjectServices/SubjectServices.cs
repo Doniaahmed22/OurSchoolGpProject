@@ -49,14 +49,7 @@ namespace School.Services.Services.SubjectServices
             _mapper.Map(SubDto, subject);
             await _unitOfWork.repository<Subject>().Update(subject);
             return subject;
-            /*
-            var subject = await _unitOfWork.repository<Subject>().GetById(id);
-            if (subject == null)
-                return null;
-            _mapper.Map(SubDto, subject);
-            
-            await _unitOfWork.repository<Subject>().Update( subject);
-            return subject;*/
+
         }
 
         public async Task<Subject> DeleteSubject(int id)

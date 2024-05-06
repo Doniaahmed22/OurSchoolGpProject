@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class Class
+    public class Class:BaseEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int Number { get; set; }
         public int NumOfStudent { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }

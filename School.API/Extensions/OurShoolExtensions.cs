@@ -4,9 +4,11 @@ using Microsoft.Extensions.Configuration;
 using School.Data.Context;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
+using School.Services.Services.ClassServices;
 using School.Services.Services.ParentServices;
 using School.Services.Services.ProfileServices;
 using School.Services.Services.StudentServices;
+using School.Services.Services.SubjectRecord;
 using School.Services.Services.SubjectServices;
 using School.Services.Services.TeacherServices;
 using System;
@@ -23,6 +25,10 @@ namespace School.API.Extensions
             services.AddScoped<ITeacherServices, TeacherServices>();
  //           services.AddScoped<ISubjectServices, SubjectServices>();
             services.AddScoped<ISubjectServices, SubjectServices>();
+            services.AddScoped<ISubjectRecordServices, SubjectRecordServices>();
+            services.AddScoped<ISubjectRecordRepository, SubjectRecordRepository>();
+            services.AddScoped<IClassServices, ClassServices>();
+
             services.AddAutoMapper(typeof(MappingProfile));
 
             return services;

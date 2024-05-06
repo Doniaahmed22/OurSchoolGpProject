@@ -28,13 +28,13 @@ namespace School.Services.Services.StudentServices
             return _mapper.Map<StudentDtoWithId>(student);
         }
 
-        public async Task AddStudent(AddStudentDto studentDto)
+        public async Task AddStudent(StudentDto studentDto)
         {
             var student = _mapper.Map<Student>(studentDto);
             await _unitOfWork.repository<Student>().Add(student);
         }
 
-        public async Task UpdateStudent(int id,AddStudentDto studentDto)
+        public async Task UpdateStudent(int id,StudentDto studentDto)
         {
             var existingStudent = await _unitOfWork.repository<Student>().GetById(id);
             if (existingStudent == null)

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.ClassDto
 {
-    public class ClassDtoWithId
+    public class ClassAddUpdateDto
     {
-        public int Id { get; set; }
-        public int number { get; set; }
+
+        public int Number { get; set; }
+        public int LevelId { get; set; }
+        public int DepartmentId { get; set; }
         public int NumOfStudent { get; set; }
-        public NameIdDto Department { get; set; } = new NameIdDto();
-        public NameIdDto Level { get; set; } = new NameIdDto();
 
     }
 }

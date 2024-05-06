@@ -21,7 +21,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetStudents")]
-        public async Task<ActionResult<IEnumerable<AddStudentDto>>> GetStudents()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
             var students = await _studentServices.GetAllStudents();
             return Ok(students);
@@ -29,7 +29,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetStudentById/{id}")]
-        public async Task<ActionResult<AddStudentDto>> GetStudentById(int id)
+        public async Task<ActionResult<StudentDto>> GetStudentById(int id)
         {
             var student = await _studentServices.GetStudentById(id);
             if (student == null)
@@ -41,7 +41,7 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("AddStudent")]
-        public async Task<IActionResult> AddStudent (AddStudentDto studentDto)
+        public async Task<IActionResult> AddStudent (StudentDto studentDto)
         {
             if (studentDto == null)
             {
@@ -54,7 +54,7 @@ namespace School.API.Controllers
 
         [HttpPut]
         [Route("UpdateStudent")]
-        public async Task<IActionResult> UpdateStudent(int id,AddStudentDto studentDto)
+        public async Task<IActionResult> UpdateStudent(int id,StudentDto studentDto)
         {
             await _studentServices.UpdateStudent(id,studentDto);
             return Ok();

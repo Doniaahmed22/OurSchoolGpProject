@@ -11,8 +11,8 @@ namespace School.Services.Services.StudentServices
     {
         Task<IEnumerable<StudentDtoWithId>> GetAllStudents();
         Task<StudentDtoWithId> GetStudentById(int id);
-        Task AddStudent(AddStudentDto studentDto);
-        Task UpdateStudent(int id,AddStudentDto entity);
+        Task AddStudent(StudentDto studentDto);
+        Task UpdateStudent(int id,StudentDto entity);
         Task DeleteStudent(int id);
     }
 }
