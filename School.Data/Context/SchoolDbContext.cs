@@ -29,7 +29,7 @@ namespace School.Data.Context
             modelBuilder.Entity<Attendence>().HasKey(x => new { x.StudentId, x.TeacherId });
             modelBuilder.Entity<TeacherLevel>().HasKey(x => new { x.LevelId, x.TeacherId });
             modelBuilder.Entity<TeacherSubjectLevel>().HasKey(x => new { x.LevelId, x.TeacherId, x.SubjectId });
-            modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => new { x.ClassId, x.TeacherId, x.SubjectId });
+            modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => x.Id);
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
 
         }

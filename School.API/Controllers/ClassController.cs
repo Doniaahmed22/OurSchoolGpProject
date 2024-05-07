@@ -39,7 +39,17 @@ namespace School.API.Controllers
             }
             return Ok(classItem);
         }
+        [HttpGet("TeachersSubject/{id:int}")]
+        public async Task<IActionResult> GetClassTeacherSubject(int id)
+        {
+            var classItem = await classServices.GetClassTeacherSubject(id);
+            if (classItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(classItem);
 
+        }
         [HttpPost]
         [Route("AddClass")]
         public async Task<IActionResult> AddClass(ClassAddUpdateDto classItem)

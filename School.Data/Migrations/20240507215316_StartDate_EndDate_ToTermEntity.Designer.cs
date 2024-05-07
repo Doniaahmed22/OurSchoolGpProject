@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507215316_StartDate_EndDate_ToTermEntity")]
+    partial class StartDate_EndDate_ToTermEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,24 +347,16 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubjectClass", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ClassId");
+                    b.HasKey("ClassId", "TeacherId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
@@ -545,29 +539,23 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubjectClass", b =>
                 {
-                    b.HasOne("School.Data.Entities.Class", "Class")
+                    b.HasOne("School.Data.Entities.Class", null)
                         .WithMany("TeacherSubjectClasses")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("School.Data.Entities.Subject", "Subject")
+                    b.HasOne("School.Data.Entities.Subject", null)
                         .WithMany("TeacherSubjectClasses")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("School.Data.Entities.Teacher", "Teacher")
+                    b.HasOne("School.Data.Entities.Teacher", null)
                         .WithMany("TeacherSubjectClasses")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Subject");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubjectLevel", b =>

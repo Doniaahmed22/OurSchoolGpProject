@@ -28,6 +28,12 @@ namespace School.Repository.Repositories
             return await _context.Classes.Include(c => c.Department)
                 .Include(c => c.Level).FirstOrDefaultAsync(c=>c.Id==id);
         }
+        public async Task<Class> GetClassTeacherSubject(int id)
+        {
+            return await _context.Classes.Include(c=>c.Level).Include(c=>c.Department).Include(c => c.TeacherSubjectClasses)
+               .ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).FirstOrDefaultAsync(c => c.Id == id);
+                                   
+        }
 
     }
 }

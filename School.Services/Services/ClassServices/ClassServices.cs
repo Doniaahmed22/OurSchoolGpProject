@@ -79,5 +79,32 @@ namespace School.Services.Services.ClassServices
             return await _unitOfWork.repository<Class>().Delete(id);
             
         }
+
+        public async Task<ClassWithTeachers_Subjects> GetClassTeacherSubject(int id)
+        {
+            var Class = await _classRepository.GetClassTeacherSubject(id);
+            if (Class == null)
+                return null;
+            ClassWithTeachers_Subjects class_dto = new ClassWithTeachers_Subjects();
+            class_dto.Id = id;
+            class_dto.number = Class.Number;
+            class_dto.Level.Id = Class.Level.Id;
+            class_dto.Level.Name = Class.Level.Name;
+            class_dto.Department.Id = Class.Department.Id;
+            class_dto.Department.Name = Class.Department.Name;
+
+            foreach(var techerSub in Class.TeacherSubjectClasses)
+            {
+                TeacherSubjectDto teacherSubjectDto = new TeacherSubjectDto();
+                teacherSubjectDto.Subject.Name = techerSub.Subject.Name;
+                teacherSubjectDto.Subject.Id = techerSub.Subject.Id;
+                teacherSubjectDto.Teacher.Name = techerSub.Teacher.Name;
+                teacherSubjectDto.Teacher.Id = techerSub.Teacher.Id;
+
+                class_dto.TeachersWithSubject.Add(teacherSubjectDto);
+
+            }
+            return class_dto;
+        }
     }
 }
