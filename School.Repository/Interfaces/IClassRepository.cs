@@ -11,7 +11,7 @@ namespace School.Repository.Interfaces
     {
         IEnumerable<Class> GetAllClasses();
         Task<Class> GetClassById(int id);
-        Task<Class> GetClassTeacherSubject(int id);
+        Task<Class> ClassDetaialsTeacherWithSubject(int id);
 
     }
 }

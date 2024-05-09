@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class TeacherSubjectLevel
+    public class TeacherSubject
     {
         public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
+
         public int SubjectId { get; set; }
-        public int LevelId { get; set; }
+        public Subject Subject { get; set; }
+
 
     }
 }

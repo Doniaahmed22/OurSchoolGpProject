@@ -46,6 +46,8 @@ namespace School.Services.Services.SubjectRecord
             }
             return recordsDto;           
         }
+
+
         public async Task <SubjectRecordDto> GetRecordById(int id)
         {
             var record = await _subjectRecordRepository.GetRecordById(id);

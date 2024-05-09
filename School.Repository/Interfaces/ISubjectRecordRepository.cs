@@ -10,6 +10,8 @@ namespace School.Repository.Interfaces
     public  interface ISubjectRecordRepository:IGenericRepository<SubjectLevelDepartmentTerm>
     {
         IEnumerable<SubjectLevelDepartmentTerm> GetAllRecord();
+        IEnumerable<Subject> GetSubjectsWithTeachersByLevelDeptTerm(int LevelId, int DepartmentId, int TermId);
+
         Task<SubjectLevelDepartmentTerm> GetRecordById(int id);
 
     }

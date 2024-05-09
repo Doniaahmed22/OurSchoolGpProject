@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.ClassDto
 {
-    public class ClassWithTeachers_Subjects:ClassDtoWithId
+    public class TeachersSubjectDto
     {
-        public List<TeacherSubjectDto> TeachersWithSubject {  get; set; } = new List<TeacherSubjectDto>();
+        public List< NameIdDto> Teachers { get; set; } = new List<NameIdDto>();
+
+        public NameIdDto Subject { get; set; } = new NameIdDto();
     }
 }

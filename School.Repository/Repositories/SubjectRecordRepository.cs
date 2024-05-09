@@ -12,9 +12,10 @@ namespace School.Repository.Repositories
 {
     public class SubjectRecordRepository:GenericRepository<SubjectLevelDepartmentTerm> , ISubjectRecordRepository
     {
-        public  SubjectRecordRepository (SchoolDbContext context):base(context)
+       //private  IGenericRepository<Subject> SubjectRepository  ;
+        public  SubjectRecordRepository (SchoolDbContext context  ):base(context)
         {
-
+           // this.SubjectRepository = new GenericRepository<Subject>(context);
         }
 
         public IEnumerable<SubjectLevelDepartmentTerm> GetAllRecord()
@@ -23,6 +24,14 @@ namespace School.Repository.Repositories
                 .Include(r => r.Level)
                 .Include(r => r.Department).Include(r => r.Term);
                  
+        }
+
+        public IEnumerable<Subject> GetSubjectsWithTeachersByLevelDeptTerm(int LevelId , int DepartmentId,int TermId )
+        {
+            var query= _context.SubjectLevelDepartmentTerms.Include(r => r.Subject)
+                .ThenInclude(s => s.TeachersSubject).ThenInclude(ts => ts.Teacher);
+            return query.Where(r => r.LevelId == LevelId && r.DepartmentId == DepartmentId && r.TermId == TermId).Select(r => r.Subject);
+
         }
         public async Task<SubjectLevelDepartmentTerm> GetRecordById(int id)
         {

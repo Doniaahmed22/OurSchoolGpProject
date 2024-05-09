@@ -18,8 +18,7 @@ namespace School.Data.Entities
         public string Degree { get; set; }
 
         public List<Attendence> Attendences { get; set; }
-        public List<TeacherLevel> TeacherLevels { get; set; }
-        public List<TeacherSubjectLevel> TeacherSubjectLevels { get; set; }
+        public List<TeacherSubject> TeacherSubject { get; set; }
         public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
     }
 }

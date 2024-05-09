@@ -27,8 +27,7 @@ namespace School.Data.Context
 
             modelBuilder.Entity<StudentSubject>().HasKey(x => new { x.StudentId, x.SubjectId });
             modelBuilder.Entity<Attendence>().HasKey(x => new { x.StudentId, x.TeacherId });
-            modelBuilder.Entity<TeacherLevel>().HasKey(x => new { x.LevelId, x.TeacherId });
-            modelBuilder.Entity<TeacherSubjectLevel>().HasKey(x => new { x.LevelId, x.TeacherId, x.SubjectId });
+            modelBuilder.Entity<TeacherSubject>().HasKey(x => new { x.TeacherId, x.SubjectId });
             modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => x.Id);
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
 
@@ -44,9 +43,8 @@ namespace School.Data.Context
         public DbSet<StudentSubject> StudentSubjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Attendence> Attendences { get; set; }
-        public DbSet<TeacherLevel> TeacherLevels { get; set; }
         public DbSet<SchoolInfo> SchoolInfo { get; set; }
-        public DbSet<TeacherSubjectLevel> TeacherSubjectLevels { get; set; }
+        public DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
     }
 }

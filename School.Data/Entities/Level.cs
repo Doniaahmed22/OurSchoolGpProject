@@ -11,8 +11,7 @@ namespace School.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public double fees { get; set; }
-        public List<TeacherLevel> TeacherLevels { get; set; }
-        public List<TeacherSubjectLevel> TeacherSubjectLevels { get; set; }
+
 
 
     }

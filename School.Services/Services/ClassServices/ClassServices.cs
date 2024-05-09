@@ -3,6 +3,7 @@ using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.ClassDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.SubjectRecord;
 
 namespace School.Services.Services.ClassServices
@@ -11,6 +12,8 @@ namespace School.Services.Services.ClassServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClassRepository _classRepository;
+        private readonly ISubjectRecordRepository _subjectRecordRepository;
+
         private readonly IMapper _mapper;
 
         public ClassServices(IUnitOfWork unitOfWork, IMapper mapper)
@@ -18,6 +21,7 @@ namespace School.Services.Services.ClassServices
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _classRepository = (ClassRepository)_unitOfWork.repository<Class>();
+            _subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
         }
 
         public IEnumerable<ClassDtoWithId> GetAllClasses()
@@ -80,12 +84,28 @@ namespace School.Services.Services.ClassServices
             
         }
 
-        public async Task<ClassWithTeachers_Subjects> GetClassTeacherSubject(int id)
+        public async Task< ClassAllTeachersWithSubjectDto> AssignTeachersInClass(int classId)
         {
-            var Class = await _classRepository.GetClassTeacherSubject(id);
+            ClassAllTeachersWithSubjectDto TeachersWithSubjectDto;
+            var c = await GetClassById(classId);
+            c.Term.Id = 2;
+            c.Term.Name = "second Name";
+            var subjectsWithTeachers = _subjectRecordRepository.GetSubjectsWithTeachersByLevelDeptTerm(c.Level.Id, c.Department.Id, c.Term.Id);
+            TeachersWithSubjectDto = new ClassAllTeachersWithSubjectDto
+                (c.Id, c.number, c.NumOfStudent
+                , new NameIdDto() { Id = c.Department.Id, Name = c.Department.Name },
+                new NameIdDto() { Id = c.Level.Id, Name = c.Level.Name },
+                new NameIdDto() { Id = c.Term.Id, Name = c.Term.Name }
+                );
+            TeachersWithSubjectDto.PutTolist(subjectsWithTeachers);
+            return TeachersWithSubjectDto;
+        }
+        public async Task<ClassWithTeacher_Subject> ClassDetaialsTeacherWithSubject(int id)
+        {
+            var Class = await _classRepository.ClassDetaialsTeacherWithSubject(id);
             if (Class == null)
                 return null;
-            ClassWithTeachers_Subjects class_dto = new ClassWithTeachers_Subjects();
+            ClassWithTeacher_Subject class_dto = new ClassWithTeacher_Subject();
             class_dto.Id = id;
             class_dto.number = Class.Number;
             class_dto.Level.Id = Class.Level.Id;

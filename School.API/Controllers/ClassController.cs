@@ -39,10 +39,18 @@ namespace School.API.Controllers
             }
             return Ok(classItem);
         }
-        [HttpGet("TeachersSubject/{id:int}")]
-        public async Task<IActionResult> GetClassTeacherSubject(int id)
+        [HttpGet]
+        [Route("AssignTeachers/{id:int}")]
+        public async Task<IActionResult> AssignTeachersInClass(int id)
         {
-            var classItem = await classServices.GetClassTeacherSubject(id);
+            var classInfo = await classServices.AssignTeachersInClass(id);
+            return Ok(classInfo);
+
+        }
+        [HttpGet("TeachersSubject/{id:int}")]
+        public async Task<IActionResult> ClassDetaialsTeacherWithSubject(int id)
+        {
+            var classItem = await classServices.ClassDetaialsTeacherWithSubject(id);
             if (classItem == null)
             {
                 return NotFound();
