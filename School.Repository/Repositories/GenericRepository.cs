@@ -33,6 +33,12 @@ namespace School.Repository.Repositories
             _context.Set<TEntity>().Add(entity);
             await _context.SaveChangesAsync();
         }
+        public async Task<int> Add2(TEntity entity)
+        {
+            _context.Set<TEntity>().Add(entity);
+            await _context.SaveChangesAsync();
+            return 0;
+        }
         public async Task Update( TEntity new_entity)
         {
             _context.Set<TEntity>().Update(new_entity);

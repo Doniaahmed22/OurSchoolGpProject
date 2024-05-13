@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using School.Services.Dtos.ClassDto;
 using School.Services.Dtos.ClassRecord;
 using School.Services.Dtos.SubjectRecord;
 using School.Services.Services.ClassServices;
@@ -31,14 +32,15 @@ namespace School.API.Controllers
         //        return NotFound();
         //    return Ok(record);
         //}
+        /*
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(ClassRecordDto recordDto)
+        public async Task<IActionResult> Add(AddClassSubjectTeacherDto recordsDto)
         {
-            if (recordDto == null)
+            if (recordsDto == null)
                 return BadRequest("record is empty");
-            await ClassRecordServices.AddRecord(recordDto);
+            await ClassRecordServices.AddRecords(recordsDto);
             return Ok();
-        }
+        }*/
 
         [HttpPut("Upadate/{id:int}")]
         public async Task<IActionResult> Update(int id, ClassRecordDto recordDto)

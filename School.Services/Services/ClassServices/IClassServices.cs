@@ -16,7 +16,7 @@ namespace School.Services.Services.ClassServices
         Task<ClassAllTeachersWithSubjectDto> AssignTeachersInClass(int classId);
         Task<ClassWithTeacher_Subject> ClassDetaialsTeacherWithSubject(int id);
 
-        Task AddClass(ClassAddUpdateDto classDto);
+        Task<Class> AddClass(ClassAddUpdateDto classDto);
         Task<Class> UpdateClass(int id, ClassAddUpdateDto classDto);
         Task<Class> DeleteClass(int id);
     }

@@ -33,6 +33,12 @@ namespace School.Repository.Repositories
             return query.Where(r => r.LevelId == LevelId && r.DepartmentId == DepartmentId && r.TermId == TermId).Select(r => r.Subject);
 
         }
+        public IEnumerable<Subject> GetSubjectsByLevelDeptTerm(int LevelId, int DepartmentId, int TermId)
+        {
+            return _context.SubjectLevelDepartmentTerms.Include(r => r.Subject)
+                        .Where(r => r.LevelId == LevelId && r.DepartmentId == DepartmentId && r.TermId == TermId).Select(r => r.Subject);
+
+        }
         public async Task<SubjectLevelDepartmentTerm> GetRecordById(int id)
         {
             return await _context.SubjectLevelDepartmentTerms.Include(r => r.Subject)

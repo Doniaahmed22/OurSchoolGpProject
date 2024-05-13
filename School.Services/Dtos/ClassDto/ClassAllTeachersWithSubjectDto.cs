@@ -18,7 +18,7 @@ namespace School.Services.Dtos.ClassDto
 
         }
 
-        public void PutTolist(IEnumerable<Subject> Subjects)
+        public void PutTolist(IEnumerable<Subject> Subjects, Class c)
         {
 
             foreach (Subject Subject in Subjects)
@@ -26,7 +26,19 @@ namespace School.Services.Dtos.ClassDto
                 TeachersSubjectDto teachersSubjectDto = new TeachersSubjectDto ();
                 teachersSubjectDto.Subject.Name = Subject.Name;
                 teachersSubjectDto.Subject.Id = Subject.Id;
-                foreach(var teacherSubject in Subject.TeachersSubject)
+                TeacherSubjectClass tsc = c.TeacherSubjectClasses.FirstOrDefault(tsc => tsc.SubjectId == Subject.Id);
+                if(tsc != null)
+                {
+                    Teacher t = tsc.Teacher;
+                    if (t != null)
+                    {
+                        teachersSubjectDto.ChosenTeacher.Name = t.Name;
+                        teachersSubjectDto.ChosenTeacher.Id = t.Id;
+                    }
+
+                }
+
+                foreach (var teacherSubject in Subject.TeachersSubject)
                 {
 
                     teachersSubjectDto.Teachers.Add(new NameIdDto()

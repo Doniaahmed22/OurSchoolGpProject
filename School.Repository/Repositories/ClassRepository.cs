@@ -35,12 +35,19 @@ namespace School.Repository.Repositories
                .ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).FirstOrDefaultAsync(c => c.Id == id);
                                    
         }
-/*
-        public async ClassGetAssignTeacher Task<Class> (int id)
-        {
-            var c = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
 
-        }*/
+        public async Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid)
+        {
+            return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid).ToListAsync();
+
+        }
+
+        /*
+                public async ClassGetAssignTeacher Task<Class> (int id)
+                {
+                    var c = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
+
+                }*/
 
     }
 }

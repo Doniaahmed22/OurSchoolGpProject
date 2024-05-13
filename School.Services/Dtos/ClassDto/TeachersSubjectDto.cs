@@ -12,5 +12,7 @@ namespace School.Services.Dtos.ClassDto
         public List< NameIdDto> Teachers { get; set; } = new List<NameIdDto>();
 
         public NameIdDto Subject { get; set; } = new NameIdDto();
+
+        public NameIdDto? ChosenTeacher { get; set; } = new NameIdDto();
     }
 }

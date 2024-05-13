@@ -13,6 +13,7 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> GetById(int id);
         Task Add(TEntity entity);
+        Task<int> Add2(TEntity entity);
         Task<TEntity> Delete(int id);
     }
 }

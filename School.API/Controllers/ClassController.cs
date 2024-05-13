@@ -14,10 +14,11 @@ namespace School.API.Controllers
     {
         private readonly SchoolDbContext _context;
         private readonly IClassServices classServices;
-        public ClassController(IClassServices classServices,SchoolDbContext context)
+        private readonly IClassRecordServices ClassRecordServices;
+        public ClassController(IClassServices classServices, IClassRecordServices ClassRecordServices)
         {
             this.classServices = classServices;
-            _context = context;
+            this.ClassRecordServices = ClassRecordServices;
         }
 
         [HttpGet]
@@ -62,7 +63,8 @@ namespace School.API.Controllers
         [Route("AddClass")]
         public async Task<IActionResult> AddClass(ClassAddUpdateDto classItem)
         {
-            await classServices.AddClass(classItem);
+           var c= await classServices.AddClass(classItem);
+
             return Ok();
         }
 
@@ -80,6 +82,15 @@ namespace School.API.Controllers
             {
                 return NotFound();
             }
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Route("UpdateClassRecords/{id:int}")]
+        public async Task <IActionResult>UpdateRecords(int id,AddClassSubjectTeacherDto dto)
+        {
+            await ClassRecordServices.UpdateRecords(id,dto);
             return Ok();
         }
 
