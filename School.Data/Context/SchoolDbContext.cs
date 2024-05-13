@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace School.Data.Context
 {
@@ -30,6 +31,10 @@ namespace School.Data.Context
             modelBuilder.Entity<TeacherSubject>().HasKey(x => new { x.TeacherId, x.SubjectId });
             modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => x.Id);
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<SchoolInfo>()
+                    .Property(e => e.CurrentTerm)
+                             .HasDefaultValue(1);
 
         }
         public DbSet<Student> Students { get; set; }
