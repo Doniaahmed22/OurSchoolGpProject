@@ -47,8 +47,11 @@ namespace School.Repository.Repositories
                     _repositores.Add(entityKey, new ClassRepository(_context));
                 else if (typeof(TEntity) == typeof(Student))
                     _repositores.Add(entityKey, new StudentRepository(_context));
+                else if (typeof(TEntity) == typeof(StudentSubject))
+                    _repositores.Add(entityKey, new GradeRepository(_context));
+
                 else
-                     _repositores.Add(entityKey, repositoryInstance);
+                    _repositores.Add(entityKey, repositoryInstance);
                  
             }
             return (IGenericRepository<TEntity>)_repositores[entityKey];

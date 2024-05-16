@@ -18,10 +18,20 @@ namespace School.Repository.Repositories
             
             
         }
-        public async Task<IEnumerable<StudentSubject>> GetStudentsWithGradesInSubjectbyClassId(int classid , int subjectid)
+        public async Task<IEnumerable<Student>> GetStudentsFinalDegreeByLevelDepart(int levelId, int DeptId)
         {
-             return _context.StudentSubjects.Include(ss => ss.student)
-                .Where(ss => ss.student.ClassId == classid && ss.SubjectId == subjectid).ToList();
+            return await _context.Students.Include(s=>s.StudentSubjects).ThenInclude(ss=>ss.subject)
+                .Where(s=>s.LevelId==levelId&&s.DepartmentId == DeptId).ToListAsync();
+        }
+        public async Task<IEnumerable<Student>> GetStudentsFinalGradesByName(int levelId, int DeptId, string name)
+        {
+            return await _context.Students.Include(s => s.StudentSubjects).ThenInclude(ss => ss.subject)
+                .Where(s => s.LevelId == levelId && s.DepartmentId == DeptId&&s.Name.Contains(name)).ToListAsync();
+        }
+        public async Task<Student> GetStudentWithSubjectDegrees(int studentid)
+        {
+            return await _context.Students.Include(s => s.StudentSubjects).
+                FirstOrDefaultAsync(s=>s.Id == studentid);
         }
 
         //public async GetGradesOfSubjectOfStudents

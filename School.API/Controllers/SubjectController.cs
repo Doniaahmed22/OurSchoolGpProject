@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Services.Dtos.SubjectDto;
+using School.Services.Services.ClassServices;
 using School.Services.Services.SubjectServices;
 
 namespace School.API.Controllers
@@ -10,9 +11,11 @@ namespace School.API.Controllers
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectServices SubjectServices;
-        public  SubjectController (ISubjectServices subjectServices)
+        private readonly IClassServices classServices;
+        public  SubjectController (ISubjectServices subjectServices, IClassServices classServices)
         {
             SubjectServices = subjectServices;
+            this.classServices = classServices;
         }
 
         [HttpGet("GetAll")]
@@ -54,6 +57,13 @@ namespace School.API.Controllers
             if (subject == null)
                 return NotFound();
             return Ok();
+        }
+
+        [HttpGet("GetSubjectsByClassTeacher/{classid}/{teacherid}")]
+        public async Task<IActionResult> GetSubjectsByClassTeacher(int classid, int teacherid)
+        {
+            var subjects = await classServices.GetSubjectsByClassTeacher(classid, teacherid);
+            return Ok(subjects);
         }
     }
     

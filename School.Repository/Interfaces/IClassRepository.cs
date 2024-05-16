@@ -1,4 +1,5 @@
-﻿using School.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using School.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace School.Repository.Interfaces
         IEnumerable<Class> GetAllClasses();
         Task<Class> GetClassById(int id);
         Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid);
-
+        Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid);
         Task<Class> ClassDetaialsTeacherWithSubject(int id);
 
     }

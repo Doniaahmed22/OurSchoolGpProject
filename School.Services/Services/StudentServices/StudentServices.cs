@@ -5,6 +5,7 @@ using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.GradesDto;
 using School.Services.Dtos.StudentDto;
+using System.Xml.Linq;
 
 namespace School.Services.Services.StudentServices
 {
@@ -15,6 +16,7 @@ namespace School.Services.Services.StudentServices
         private readonly ISubjectRecordRepository subjectRecordRepository;
         private readonly IGenericRepository<SchoolInfo> SchoolInfo;
         private readonly IStudentRepository studentRepository;
+        private readonly IGradeRepository gradeRepository;
 
         public StudentServices(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -23,6 +25,7 @@ namespace School.Services.Services.StudentServices
             subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
             SchoolInfo = _unitOfWork.repository<SchoolInfo>();
             studentRepository = (StudentRepository)_unitOfWork.repository<Student>();
+            gradeRepository = (GradeRepository)_unitOfWork.repository<StudentSubject>();
         }
 
     public async Task<IEnumerable<StudentDtoWithId>> GetAllStudents()
@@ -44,8 +47,19 @@ namespace School.Services.Services.StudentServices
             await _unitOfWork.repository<Student>().Add(student);
             if (student.LevelId != null && student.DepartmentId != null)
             {
-                await SetSubjectStudentGrades(student.Id, student.LevelId.Value, student.DepartmentId.Value);
+                await SetSubjectStudentRecords(student.Id, student.LevelId.Value, student.DepartmentId.Value);
             }
+        }
+        public async Task SetSubjectStudentRecords(int StuId, int levelId, int departmentId)
+        {
+            IEnumerable<SchoolInfo> schools = await _unitOfWork.repository<SchoolInfo>().GetAll();
+            int currentterm = schools.ToList()[0].CurrentTerm;
+            IEnumerable<Subject> subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelId, departmentId, currentterm).ToList();
+            foreach (Subject subject in subjects)
+            {
+                gradeRepository.Add(new StudentSubject { StudentId = StuId, SubjectId = subject.Id });
+            }
+
         }
 
         public async Task UpdateStudent(int id,StudentDto studentDto)
@@ -82,40 +96,7 @@ namespace School.Services.Services.StudentServices
 
         }
 
-        public async Task SetSubjectStudentGrades(int StuId, int levelId, int departmentId)
-        {
-            IEnumerable<SchoolInfo> schools = await _unitOfWork.repository<SchoolInfo>().GetAll();
-            int currentterm =  schools.ToList()[0].CurrentTerm;
-            IEnumerable<Subject> subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelId, departmentId, currentterm).ToList();
-            foreach (Subject subject in subjects)
-            {
-                 _unitOfWork.repository<StudentSubject>().Add(new StudentSubject { StudentId = StuId, SubjectId = subject.Id });
-            }
-
-        }
-        public async Task<List<StudentGradeDto>> GetStudentsWithGradesInSubjectbyClassId(int classid, int subjectid)
-        {
-            List<StudentGradeDto> studentGradesDto = new List<StudentGradeDto>();
-            IEnumerable<StudentSubject> studentSubjects = await studentRepository.GetStudentsWithGradesInSubjectbyClassId(classid, subjectid);
-            foreach(var ss in studentSubjects)
-            {
-                StudentGradeDto studentGrade = new StudentGradeDto();
-                studentGrade.student.Name = ss.student.Name;
-                studentGrade.student.Id = ss.student.Id;
-                studentGrade.midterm = ss.MidTerm;
-                studentGrade.WorkYear = ss.WorkYear;
-                studentGradesDto.Add(studentGrade);
-            }
-            return studentGradesDto;
-        }
-
-        /*
-        public async Task GetGradesOfStudentById(int id)
-        {
-            
-            
-        }*/
-
+  
     }
 }
 

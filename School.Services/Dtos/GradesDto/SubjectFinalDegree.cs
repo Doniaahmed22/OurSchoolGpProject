@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.GradesDto
 {
-    public class StudentGradeDto
+    public class SubjectFinalDegree
     {
-        public NameIdDto student {  get; set; } = new NameIdDto();
-        public StudentGradesBeforFinal Grades {  get; set; } = new StudentGradesBeforFinal();
-
+        public NameIdDto Subject { get; set; } = new NameIdDto();
+        public int FinalDegree { get; set; } 
     }
 }

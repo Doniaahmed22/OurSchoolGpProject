@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Services.Dtos.GradesDto;
 using School.Services.Dtos.StudentDto;
+using School.Services.Dtos.SubjectDto;
 using School.Services.Services.StudentServices;
 
 namespace School.API.Controllers
@@ -91,12 +92,7 @@ namespace School.API.Controllers
             await _studentServices.DeleteStudent(id);
             return Ok();
         }
-        [HttpGet("{classid:int}/{subjectid:int}")]
-        public async Task <ActionResult<IEnumerable<StudentGradeDto>>> GetStudentsWithGrades(int classid, int subjectid)
-        {
-            var students=await _studentServices.GetStudentsWithGradesInSubjectbyClassId(classid, subjectid);
-            return Ok(students);
-        }
+
 
     }
 }

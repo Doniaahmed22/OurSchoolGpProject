@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
@@ -92,6 +93,7 @@ namespace School.Services.Services.ClassServices
 
         public async Task<Class> DeleteClass(int id)
         {
+            
             return await _unitOfWork.repository<Class>().Delete(id);
             
         }
@@ -137,6 +139,21 @@ namespace School.Services.Services.ClassServices
 
             }
             return class_dto;
+        }
+
+        public async Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid)
+        {
+            List<NameIdDto>_Subjects = new List<NameIdDto>();
+            IEnumerable<Subject>  subjects= await _classRepository.GetSubjectsByClassTeacher(classid, teacherid);
+            foreach(var subject in subjects)
+            {
+                NameIdDto sub = new NameIdDto();
+                sub.Name = subject.Name;
+                sub.Id = subject.Id;
+                _Subjects.Add(sub);
+            }
+            return _Subjects;
+
         }
     }
 }

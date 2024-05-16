@@ -5,6 +5,7 @@ using School.Data.Context;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Services.ClassServices;
+using School.Services.Services.GradeService;
 using School.Services.Services.ParentServices;
 using School.Services.Services.ProfileServices;
 using School.Services.Services.StudentServices;
@@ -25,10 +26,13 @@ namespace School.API.Extensions
             services.AddScoped<ITeacherServices, TeacherServices>();
  //           services.AddScoped<ISubjectServices, SubjectServices>();
             services.AddScoped<ISubjectServices, SubjectServices>();
+            services.AddScoped<IGradeServices, GradeServices>();
+
             services.AddScoped<ISubjectRecordServices, SubjectRecordServices>();
             services.AddScoped<ISubjectRecordRepository, SubjectRecordRepository>();
             services.AddScoped<IClassServices, ClassServices>();
             services.AddScoped<IClassRecordServices, ClassRecordServices>();
+            services.AddScoped<IGradeRepository, GradeRepository>();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
