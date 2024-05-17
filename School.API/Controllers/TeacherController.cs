@@ -18,7 +18,7 @@ namespace School.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllTeacher() 
         {
-            var teachers = await TeacherServices.GetAllTeacher();
+            var teachers = await TeacherServices.GetTeachers();
             return Ok(teachers);
         }
         [HttpGet("GetById/{id:int}")]
@@ -29,6 +29,14 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(teacher);
         }
+
+        [HttpGet("SearchForTeacher/{name:alpha}")]
+        public async Task<IActionResult> GetTeachersByName(string name)
+        {
+            var teachers = await TeacherServices.GetTeachers(name);
+            return Ok(teachers);
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddTeacher(AddTeacherDto teacherDto)
         {
@@ -48,6 +56,8 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok();
         }
+
+
 
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteTeacher(int id)

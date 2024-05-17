@@ -21,5 +21,10 @@ namespace School.Repository.Repositories
             return await _context.Teachers.Include(t => t.TeacherSubject)
                 .ThenInclude(ts => ts.Subject).FirstOrDefaultAsync(t=>t.Id== techerid);
         }
+        public IEnumerable< Teacher> GetTeachersByName(string name)
+        {
+            return  _context.Teachers.Include(t => t.TeacherSubject)
+                .ThenInclude(ts => ts.Subject).Where(t=>t.Name.Contains(name));
+        }
     }
 }

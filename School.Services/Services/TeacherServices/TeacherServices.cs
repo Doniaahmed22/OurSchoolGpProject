@@ -24,10 +24,14 @@ namespace School.Services.Services.TeacherServices
             teacherRepository = (TeacherRepository)_unitOfWork.repository<Teacher>();
         }
 
-        public async Task<IEnumerable<TeacherDtoWithId>> GetAllTeacher()
+        public async Task<IEnumerable<TeacherDtoWithId>> GetTeachers(string name="")
         {
+            IEnumerable<Teacher> teachers;
+            if (name=="")
+                teachers= teacherRepository.GetTeachersWithSubject();
+            else
+                teachers = teacherRepository.GetTeachersByName(name);
 
-            var teachers= teacherRepository.GetTeachersWithSubject();
             List< TeacherDtoWithId> teachersDto = new List<TeacherDtoWithId>();
             foreach (var teacher in teachers)
             {
