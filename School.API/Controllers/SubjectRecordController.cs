@@ -17,10 +17,11 @@ namespace School.API.Controllers
         {
             this.subjectRecordServices = subjectRecordServices;
         }
+
         [HttpGet]
-        public ActionResult<IEnumerable<SubjectRecordDto>> GetAllRecords()
+        public async Task<ActionResult<SubjectRecordGetAll> >GetAllRecords() //
         {
-            var records =  subjectRecordServices.GetAllRecords();
+            var records =  await subjectRecordServices.GetAllRecords();
             return Ok(records);
         }
         [HttpGet("{id:int}")]

@@ -10,11 +10,9 @@ namespace School.Services.Services.SubjectRecord
 {
     public interface ISubjectRecordServices
     {
-        IEnumerable<SubjectRecordDto> GetAllRecords();
+        Task<SubjectRecordGetAll> GetAllRecords();
         Task<SubjectRecordDto> GetRecordById(int id);
          Task AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto);
-
-
          Task<SubjectLevelDepartmentTerm> UpdateRecord(int id, SubjectRecordAddUpdateDto record);
 
 

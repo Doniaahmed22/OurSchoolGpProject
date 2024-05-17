@@ -2,6 +2,7 @@
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
 using School.Services.Dtos.SubjectRecord;
 using System;
@@ -16,6 +17,7 @@ namespace School.Services.Services.SubjectRecord
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISubjectRecordRepository _subjectRecordRepository;
+
         private readonly IMapper _mapper;
 
         public SubjectRecordServices(IUnitOfWork unitOfWork, IMapper mapper)
@@ -25,9 +27,27 @@ namespace School.Services.Services.SubjectRecord
             _subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
         }
 
-        public  IEnumerable<SubjectRecordDto> GetAllRecords()
+        public  async Task<SubjectRecordGetAll> GetAllRecords()
         {
-            var records = _subjectRecordRepository.GetAllRecord();
+            SubjectRecordGetAll subjectRecordDto = new SubjectRecordGetAll();
+
+            IEnumerable<Term> terms =await _unitOfWork.repository<Term>().GetAll();
+            foreach (Term term in terms)
+            {
+                subjectRecordDto.Terms.Add(new NameIdDto() { Name =term.Name ,Id = term.Id });
+            }
+            IEnumerable<Department> Departments = await _unitOfWork.repository<Department>().GetAll();
+            foreach (Department department in Departments)
+            {
+                subjectRecordDto.Departments.Add(new NameIdDto() { Name = department.Name, Id = department.Id });
+            }
+
+            IEnumerable<Subject> subjects = await _unitOfWork.repository<Subject>().GetAll();
+            foreach (Subject subject in subjects)
+            {
+                subjectRecordDto.Subjects.Add(new NameIdDto() { Name = subject.Name, Id = subject.Id });
+            }
+            var records =  _subjectRecordRepository.GetAllRecord();
             List<SubjectRecordDto>recordsDto = new List<SubjectRecordDto>();
             foreach (var record in records)
             {
@@ -44,7 +64,8 @@ namespace School.Services.Services.SubjectRecord
                 recordDto.Term.Name = record.Term.Name;
                 recordsDto.Add(recordDto);
             }
-            return recordsDto;           
+            subjectRecordDto.subjectRecords = recordsDto;
+            return subjectRecordDto;           
         }
 
 
