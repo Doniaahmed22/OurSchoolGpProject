@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace School.Repository.Interfaces
 {
-    public interface ISubjectRepository : IGenericRepository<Subject>
+    public interface ITeacherRepository : IGenericRepository<Teacher>
     {
-        IEnumerable<Subject> GetSubjectsOfTeacher(int TeachId);
+        IEnumerable<Teacher> GetTeachersWithSubject();
+        Task<Teacher> GetTeachersWithSubjectById(int techerid);
 
     }
 }

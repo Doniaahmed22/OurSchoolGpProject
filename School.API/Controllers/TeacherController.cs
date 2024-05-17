@@ -30,7 +30,7 @@ namespace School.API.Controllers
             return Ok(teacher);
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> AddTeacher(TeacherDto teacherDto)
+        public async Task<IActionResult> AddTeacher(AddTeacherDto teacherDto)
         {
             if(teacherDto == null)
                 return BadRequest("Teacher is empty");
@@ -39,7 +39,7 @@ namespace School.API.Controllers
         }
 
         [HttpPut("Update/{id:int}")]
-        public async Task<IActionResult> UpdateTeacher(int id ,TeacherDto teacherDto)
+        public async Task<IActionResult> UpdateTeacher(int id , AddTeacherDto teacherDto)
         {
             if (teacherDto == null)
                 return BadRequest("Teacher is empty");

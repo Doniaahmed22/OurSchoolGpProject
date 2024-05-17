@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.TeacherDto
 {
-    public class TeacherDto
+    public class AddTeacherDto
     {
         public string Name { get; set; }
         public string? PhoneNumber { get; set; }
@@ -16,7 +16,6 @@ namespace School.Services.Dtos.TeacherDto
         public string Religion { get; set; }
         public string Nationality { get; set; }
         public string Degree { get; set; }
-        public List<NameIdDto>TeacherSubjects { get; set; } = new List<NameIdDto>();
-
+        public List<int> TeacherSubjectsId { get; set; } 
     }
 }

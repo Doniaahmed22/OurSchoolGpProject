@@ -19,5 +19,12 @@ namespace School.Repository.Repositories
             return _context.TeacherSubjects.Include(ts=>ts.Teacher).Where(st=>st.SubjectId== SubId).Select(st=>st.Teacher);
         }
 
+        public IEnumerable<Subject> GetSubjectsOfTeacher(int TeachId)
+        {
+            return _context.TeacherSubjects.Include(ts => ts.Subject)
+                .Where(st => st.TeacherId == TeachId).Select(st => st.Subject);
+        }
+
+
     }
 }

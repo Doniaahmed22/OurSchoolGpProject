@@ -13,8 +13,8 @@ namespace School.Services.Services.TeacherServices
     {
         Task<IEnumerable<TeacherDtoWithId>> GetAllTeacher();
         Task<TeacherDtoWithId> GetTeacherById(int id);
-        Task AddTeacher(TeacherDto teacher);
-        Task<Teacher> UpdateTeacher(int id , TeacherDto dto);
+        Task AddTeacher(AddTeacherDto teacherDto);
+        Task<Teacher> UpdateTeacher(int id, AddTeacherDto teacherDto);
         Task<Teacher> DeleteTeacher(int id);
     }
 }
