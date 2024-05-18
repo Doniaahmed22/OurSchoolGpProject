@@ -31,7 +31,7 @@ namespace School.API.Extensions
             services.AddScoped<ISubjectRecordServices, SubjectRecordServices>();
             services.AddScoped<ISubjectRecordRepository, SubjectRecordRepository>();
             services.AddScoped<IClassServices, ClassServices>();
-            services.AddScoped<IClassRecordServices, ClassRecordServices>();
+ //           services.AddScoped<IClassRecordServices, ClassRecordServices>();
             services.AddScoped<IGradeRepository, GradeRepository>();
 
             services.AddAutoMapper(typeof(MappingProfile));

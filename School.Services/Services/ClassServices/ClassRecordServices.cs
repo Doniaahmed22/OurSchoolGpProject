@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿/*
+using AutoMapper;
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
@@ -70,18 +71,7 @@ namespace School.Services.Services.ClassServices
                     recordDto.Term.Name = record.Term.Name;
                     return recordDto;
                 }*/
-        public async Task UpdateRecords(int classid,AddClassSubjectTeacherDto dto)
-        {
-            var classRecords = await _classRepository.GetClassRecordsByClassId(classid);
-            foreach(var teacherSubject in dto.teacherSubjects)
-            {
-                TeacherSubjectClass tsc= classRecords.FirstOrDefault(cr=>cr.SubjectId==teacherSubject.SubjectId);
-                tsc.TeacherId = teacherSubject.TeacherId;
-                await _classRecordRepository.Update(tsc);
 
-            }
-
-        }
         /*
         public async Task AddRecordsOfClass(Class c, int TermId)
         {
@@ -93,6 +83,7 @@ namespace School.Services.Services.ClassServices
             }
 
         }*/
+        /*
         public async Task<TeacherSubjectClass> UpdateRecord(int id, ClassRecordDto record)
         {
             var ExRecord = await _classRecordRepository.GetById(id);
@@ -113,7 +104,10 @@ namespace School.Services.Services.ClassServices
 
         }
 
-
-
+        Task IClassRecordServices.UpdateRecords(int classid, AddClassSubjectTeacherDto dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
+*/

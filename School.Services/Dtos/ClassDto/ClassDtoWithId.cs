@@ -15,7 +15,7 @@ namespace School.Services.Dtos.ClassDto
         public int NumOfStudent { get; set; }
         public NameIdDto Department { get; set; } = new NameIdDto();
         public NameIdDto Level { get; set; } = new NameIdDto();
-        public NameIdDto Term{ get; set; } = new NameIdDto();
+       public NameIdDto Term{ get; set; } = new NameIdDto();
 
         public ClassDtoWithId(int id , int number, int NumOfStudent, NameIdDto Department, NameIdDto Level, NameIdDto Term)
         {
@@ -24,7 +24,7 @@ namespace School.Services.Dtos.ClassDto
             this.NumOfStudent = NumOfStudent;
             this.Department = Department;
             this.Level = Level;
-            this.Term = Term;
+           this.Term = Term;
         }
         public ClassDtoWithId()
         {

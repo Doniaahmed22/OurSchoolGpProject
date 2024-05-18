@@ -12,9 +12,11 @@ namespace School.Repository.Interfaces
     {
         IEnumerable<Class> GetAllClasses();
         Task<Class> GetClassById(int id);
+        Task<Class> GetClassWithTeacherSubjectClassById(int id);
+
         Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid);
         Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid);
-        Task<Class> ClassDetaialsTeacherWithSubject(int id);
+        Task<Class> GetClassWithTeacherAndSubject(int id);
 
     }
 }

@@ -13,23 +13,22 @@ namespace School.API.Controllers
     [ApiController]
     public class ClassController : ControllerBase
     {
-        private readonly SchoolDbContext _context;
         private readonly IClassServices classServices;
-        private readonly IClassRecordServices ClassRecordServices;
-        public ClassController(IClassServices classServices, IClassRecordServices ClassRecordServices)
+       // private readonly IClassRecordServices ClassRecordServices;
+        public ClassController(IClassServices classServices)//, IClassRecordServices ClassRecordServices
         {
             this.classServices = classServices;
-            this.ClassRecordServices = ClassRecordServices;
+            //this.ClassRecordServices = ClassRecordServices;
         }
 
         [HttpGet]
-        [Route("GetClasses")]
-        public IActionResult GetAllClasses()
+        [Route("GetAllClasses")]
+        public async Task< IActionResult> GetAllClasses()
         {
-            var classes = classServices.GetAllClasses();
+            var classes = await classServices.GetAllClasses();
             return Ok(classes);
         }
-
+/*
         [HttpGet]
         [Route("GetClassById/{id}")]
         public async Task<IActionResult> GetClassById(int id)
@@ -40,19 +39,19 @@ namespace School.API.Controllers
                 return NotFound();
             }
             return Ok(classItem);
-        }
+        }*/
         [HttpGet]
         [Route("AssignTeachers/{id:int}")]
-        public async Task<IActionResult> AssignTeachersInClass(int id)
+        public async Task<IActionResult> GetAssignTeachersInClass(int id)
         {
-            var classInfo = await classServices.AssignTeachersInClass(id);
+            var classInfo = await classServices.GetAssignTeachersInClass(id);
             return Ok(classInfo);
 
         }
         [HttpGet("TeachersSubject/{id:int}")]
         public async Task<IActionResult> ClassDetaialsTeacherWithSubject(int id)
         {
-            var classItem = await classServices.ClassDetaialsTeacherWithSubject(id);
+            var classItem = await classServices.GetClassWithTeachersAndSubjectByClassId(id);
             if (classItem == null)
             {
                 return NotFound();
@@ -89,9 +88,9 @@ namespace School.API.Controllers
 
         [HttpPut]
         [Route("UpdateClassRecords/{id:int}")]
-        public async Task <IActionResult>UpdateRecords(int id,AddClassSubjectTeacherDto dto)
+        public async Task <IActionResult>UpdateRecords(int id, List<TeacherSubjectUpdateClassRecordsDto> dto)
         {
-            await ClassRecordServices.UpdateRecords(id,dto);
+            await classServices.UpdateRecords(id,dto);
             return Ok();
         }
 

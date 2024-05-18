@@ -15,7 +15,7 @@ namespace School.Services.Services.ClassServices
         private readonly IClassRepository _classRepository;
         private readonly ISubjectRecordRepository _subjectRecordRepository;
         private readonly IGenericRepository<TeacherSubjectClass> _classRecordRepoistory;
-
+        private readonly ISchoolRepository schoolRepository;
         private readonly IMapper _mapper;
 
         public ClassServices(IUnitOfWork unitOfWork, IMapper mapper)
@@ -25,10 +25,25 @@ namespace School.Services.Services.ClassServices
             _classRepository = (ClassRepository)_unitOfWork.repository<Class>();
             _subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
             _classRecordRepoistory = _unitOfWork.repository<TeacherSubjectClass>();
+            schoolRepository = (SchoolRepository)_unitOfWork.repository<SchoolInfo>();
+
         }
 
-        public IEnumerable<ClassDtoWithId> GetAllClasses()
+        public async Task< ClassGetAllDto> GetAllClasses()
         {
+            ClassGetAllDto classGetAllDto = new ClassGetAllDto();
+
+            IEnumerable<Term> terms = await _unitOfWork.repository<Term>().GetAll();
+            foreach (Term term in terms)
+            {
+                classGetAllDto.Terms.Add(new NameIdDto() { Name = term.Name, Id = term.Id });
+            }
+            IEnumerable<Department> Departments = await _unitOfWork.repository<Department>().GetAll();
+            foreach (Department department in Departments)
+            {
+                classGetAllDto.Departments.Add(new NameIdDto() { Name = department.Name, Id = department.Id });
+            }
+
             var classes = _classRepository.GetAllClasses();
             List<ClassDtoWithId> classesDto = new List<ClassDtoWithId>();
             foreach (var c in classes)
@@ -43,9 +58,11 @@ namespace School.Services.Services.ClassServices
                 classDto.Department.Name = c.Department.Name;
                 classesDto.Add(classDto);
             }
-            return classesDto;
+            classGetAllDto.Classes = classesDto;
+            return classGetAllDto;
         }
-
+/////////////////////////////////////not important//////////////////////////////*
+/*
         public async Task<ClassDtoWithId> GetClassById(int id)
         {
             var c = await _classRepository.GetClassById(id);
@@ -61,73 +78,100 @@ namespace School.Services.Services.ClassServices
             classDto.Department.Name = c.Department.Name;
             return classDto;
          }
-
+/**/
         public async Task<Class> AddClass(ClassAddUpdateDto classDto)
         {
             var classItem = _mapper.Map<Class>(classDto);
 
             await _unitOfWork.repository<Class>().Add(classItem);
-            
-            int termid = 2;
-            IEnumerable<Subject>Subjects = _subjectRecordRepository.GetSubjectsByLevelDeptTerm(classItem.LevelId, classItem.DepartmentId, termid).ToList();
+
+            Term term = await schoolRepository.GetCurrentTerm();
+            IEnumerable<Subject>Subjects = _subjectRecordRepository.GetSubjectsByLevelDeptTerm(classItem.LevelId, classItem.DepartmentId, term.Id).ToList();
+            List< TeacherSubjectClass >teacherSubjectClasses = new List< TeacherSubjectClass >();
             foreach(var subject in Subjects)
             {
-                await _classRecordRepoistory.Add2(new TeacherSubjectClass() { SubjectId = subject.Id, ClassId = classItem.Id });
+                teacherSubjectClasses.Add(new TeacherSubjectClass() { SubjectId = subject.Id, ClassId = classItem.Id });
             }
+            classItem.TeacherSubjectClasses = teacherSubjectClasses;
+            await _classRepository.Update(classItem);
             return classItem;
-
         }
 
         public async Task<Class> UpdateClass(int id, ClassAddUpdateDto classDto)
         {
-            var existingClass = await _unitOfWork.repository<Class>().GetById(id);
+            var existingClass = await _classRepository.GetById(id);
             if (existingClass == null)
             {
                 return null;
             }
 
             _mapper.Map(classDto, existingClass);
-            await _unitOfWork.repository<Class>().Update(existingClass);
+            await _classRepository.Update(existingClass);
             return existingClass;
         }
 
         public async Task<Class> DeleteClass(int id)
         {
             
-            return await _unitOfWork.repository<Class>().Delete(id);
+            return await _classRepository.Delete(id);
             
         }
 
-        public async Task< ClassAllTeachersWithSubjectDto> AssignTeachersInClass(int classId)
+        public async Task< ClassAllTeachersWithSubjectDto> GetAssignTeachersInClass(int classId)
         {
             ClassAllTeachersWithSubjectDto TeachersWithSubjectDto;
-            var c = await _classRepository.ClassDetaialsTeacherWithSubject(classId);
-            int TermId = 2;
-            string TermName = "second Name";
-            var subjectsWithTeachers = _subjectRecordRepository.GetSubjectsWithTeachersByLevelDeptTerm(c.Level.Id, c.Department.Id, TermId);
+            var _class = await _classRepository.GetClassWithTeacherAndSubject(classId);
+            Term term = await schoolRepository.GetCurrentTerm();
+            int TermId = term.Id;
+            string TermName = term.Name;
+
             TeachersWithSubjectDto = new ClassAllTeachersWithSubjectDto
-                (c.Id, c.Number, c.NumOfStudent
-                , new NameIdDto() { Id = c.Department.Id, Name = c.Department.Name },
-                new NameIdDto() { Id = c.Level.Id, Name = c.Level.Name },
+                (_class.Id, _class.Number, _class.NumOfStudent
+                , new NameIdDto() { Id = _class.Department.Id, Name = _class.Department.Name },
+                new NameIdDto() { Id = _class.Level.Id, Name = _class.Level.Name },
                 new NameIdDto() { Id = TermId, Name = TermName }
                 );
-            TeachersWithSubjectDto.PutTolist(subjectsWithTeachers,c);
+            var subjectsWithTeachers = _subjectRecordRepository.GetSubjectsWithTeachersByLevelDeptTerm(_class.Level.Id, _class.Department.Id, TermId);
+            if (subjectsWithTeachers != null)
+            {
+
+                TeachersWithSubjectDto.PutTolist(subjectsWithTeachers, _class);
+            }
+     
+
             return TeachersWithSubjectDto;
         }
-        public async Task<ClassWithTeacher_Subject> ClassDetaialsTeacherWithSubject(int id)
+        public async Task UpdateRecords(int classid , List<TeacherSubjectUpdateClassRecordsDto> dto)
         {
-            var Class = await _classRepository.ClassDetaialsTeacherWithSubject(id);
+            var _class = await _classRepository.GetClassWithTeacherSubjectClassById(classid);
+            foreach (var teacherSubject in dto)
+            {
+                TeacherSubjectClass tsc = _class.TeacherSubjectClasses.FirstOrDefault(cr => cr.SubjectId == teacherSubject.SubjectId);
+                tsc.TeacherId = teacherSubject.TeacherId;
+
+
+            }
+           await _classRepository.Update(_class);
+
+        }
+        public async Task<ClassWithTeacher_Subject> GetClassWithTeachersAndSubjectByClassId(int id)
+        {
+            var Class = await _classRepository.GetClassWithTeacherAndSubject(id);
+            Term term = await schoolRepository.GetCurrentTerm();
             if (Class == null)
                 return null;
             ClassWithTeacher_Subject class_dto = new ClassWithTeacher_Subject();
+
             class_dto.Id = id;
             class_dto.number = Class.Number;
             class_dto.Level.Id = Class.Level.Id;
             class_dto.Level.Name = Class.Level.Name;
             class_dto.Department.Id = Class.Department.Id;
             class_dto.Department.Name = Class.Department.Name;
-           
-            foreach(var techerSub in Class.TeacherSubjectClasses)
+            class_dto.Term.Name = term.Name;
+            class_dto.Term.Id = term.Id;
+
+            foreach (var techerSub in Class.TeacherSubjectClasses)
             {
                 TeacherSubjectDto teacherSubjectDto = new TeacherSubjectDto();
                 teacherSubjectDto.Subject.Name = techerSub.Subject.Name;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/*
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Services.Dtos.ClassDto;
 using School.Services.Dtos.ClassRecord;
@@ -41,6 +42,7 @@ namespace School.API.Controllers
             await ClassRecordServices.AddRecords(recordsDto);
             return Ok();
         }*/
+/*
 
         [HttpPut("Upadate/{id:int}")]
         public async Task<IActionResult> Update(int id, ClassRecordDto recordDto)
@@ -61,3 +63,4 @@ namespace School.API.Controllers
         }
     }
 }
+*/
