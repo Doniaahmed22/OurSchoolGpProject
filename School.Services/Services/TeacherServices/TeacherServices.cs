@@ -53,7 +53,23 @@ namespace School.Services.Services.TeacherServices
             }
             return teachersDto ;
         }
+        public async Task<GetAllDto> GetAll()
+        {
+            GetAllDto Dto = new GetAllDto();
 
+
+            var subjects =await _unitOfWork.repository<Subject>().GetAll();
+            foreach(var subject in subjects) {
+                Dto.Subjects.Add(new NameIdDto()
+                {
+                    Name = subject.Name
+                    ,
+                    Id = subject.Id
+                });
+            }
+            Dto.teachers = await GetTeachers();
+            return Dto ;
+        }
         public async Task<TeacherDtoWithId> GetTeacherById(int id)
         {
             

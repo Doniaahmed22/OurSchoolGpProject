@@ -48,10 +48,21 @@ namespace School.API.Controllers
             return Ok(classInfo);
 
         }
-        [HttpGet("TeachersSubject/{id:int}")]
-        public async Task<IActionResult> ClassDetaialsTeacherWithSubject(int id)
+        [HttpGet("GetClassById/{id:int}")]
+        public async Task<IActionResult> GetClassById(int id)
         {
             var classItem = await classServices.GetClassWithTeachersAndSubjectByClassId(id);
+            if (classItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(classItem);
+
+        }
+        [HttpGet("SearchByClassNum/{classnum:int}")]
+        public async Task<IActionResult> GetClassByClassNum(int classnum)
+        {
+            var classItem = await classServices.GetClassesByClassNum(classnum);
             if (classItem == null)
             {
                 return NotFound();
@@ -106,7 +117,6 @@ namespace School.API.Controllers
             }
             return Ok();
         }
-
 
 
 

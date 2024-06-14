@@ -33,6 +33,15 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(record);
         }
+        [HttpGet("Search/{name:alpha}")]
+        public async Task<ActionResult<IEnumerable<SubjectRecordDto>>> GetRecordById(string name)
+        {
+
+            var records = await subjectRecordServices.SearchBySubjectName(name);
+            if (records == null)
+                return NotFound();
+            return Ok(records);
+        }
         [HttpPost("Add")]
         public async Task<IActionResult> Add(SubjectRecordAddUpdateDto recordDto)
         {

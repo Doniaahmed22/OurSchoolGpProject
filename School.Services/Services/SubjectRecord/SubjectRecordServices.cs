@@ -30,6 +30,11 @@ namespace School.Services.Services.SubjectRecord
         public  async Task<SubjectRecordGetAll> GetAllRecords()
         {
             SubjectRecordGetAll subjectRecordDto = new SubjectRecordGetAll();
+            IEnumerable<Level> Levels = await _unitOfWork.repository<Level>().GetAll();
+            foreach (Level level in Levels)
+            {
+                subjectRecordDto.Levels.Add(new NameIdDto() { Name = level.Name, Id = level.Id });
+            }
 
             IEnumerable<Term> terms =await _unitOfWork.repository<Term>().GetAll();
             foreach (Term term in terms)
@@ -87,6 +92,32 @@ namespace School.Services.Services.SubjectRecord
             recordDto.Term.Name = record.Term.Name;
             return recordDto;
         }
+        public async Task<IEnumerable<SubjectRecordDto>> SearchBySubjectName(string name)
+        {
+            var records = await _subjectRecordRepository.GetRecordsBySubjectName(name);
+            if (records == null)
+                return null;
+            List<SubjectRecordDto>dtos = new List<SubjectRecordDto>();
+            foreach(var record in records)
+            {
+                SubjectRecordDto recordDto = new SubjectRecordDto();
+
+                recordDto.SubLevlDeptTermId = record.Id;
+
+                recordDto.Subject.Id = record.Subject.Id;
+                recordDto.Subject.Name = record.Subject.Name;
+                recordDto.Level.Id = record.LevelId;
+                recordDto.Level.Name = record.Level.Name;
+                recordDto.Department.Id = record.DepartmentId;
+                recordDto.Department.Name = record.Department.Name;
+                recordDto.Term.Id = record.TermId;
+                recordDto.Term.Name = record.Term.Name;
+                dtos.Add(recordDto);
+            }
+            return dtos;
+
+        }
+
         public async Task AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto)
         {
             var Record = _mapper.Map<SubjectLevelDepartmentTerm>(dto);

@@ -3,6 +3,7 @@ using School.Data.Context;
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,13 +35,20 @@ namespace School.Repository.Repositories
             return await _context.Classes.Include(c=>c.TeacherSubjectClasses)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
         public async Task<Class> GetClassWithTeacherAndSubject(int id)
         {
             return await _context.Classes.Include(c=>c.Level).Include(c=>c.Department).Include(c => c.TeacherSubjectClasses)
                .ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).FirstOrDefaultAsync(c => c.Id == id);
                                    
         }
+        public async Task<IEnumerable<Class> >GetClassesbyClassNum(int classnum)
+        {
+            return await _context.Classes.Include(c => c.Level).Include(c => c.Department)
+                .Where(c => c.Number == classnum).ToArrayAsync();//.Include(c => c.TeacherSubjectClasses)
+                                                                                                                                            //.ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).Where(c => c.Number == classnum).ToArrayAsync();
 
+        }
         public async Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid)
         {
             return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid).ToListAsync();

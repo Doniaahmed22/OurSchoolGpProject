@@ -11,6 +11,8 @@ namespace School.Services.Dtos.SubjectRecord
     {
         public List<SubjectRecordDto>subjectRecords { get; set; } = new List<SubjectRecordDto>();
         public List<NameIdDto>Terms { get; set; } = new List<NameIdDto>();
+        public List<NameIdDto> Levels { get; set; } = new List<NameIdDto>();
+
         public List<NameIdDto> Departments { get; set; } = new List<NameIdDto>();
         public List<NameIdDto> Subjects { get; set; } = new List<NameIdDto>();
 

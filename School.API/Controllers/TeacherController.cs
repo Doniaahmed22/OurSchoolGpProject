@@ -18,7 +18,7 @@ namespace School.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllTeacher() 
         {
-            var teachers = await TeacherServices.GetTeachers();
+            var teachers = await TeacherServices.GetAll();
             return Ok(teachers);
         }
         [HttpGet("GetById/{id:int}")]

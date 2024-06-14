@@ -11,6 +11,7 @@ namespace School.Services.Dtos.ClassDto
     {
         public List<ClassDtoWithId> Classes { get; set; } = new List<ClassDtoWithId>();
         public List<NameIdDto> Terms { get; set; } = new List<NameIdDto>();
+        public List<NameIdDto> Levels { get; set; } = new List<NameIdDto>();
         public List<NameIdDto> Departments { get; set; } = new List<NameIdDto>();
     }
 }

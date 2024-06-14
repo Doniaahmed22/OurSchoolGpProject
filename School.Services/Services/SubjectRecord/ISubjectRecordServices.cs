@@ -12,6 +12,8 @@ namespace School.Services.Services.SubjectRecord
     {
         Task<SubjectRecordGetAll> GetAllRecords();
         Task<SubjectRecordDto> GetRecordById(int id);
+        Task<IEnumerable<SubjectRecordDto>> SearchBySubjectName(string name);
+
          Task AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto);
          Task<SubjectLevelDepartmentTerm> UpdateRecord(int id, SubjectRecordAddUpdateDto record);
 

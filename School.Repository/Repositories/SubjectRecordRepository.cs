@@ -45,6 +45,12 @@ namespace School.Repository.Repositories
                 .Include(r => r.Level)
                 .Include(r => r.Department).Include(r => r.Term).FirstOrDefaultAsync(r=>r.Id==id);
         }
+        public async Task< IEnumerable<SubjectLevelDepartmentTerm>> GetRecordsBySubjectName(string name)
+        {
+            return await _context.SubjectLevelDepartmentTerms.Include(r => r.Subject)
+                .Include(r => r.Level)
+                .Include(r => r.Department).Include(r => r.Term).Where(r=>r.Subject.Name.Contains(name)).ToListAsync();
+        }
 
     }
 }
