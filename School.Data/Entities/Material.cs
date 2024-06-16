@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class Material
+    public class Material:BaseEntity
     {
         public int Id { get; set; }
-        public string Path { get; set; }
+        public string MaterialName { get; set; }
         public MaterialType Type { get; set; }
         public Subject Subject { get; set; }
         public int SubjectId { get; set; }

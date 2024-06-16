@@ -20,4 +20,8 @@
     <ProjectReference Include="..\School.Services\School.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\Materials\" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class ClassMaterial
+    public class ClassMaterial:BaseEntity
     {
         public Material Material { get; set; }
         public int MaterialId { get; set; }
