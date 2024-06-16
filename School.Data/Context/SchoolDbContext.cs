@@ -31,6 +31,7 @@ namespace School.Data.Context
             modelBuilder.Entity<TeacherSubject>().HasKey(x => new { x.TeacherId, x.SubjectId });
             modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => x.Id);
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
+            modelBuilder.Entity<ClassMaterial>().HasKey(x => new { x.MaterialId, x.ClassId });
 
             modelBuilder.Entity<SchoolInfo>()
                     .Property(e => e.CurrentTerm)
@@ -51,5 +52,9 @@ namespace School.Data.Context
         public DbSet<SchoolInfo> SchoolInfo { get; set; }
         public DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<ClassMaterial> ClassMaterials { get; set; }
+
+
     }
 }
