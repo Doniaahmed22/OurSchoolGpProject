@@ -57,19 +57,60 @@ namespace School.Services.Services.FileService
             return fileNameWithPath;
         }
 
-            
 
-
-
-        public void DeleteFile(string fileNameWithExtension)
+        public async Task<(MemoryStream stream, string contentType, string fileName)> DownloadFileAsync(string sub)
         {
-            if (string.IsNullOrEmpty(fileNameWithExtension))
-            {
-                throw new ArgumentNullException(nameof(fileNameWithExtension));
-            }
-            var contentPath = _environment.ContentRootPath;
-            var path = Path.Combine(contentPath, $"Uploads", fileNameWithExtension);
 
+            var contentPath = _environment.ContentRootPath;
+            var filePath = Path.Combine(contentPath, sub);
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("File not found.");
+            }
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+
+            var contentType = GetContentType(filePath);
+            return (memory, contentType, Path.GetFileName(filePath));
+        }
+
+        private string GetContentType(string path)
+        {
+            var types = new Dictionary<string, string>
+            {
+               { ".pdf", "application/pdf" },
+               { ".txt", "text/plain" },
+               { ".doc", "application/msword" },
+               { ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+               { ".xls", "application/vnd.ms-excel" },
+               { ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+               { ".png", "image/png" },
+               { ".jpg", "image/jpeg" },
+               { ".jpeg", "image/jpeg" },
+               { ".gif", "image/gif" },
+               { ".csv", "text/csv" },
+               { ".mp4", "video/mp4" },
+               { ".avi", "video/x-msvideo" },
+               { ".mov", "video/quicktime" },
+               { ".wmv", "video/x-ms-wmv" },
+               { ".epub", "application/epub+zip" },
+               { ".mobi", "application/x-mobipocket-ebook" }
+            };
+
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
+        }
+
+
+        public void DeleteFile(string subpath)
+        {
+            var contentPath = _environment.ContentRootPath;
+            var path = Path.Combine(contentPath, subpath);
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException($"Invalid file path");

@@ -11,6 +11,9 @@ namespace School.Data.Entities
         public int Id { get; set; }
         public string MaterialName { get; set; }
         public MaterialType Type { get; set; }
+        public Level Level { get; set; }
+        public int Levelid { get; set; }
+
         public Subject Subject { get; set; }
         public int SubjectId { get; set; }
         public Teacher Teacher { get; set; }

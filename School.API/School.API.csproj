@@ -22,6 +22,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Uploads\Materials\" />
+    <Folder Include="wwwroot\Uploads\Materials\Book\" />
+    <Folder Include="wwwroot\Uploads\Materials\Exam\" />
+    <Folder Include="wwwroot\Uploads\Materials\Revision\" />
+    <Folder Include="wwwroot\Uploads\Materials\Summary\" />
+    <Folder Include="wwwroot\Uploads\Materials\Video\" />
   </ItemGroup>
 
 </Project>

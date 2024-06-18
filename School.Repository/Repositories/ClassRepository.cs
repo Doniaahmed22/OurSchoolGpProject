@@ -54,6 +54,11 @@ namespace School.Repository.Repositories
             return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid).ToListAsync();
 
         }
+        public async Task<IEnumerable<Class>> GetClassesWithTeacherLevelSubjectAsync(int teacherid , int levelid , int subjectid)
+        {
+            return await _context.TeacherSubjectClasses.Include(tsc => tsc.Class)
+                .Where(tsc => tsc.TeacherId == teacherid && tsc.SubjectId == subjectid && tsc.Class.LevelId == levelid).Select(tsc=>tsc.Class).Distinct().ToListAsync();
+        }
 
         public async Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid)
         {

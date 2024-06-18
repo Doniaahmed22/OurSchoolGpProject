@@ -26,5 +26,6 @@ namespace School.Repository.Repositories
             return  _context.Teachers.Include(t => t.TeacherSubject)
                 .ThenInclude(ts => ts.Subject).Where(t=>t.Name.Contains(name));
         }
+
     }
 }

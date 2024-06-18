@@ -132,6 +132,9 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Levelid")
+                        .HasColumnType("int");
+
                     b.Property<string>("MaterialName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -146,6 +149,8 @@ namespace School.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Levelid");
 
                     b.HasIndex("SubjectId");
 
@@ -501,6 +506,12 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Material", b =>
                 {
+                    b.HasOne("School.Data.Entities.Level", "Level")
+                        .WithMany()
+                        .HasForeignKey("Levelid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("School.Data.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
@@ -512,6 +523,8 @@ namespace School.Data.Migrations
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Level");
 
                     b.Navigation("Subject");
 

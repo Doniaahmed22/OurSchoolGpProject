@@ -11,6 +11,8 @@ namespace School.Services.Dtos.MaterialDto
     {
         public int SubjectId { get; set; }
         public int TeacherId { get; set; }
+        public int Levelid { get; set; }
+
         public List<int>MaterialClasses { get; set; } = new List<int>();
 
     }

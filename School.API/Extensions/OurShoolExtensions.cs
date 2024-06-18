@@ -39,6 +39,9 @@ namespace School.API.Extensions
             services.AddScoped<IGradeRepository, GradeRepository>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IMaterialService, MaterialService>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<IClassRepository, ClassRepository>();
+
             services.AddAutoMapper(typeof(MappingProfile));
 
             return services;
