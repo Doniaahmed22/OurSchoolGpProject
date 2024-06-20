@@ -2,6 +2,7 @@
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.SubjectDto;
 using School.Services.Dtos.TeacherDto;
 using System;
@@ -16,11 +17,13 @@ namespace School.Services.Services.SubjectServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ISubjectRepository _subjectRepository;
 
-        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper)
+        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper, ISubjectRepository subjectRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _subjectRepository = subjectRepository;
         }
 
         public async Task<IEnumerable<SubjectDtoWithId>> GetAllSubject()
@@ -55,6 +58,20 @@ namespace School.Services.Services.SubjectServices
         public async Task<Subject> DeleteSubject(int id)
         {
             return await _unitOfWork.repository<Subject>().Delete(id);
+        }
+        public async Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid)
+        {
+            List<NameIdDto> _Subjects = new List<NameIdDto>();
+            IEnumerable<Subject> subjects = await _subjectRepository.GetSubjectsByClassTeacher(classid, teacherid);
+            foreach (var subject in subjects)
+            {
+                NameIdDto sub = new NameIdDto();
+                sub.Name = subject.Name;
+                sub.Id = subject.Id;
+                _Subjects.Add(sub);
+            }
+            return _Subjects;
+
         }
     }
 }

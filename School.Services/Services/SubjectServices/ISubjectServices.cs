@@ -1,4 +1,5 @@
 ﻿using School.Data.Entities;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.SubjectDto;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace School.Services.Services.SubjectServices
         Task AddSubject(SubjectDto SubDto);
          Task<Subject> DeleteSubject(int id);
         Task<Subject> UpdateSubject(int id, SubjectDto SubDto);
+        Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid);
+
     }
 }

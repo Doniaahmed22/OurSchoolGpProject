@@ -10,7 +10,7 @@ using School.Services.Services.StudentServices;
 
 namespace School.API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ParentController : ControllerBase
     {

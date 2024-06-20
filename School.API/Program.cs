@@ -45,9 +45,11 @@ namespace School.API
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseCors("MyPolicy");
 
             app.UseAuthorization();
+
 
 
             app.MapControllers();

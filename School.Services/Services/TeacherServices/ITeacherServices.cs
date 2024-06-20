@@ -11,7 +11,7 @@ namespace School.Services.Services.TeacherServices
 {
     public interface ITeacherServices
     {
-        Task<GetAllDto> GetAll();
+       // Task<GetAllDto> GetAll();
         Task<IEnumerable<TeacherDtoWithId>> GetTeachers(string name = "");
         Task<TeacherDtoWithId> GetTeacherById(int id);
         Task AddTeacher(AddTeacherDto teacherDto);

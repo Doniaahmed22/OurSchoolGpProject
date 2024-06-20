@@ -53,6 +53,7 @@ namespace School.Services.Services.TeacherServices
             }
             return teachersDto ;
         }
+        /*
         public async Task<GetAllDto> GetAll()
         {
             GetAllDto Dto = new GetAllDto();
@@ -69,7 +70,7 @@ namespace School.Services.Services.TeacherServices
             }
             Dto.teachers = await GetTeachers();
             return Dto ;
-        }
+        }*/
         public async Task<TeacherDtoWithId> GetTeacherById(int id)
         {
             

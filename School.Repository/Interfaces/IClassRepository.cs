@@ -16,7 +16,7 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<Class>> GetClassesWithTeacherLevelSubjectAsync(int teacherid, int levelid, int subjectid);
 
         Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid);
-        Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid);
+//        Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid);
         Task<Class> GetClassWithTeacherAndSubject(int id);
         Task<IEnumerable<Class>> GetClassesbyClassNum(int classnum);
 

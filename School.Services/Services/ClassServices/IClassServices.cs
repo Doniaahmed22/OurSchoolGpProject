@@ -12,18 +12,17 @@ namespace School.Services.Services.ClassServices
 {
     public interface IClassServices
     {
-        Task<ClassGetAllDto> GetAllClasses();
-        //Task<ClassDtoWithId> GetClassById(int id);
-        Task<ClassAllTeachersWithSubjectDto> GetAssignTeachersInClass(int classId);
-        Task UpdateRecords(int classid, List<TeacherSubjectUpdateClassRecordsDto> dto);
+        //    Task<ClassGetAllDto> GetAllClasses();
+       Task<IEnumerable<ClassDtoWithId>> GetAllClasses();
 
-        Task<ClassWithTeacher_Subject> GetClassWithTeachersAndSubjectByClassId(int id);
+        Task<ClassDtoWithId> GetClassById(int id);
+        Task<IEnumerable<TeachersSubjectDto>> GetSubjectWithThierTeachers(int classId);
+        Task UpdateRecords(int classid, List<TeacherWithSubjectInClass> dto);
 
         Task<Class> AddClass(ClassAddUpdateDto classDto);
         Task<Class> UpdateClass(int id, ClassAddUpdateDto classDto);
         Task<Class> DeleteClass(int id);
-        Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid);
-        Task<IEnumerable<ClassWithTeacher_Subject>> GetClassesByClassNum(int classnum);
+        Task<IEnumerable<ClassDtoWithId>> GetClassesByClassNum(int classnum);
 
 
     }

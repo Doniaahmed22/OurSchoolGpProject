@@ -10,7 +10,7 @@ namespace School.Services.Services.SubjectRecord
 {
     public interface ISubjectRecordServices
     {
-        Task<SubjectRecordGetAll> GetAllRecords();
+        Task<IEnumerable<SubjectRecordDto>> GetAllRecords();
         Task<SubjectRecordDto> GetRecordById(int id);
         Task<IEnumerable<SubjectRecordDto>> SearchBySubjectName(string name);
 

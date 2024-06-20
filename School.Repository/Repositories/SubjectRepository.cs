@@ -24,7 +24,12 @@ namespace School.Repository.Repositories
             return _context.TeacherSubjects.Include(ts => ts.Subject)
                 .Where(st => st.TeacherId == TeachId).Select(st => st.Subject);
         }
+        public async Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid)
+        {
+            return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid && c.TeacherId == teacherid)
+                .Include(tsc => tsc.Subject).Select(tsc => tsc.Subject).ToListAsync();
 
+        }
 
     }
 }

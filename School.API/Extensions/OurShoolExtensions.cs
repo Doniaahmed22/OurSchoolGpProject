@@ -17,6 +17,9 @@ using School.Services.Services.FileService;
 
 using System;
 using School.Services.Services.MaterialService;
+using School.Services.Services.DepartmentService;
+using School.Services.Services.LevelService;
+using School.Services.Services.TermService;
 
 namespace School.API.Extensions
 {
@@ -25,6 +28,11 @@ namespace School.API.Extensions
         public static IServiceCollection AddSchoolServices(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
+
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IParentServices, ParentServices>();
             services.AddScoped<ITeacherServices, TeacherServices>();
@@ -39,8 +47,9 @@ namespace School.API.Extensions
             services.AddScoped<IGradeRepository, GradeRepository>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IMaterialService, MaterialService>();
-            services.AddScoped<IMaterialRepository, MaterialRepository>();
-            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<IdepartmentService, DepartmentService>();
+            services.AddScoped<ILevelService, LevelService>();
+            services.AddScoped<Services.Services.TermService.ITermService, TermService>();
 
             services.AddAutoMapper(typeof(MappingProfile));
 

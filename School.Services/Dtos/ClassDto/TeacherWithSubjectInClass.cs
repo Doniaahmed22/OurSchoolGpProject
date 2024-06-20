@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Services.Dtos.ClassDto
 {
-    public class TeacherSubjectUpdateClassRecordsDto
+    public class TeacherWithSubjectInClass
     {
         public int TeacherId { get; set; }
 

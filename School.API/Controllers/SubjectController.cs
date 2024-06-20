@@ -11,11 +11,9 @@ namespace School.API.Controllers
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectServices SubjectServices;
-        private readonly IClassServices classServices;
-        public  SubjectController (ISubjectServices subjectServices, IClassServices classServices)
+        public  SubjectController (ISubjectServices subjectServices)
         {
             SubjectServices = subjectServices;
-            this.classServices = classServices;
         }
 
         [HttpGet("GetAll")]
@@ -58,11 +56,11 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok();
         }
-
+        //no idea of that
         [HttpGet("GetSubjectsByClassTeacher/{classid}/{teacherid}")]
         public async Task<IActionResult> GetSubjectsByClassTeacher(int classid, int teacherid)
         {
-            var subjects = await classServices.GetSubjectsByClassTeacher(classid, teacherid);
+            var subjects = await SubjectServices.GetSubjectsByClassTeacher(classid, teacherid);
             return Ok(subjects);
         }
     }

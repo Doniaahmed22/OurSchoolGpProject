@@ -19,7 +19,7 @@ namespace School.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<SubjectRecordGetAll> >GetAllRecords() //
+        public async Task<IActionResult> GetAllRecords() 
         {
             var records =  await subjectRecordServices.GetAllRecords();
             return Ok(records);

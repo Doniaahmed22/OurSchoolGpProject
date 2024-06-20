@@ -9,16 +9,14 @@ using School.Services.Services.ClassServices;
 
 namespace School.API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClassController : ControllerBase
     {
         private readonly IClassServices classServices;
-       // private readonly IClassRecordServices ClassRecordServices;
-        public ClassController(IClassServices classServices)//, IClassRecordServices ClassRecordServices
+        public ClassController(IClassServices classServices)
         {
             this.classServices = classServices;
-            //this.ClassRecordServices = ClassRecordServices;
         }
 
         [HttpGet]
@@ -28,26 +26,27 @@ namespace School.API.Controllers
             var classes = await classServices.GetAllClasses();
             return Ok(classes);
         }
-/*
+
         [HttpGet]
-        [Route("GetClassById/{id}")]
-        public async Task<IActionResult> GetClassById(int id)
+        [Route("GetClassInfoById/{classid:int}")]
+        public async Task<IActionResult> GetClassInfo(int classid)
         {
-            var classItem = await classServices.GetClassById(id);
+            var classItem = await classServices.GetClassById(classid);
             if (classItem == null)
             {
                 return NotFound();
             }
             return Ok(classItem);
-        }*/
+        }
         [HttpGet]
-        [Route("AssignTeachers/{id:int}")]
-        public async Task<IActionResult> GetAssignTeachersInClass(int id)
+        [Route("AssignTeachers/GetSubjectWithThierTeachers/{classid:int}")]
+        public async Task<IActionResult> GetSubjectWithThierTeachers(int classid)
         {
-            var classInfo = await classServices.GetAssignTeachersInClass(id);
+            var classInfo = await classServices.GetSubjectWithThierTeachers(classid);
             return Ok(classInfo);
 
         }
+        /*
         [HttpGet("GetClassById/{id:int}")]
         public async Task<IActionResult> GetClassById(int id)
         {
@@ -58,7 +57,7 @@ namespace School.API.Controllers
             }
             return Ok(classItem);
 
-        }
+        }*/
         [HttpGet("SearchByClassNum/{classnum:int}")]
         public async Task<IActionResult> GetClassByClassNum(int classnum)
         {
@@ -98,8 +97,8 @@ namespace School.API.Controllers
 
 
         [HttpPut]
-        [Route("UpdateClassRecords/{id:int}")]
-        public async Task <IActionResult>UpdateRecords(int id, List<TeacherSubjectUpdateClassRecordsDto> dto)
+        [Route("AssignTeachers/UpdateClassRecords/{id:int}")]
+        public async Task <IActionResult>UpdateRecords(int id, List<TeacherWithSubjectInClass> dto)
         {
             await classServices.UpdateRecords(id,dto);
             return Ok();
