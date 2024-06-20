@@ -1,4 +1,5 @@
-﻿using School.Data.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using School.Data.Entities;
 using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.SubjectDto;
 using System;
@@ -13,7 +14,7 @@ namespace School.Services.Services.SubjectServices
     {
         Task<IEnumerable<SubjectDtoWithId>> GetAllSubject();
         Task<SubjectDtoWithId> GetSubjectById(int id);
-        Task AddSubject(SubjectDto SubDto);
+        Task AddSubject(IFormFile image, SubjectDto SubDto);
          Task<Subject> DeleteSubject(int id);
         Task<Subject> UpdateSubject(int id, SubjectDto SubDto);
         Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid);

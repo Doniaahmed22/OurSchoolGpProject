@@ -9,6 +9,6 @@ namespace School.Services.Services.LevelService
 {
     public interface ILevelService
     {
-        Task<IEnumerable<NameIdDto>> GetAllLevelsForList();
+        Task<IEnumerable<NameNumberId>> GetAllLevelsForList();
     }
 }

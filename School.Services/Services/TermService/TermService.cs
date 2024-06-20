@@ -18,13 +18,13 @@ namespace School.Services.Services.TermService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<NameIdDto>> GetAllTermsForList()
+        public async Task<IEnumerable<NameNumberId>> GetAllTermsForList()
         {
-            List<NameIdDto> TermsDto = new List<NameIdDto>();
+            List<NameNumberId> TermsDto = new List<NameNumberId>();
             var Terms = await _unitOfWork.repository<Term>().GetAll();
             foreach (var Term in Terms)
             {
-                TermsDto.Add(new NameIdDto() { Id = Term.Id, Name = Term.Name });
+                TermsDto.Add(new NameNumberId() { Id = Term.Id, Name = Term.Name, number = Term.termNumber });
             }
             return TermsDto;
         }

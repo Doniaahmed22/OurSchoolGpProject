@@ -11,6 +11,7 @@ namespace School.Services.Services.FileService
     {
         Task<string> SaveFileAsync(IFormFile File, string[] allowedFileExtensions, string subfolder, bool AllowedRepeatedFilename);
         Task<(MemoryStream stream, string contentType, string fileName)> DownloadFileAsync(string filePath);
+        string GetFullBase(string sub);
 
         void DeleteFile(string fileNameWithExtension);
     }

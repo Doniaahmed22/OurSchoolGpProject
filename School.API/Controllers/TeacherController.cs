@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Services.Dtos.TeacherDto;
+using School.Services.Services.SubjectServices;
 using School.Services.Services.TeacherServices;
 
 namespace School.API.Controllers
@@ -36,7 +37,14 @@ namespace School.API.Controllers
             var teachers = await TeacherServices.GetTeachers(name);
             return Ok(teachers);
         }
-
+        [HttpGet("GetTeacherSubjects/{Teacherid:int}")]  //int teacher mode subject page =>retuen all subject in level that teacher teach
+        public IActionResult GetTeacherSubjects(int Teacherid)
+        {
+            var subject = TeacherServices.GetTeacherSubjects(Teacherid);
+            if (subject == null)
+                return NotFound();
+            return Ok(subject);
+        }
         [HttpPost("Add")]
         public async Task<IActionResult> AddTeacher(AddTeacherDto teacherDto)
         {

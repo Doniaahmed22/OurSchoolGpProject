@@ -4,7 +4,9 @@ using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
+using School.Services.Dtos.SubjectDto;
 using School.Services.Dtos.TeacherDto;
+using School.Services.Services.FileService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,12 @@ namespace School.Services.Services.TeacherServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITeacherRepository teacherRepository;
-
-        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IFileService _fileService;
+        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper , IFileService fileService)
         {
             _unitOfWork = unitOfWork;   
             teacherRepository = (TeacherRepository)_unitOfWork.repository<Teacher>();
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<TeacherDtoWithId>> GetTeachers(string name="")
@@ -95,6 +98,26 @@ namespace School.Services.Services.TeacherServices
             return teacherDto;
 
         }
+
+        public IEnumerable<SubLevelImage> GetTeacherSubjects(int teacherid)
+        {
+            List<SubLevelImage> dto = new List<SubLevelImage>();
+            var teacherSubjectClassRecords = teacherRepository.GetTeacherSubjects(teacherid);
+            foreach (var recode in teacherSubjectClassRecords)
+            {
+                SubLevelImage subLevelImage = new SubLevelImage();
+                string imgeName = recode.Subject.Image;
+                subLevelImage.image = _fileService.GetFullBase(GlobalStaticService.BaseSubFolderForImageSubject + "\\" + imgeName);
+
+                subLevelImage.Subject.Name = recode.Subject.Name;
+                subLevelImage.Subject.Id = recode.Subject.Id;
+                subLevelImage.Level.num = recode.Class.Level.LevelNumber;
+                subLevelImage.Level.Id = recode.Class.Level.Id;
+                dto.Add(subLevelImage);
+            }
+            return dto;
+        }
+
         public async Task AddTeacher(AddTeacherDto teacherDto)
         {
            var teacher=  new Teacher();

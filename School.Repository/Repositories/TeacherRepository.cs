@@ -26,6 +26,15 @@ namespace School.Repository.Repositories
             return  _context.Teachers.Include(t => t.TeacherSubject)
                 .ThenInclude(ts => ts.Subject).Where(t=>t.Name.Contains(name));
         }
+        public IEnumerable<TeacherSubjectClass> GetTeacherSubjects(int teacherid)
+        {
+            return _context.TeacherSubjectClasses.Include(c => c.Class).ThenInclude(c => c.Level)
+                .Include(tsc => tsc.Subject).Where(tsc => tsc.TeacherId == teacherid).AsEnumerable()
+                .GroupBy(tsc => new { tsc.SubjectId, tsc.Class.Level.Id })
+                .Select(g => g.First())
+                .OrderBy(tsc => tsc.Class.Level.LevelNumber)
+                .ToList();
+        }
 
     }
 }

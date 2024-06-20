@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
+
 namespace School.Services.Services.FileService
 {
     public class FileService: IFileService
     {
+
         private readonly IWebHostEnvironment _environment;
 
         public FileService(IWebHostEnvironment environment)
@@ -32,6 +35,7 @@ namespace School.Services.Services.FileService
 
             // Check the allowed extenstions
             var ext = Path.GetExtension(File.FileName);
+            ext = ext.ToLower();
             if (!allowedFileExtensions.Contains(ext))
             {
                 throw new ArgumentException($"Only {string.Join(",", allowedFileExtensions)} are allowed.");
@@ -106,7 +110,12 @@ namespace School.Services.Services.FileService
             return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
         }
 
-
+        public string GetFullBase(string sub)
+        {
+            var contentPath = _environment.ContentRootPath;
+            var filePath = Path.Combine(contentPath, sub);
+            return filePath;
+        }
         public void DeleteFile(string subpath)
         {
             var contentPath = _environment.ContentRootPath;

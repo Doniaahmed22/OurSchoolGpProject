@@ -19,6 +19,9 @@ namespace School.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Subject>()
+            .Property(s => s.Image)
+            .HasDefaultValue("Default.jpeg");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Entity<Student>().HasOne(x => x.Class).WithMany().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Student>().HasOne(x => x.Department).WithMany().OnDelete(DeleteBehavior.NoAction);

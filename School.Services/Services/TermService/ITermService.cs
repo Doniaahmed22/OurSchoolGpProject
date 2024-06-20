@@ -9,7 +9,7 @@ namespace School.Services.Services.TermService
 {
     public interface ITermService
     {
-        Task<IEnumerable<NameIdDto>> GetAllTermsForList();
+        Task<IEnumerable<NameNumberId>> GetAllTermsForList();
 
     }
 }

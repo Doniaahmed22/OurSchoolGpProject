@@ -18,13 +18,13 @@ namespace School.Services.Services.LevelService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<NameIdDto>> GetAllLevelsForList()
+        public async Task<IEnumerable<NameNumberId>> GetAllLevelsForList()
         {
-            List<NameIdDto> LevelsDto = new List<NameIdDto>();
+            List<NameNumberId> LevelsDto = new List<NameNumberId>();
             var Levels = await _unitOfWork.repository<Level>().GetAll();
             foreach (var level in Levels)
             {
-                LevelsDto.Add(new NameIdDto() { Id = level.Id, Name = level.Name });
+                LevelsDto.Add(new NameNumberId() { Id = level.Id, Name = level.Name , number = level.LevelNumber});
             }
             return LevelsDto;
         }

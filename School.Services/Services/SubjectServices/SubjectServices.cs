@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.SubjectDto;
 using School.Services.Dtos.TeacherDto;
+using School.Services.Services.FileService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +20,16 @@ namespace School.Services.Services.SubjectServices
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ISubjectRepository _subjectRepository;
+        private readonly IFileService _fileService;
+        string[] allowedImageExtensions = new[] { ".jpg", ".jpeg", ".png" };
 
-        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper, ISubjectRepository subjectRepository)
+
+        public SubjectServices(IUnitOfWork unitOfWork, IMapper mapper, ISubjectRepository subjectRepository, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _subjectRepository = subjectRepository;
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<SubjectDtoWithId>> GetAllSubject()
@@ -38,12 +44,26 @@ namespace School.Services.Services.SubjectServices
             return _mapper.Map<SubjectDtoWithId>(subject);
         }
 
-        public async Task AddSubject(SubjectDto SubDto)
+
+        public async Task AddSubject(IFormFile image, SubjectDto SubDto)
         {
-            var subject = _mapper.Map<Subject>(SubDto);
+            string imagename;
+            var subject = new Subject()
+            {
+                Name = SubDto.Name
+            };
+            if (image != null) 
+            {
+               string fullpath=await _fileService.SaveFileAsync(image, allowedImageExtensions, GlobalStaticService.BaseSubFolderForImageSubject, true);
+               imagename = Path.GetFileName(fullpath);
+               subject.Image = imagename;
+
+            }
+
+
             await _unitOfWork.repository<Subject>().Add(subject);
         }
-
+       // GetSubjectWithImage
         public async Task<Subject> UpdateSubject(int id, SubjectDto SubDto)
         {
             var subject = await _unitOfWork.repository<Subject>().GetById(id);

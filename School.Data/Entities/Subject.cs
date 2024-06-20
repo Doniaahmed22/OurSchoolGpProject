@@ -10,7 +10,7 @@ namespace School.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
+        public string Image {  get; set; }
         public List<StudentSubject> StudentSubjects { get; set; }
         public List<SubjectLevelDepartmentTerm> SubjeSubjectLevelDepartmentTermctLevels { get; set; }
         public List<TeacherSubject> TeachersSubject { get; set; }

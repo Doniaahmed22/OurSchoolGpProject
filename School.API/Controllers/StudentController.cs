@@ -41,8 +41,7 @@ namespace School.API.Controllers
             return Ok(student);
         }
 
-        [HttpPost]
-        [Route("AddStudent")]
+        [HttpPost("AddStudent")]
         public async Task<IActionResult> AddStudent (StudentDto studentDto)
         {
             if (studentDto == null)

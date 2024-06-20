@@ -13,12 +13,12 @@ namespace School.Repository.Repositories
     public class SubjectRepository:GenericRepository<Subject>,ISubjectRepository
     {
         public SubjectRepository(SchoolDbContext _context):base(_context) { }
-
+/*
         public IEnumerable<Teacher> GetTeachersOfSubject(int SubId)
         {
             return _context.TeacherSubjects.Include(ts=>ts.Teacher).Where(st=>st.SubjectId== SubId).Select(st=>st.Teacher);
         }
-
+*/
         public IEnumerable<Subject> GetSubjectsOfTeacher(int TeachId)
         {
             return _context.TeacherSubjects.Include(ts => ts.Subject)
@@ -30,6 +30,7 @@ namespace School.Repository.Repositories
                 .Include(tsc => tsc.Subject).Select(tsc => tsc.Subject).ToListAsync();
 
         }
+
 
     }
 }

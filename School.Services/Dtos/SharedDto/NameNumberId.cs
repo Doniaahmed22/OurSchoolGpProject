@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace School.Data.Entities
+namespace School.Services.Dtos.SharedDto
 {
-    public class Level:BaseEntity
+    public class NameNumberId
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int LevelNumber { get; set; }   
-        public double fees { get; set; }
-
-
-
+        public int number { get; set; }
     }
 }

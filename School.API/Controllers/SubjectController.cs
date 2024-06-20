@@ -31,11 +31,11 @@ namespace School.API.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(SubjectDto SubjectDto)
+        public async Task<IActionResult> Add(IFormFile? image,[FromForm]SubjectDto SubjectDto)
         {
             if(SubjectDto == null)
                 return BadRequest("subject is empty");
-            await SubjectServices.AddSubject(SubjectDto);
+            await SubjectServices.AddSubject(image,SubjectDto);
             return Ok();
         }
 
