@@ -20,11 +20,13 @@ namespace School.Services.Services.TeacherServices
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITeacherRepository teacherRepository;
         private readonly IFileService _fileService;
-        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper , IFileService fileService)
+        // private readonly IClassRepository _classRepository;
+        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper , IFileService fileService)//,IClassRepository classRepository)
         {
             _unitOfWork = unitOfWork;   
             teacherRepository = (TeacherRepository)_unitOfWork.repository<Teacher>();
             _fileService = fileService;
+           // _classRepository = classRepository;
         }
 
         public async Task<IEnumerable<TeacherDtoWithId>> GetTeachers(string name="")
@@ -56,24 +58,6 @@ namespace School.Services.Services.TeacherServices
             }
             return teachersDto ;
         }
-        /*
-        public async Task<GetAllDto> GetAll()
-        {
-            GetAllDto Dto = new GetAllDto();
-
-
-            var subjects =await _unitOfWork.repository<Subject>().GetAll();
-            foreach(var subject in subjects) {
-                Dto.Subjects.Add(new NameIdDto()
-                {
-                    Name = subject.Name
-                    ,
-                    Id = subject.Id
-                });
-            }
-            Dto.teachers = await GetTeachers();
-            return Dto ;
-        }*/
         public async Task<TeacherDtoWithId> GetTeacherById(int id)
         {
             
@@ -99,15 +83,21 @@ namespace School.Services.Services.TeacherServices
 
         }
 
-        public IEnumerable<SubLevelImage> GetTeacherSubjects(int teacherid)
+
+        public IEnumerable<SubLevelImage> GetTeacherSubjectsInLevel(int teacherid , int Levelid=0)
         {
             List<SubLevelImage> dto = new List<SubLevelImage>();
-            var teacherSubjectClassRecords = teacherRepository.GetTeacherSubjects(teacherid);
+            IEnumerable<TeacherSubjectClass> teacherSubjectClassRecords;
+            if(Levelid == 0) 
+                 teacherSubjectClassRecords = teacherRepository.GetTeacherSubjects(teacherid);
+            else
+                teacherSubjectClassRecords = teacherRepository.GetTeacherSubjectsInLevel(teacherid,Levelid);
+
             foreach (var recode in teacherSubjectClassRecords)
             {
                 SubLevelImage subLevelImage = new SubLevelImage();
                 string imgeName = recode.Subject.Image;
-                subLevelImage.image = _fileService.GetFullBase(GlobalStaticService.BaseSubFolderForImageSubject + "\\" + imgeName);
+                subLevelImage.image = _fileService.GetMediaUrl(GlobalStaticService.BaseImageSubject+recode.Subject.Image);
 
                 subLevelImage.Subject.Name = recode.Subject.Name;
                 subLevelImage.Subject.Id = recode.Subject.Id;
@@ -117,7 +107,41 @@ namespace School.Services.Services.TeacherServices
             }
             return dto;
         }
+        public IEnumerable<NameNumberId> GetTeacherLevels(int teacherid)
+        {
+            List<NameNumberId> dto = new List<NameNumberId>();
+            var Levels = teacherRepository.GetTeacherLevels(teacherid);
+            foreach (var Level in Levels)
+            {
+                dto.Add(new NameNumberId()
+                {
+                    Id = Level.Id,
+                    Name = Level.Name,
+                    number = Level.LevelNumber
+                });
+            }
+            dto.Add(new NameNumberId()
+            {
+                Id = 0,
+                Name = "All Level",
+            });
+            return dto;
+        }
 
+        public async Task<IEnumerable<NumIdDto>> GetTeacherClassesByLevelSubAsync(int teacherid, int levelid, int subjectid)
+        {
+            List<NumIdDto> teacherClassesDto = new List<NumIdDto>();
+            IEnumerable<Class> classes = await teacherRepository.GetTeacherClassesAsync(teacherid, levelid, subjectid);
+            foreach (Class class_ in classes)
+            {
+                teacherClassesDto.Add(new NumIdDto()
+                {
+                    Id = class_.Id,
+                    num = class_.Number,
+                });
+            }
+            return teacherClassesDto;
+        }
         public async Task AddTeacher(AddTeacherDto teacherDto)
         {
            var teacher=  new Teacher();

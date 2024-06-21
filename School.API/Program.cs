@@ -32,6 +32,8 @@ namespace School.API
                     policybuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             var app = builder.Build();
 /*
             // Configure the HTTP request pipeline.

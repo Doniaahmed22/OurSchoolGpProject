@@ -9,6 +9,6 @@ namespace School.Services.Services
     static class GlobalStaticService
     {
 
-        static public string BaseSubFolderForImageSubject = "wwwroot/SubjectImages";
+        static public string BaseImageSubject = "Uploads/SubjectImages/"; 
     }
 }

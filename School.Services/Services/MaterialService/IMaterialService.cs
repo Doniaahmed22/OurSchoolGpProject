@@ -13,7 +13,8 @@ namespace School.Services.Services.MaterialService
     {
         Task<string> UploadMaterial(IFormFile File, MaterialType materialType, MaterialAddDto dto);
         List<MaterialFieldDto> GetMaterialFields();
-        Task<GetMaterialForTeacherDto> GetMaterialsForTeacher(MaterialType MaterialType, int teacherid, int levelid, int subjectid);
+        Task<IEnumerable<MaterialWithClasses>> GetMaterialsForTeacher(MaterialType MaterialType, int teacherid, int levelid, int subjectid, int? classid = null);
+
         Task<(MemoryStream stream, string contentType, string fileName)> DownloadMaterial( int MaterialId);
         Task DeleteMaterial(int MaterialId);
 

@@ -36,5 +36,29 @@ namespace School.Repository.Repositories
                 .ToList();
         }
 
+        public IEnumerable<Level> GetTeacherLevels(int teacherid)
+        {
+            return _context.TeacherSubjectClasses.Include(c => c.Class).ThenInclude(c => c.Level)
+                .Where(tsc => tsc.TeacherId == teacherid).AsEnumerable()
+                .GroupBy(tsc => tsc.Class.Level.Id )
+                .Select(g => g.First())
+                .OrderBy(tsc => tsc.Class.Level.LevelNumber).Select(s=>s.Class.Level)
+                .ToList();
+        }
+        public IEnumerable<TeacherSubjectClass> GetTeacherSubjectsInLevel(int teacherid, int levelid)
+        {
+            return _context.TeacherSubjectClasses.Include(c => c.Class).ThenInclude(c => c.Level).Include(tsc=>tsc.Subject)
+                .Where(tsc => tsc.TeacherId == teacherid&& tsc.Class.LevelId== levelid).AsEnumerable()
+                .GroupBy(tsc => tsc.SubjectId)
+                .Select(g => g.First())
+                .OrderBy(tsc => tsc.Subject.Name)
+                .ToList();
+        }
+        public async Task<IEnumerable<Class>> GetTeacherClassesAsync(int teacherid, int levelid, int subjectid)
+        {
+            return await _context.TeacherSubjectClasses.Include(tsc => tsc.Class)
+                .Where(tsc => tsc.TeacherId == teacherid && tsc.SubjectId == subjectid && tsc.Class.LevelId == levelid).Select(tsc => tsc.Class).Distinct().ToListAsync();
+        }
+
     }
 }

@@ -11,6 +11,6 @@ namespace School.Services.Dtos.MaterialDto
     {
         public string MaterialName { get; set; }
         public int MaterialId { get; set; }
-        public List<NumIdDto> MaterialToClasses { get; set; } = new List<NumIdDto>();
+        public List<NumIdDto> ClassesTakeMaterial { get; set; } = new List<NumIdDto>();
     }
 }

@@ -32,7 +32,12 @@ namespace School.API.Controllers
             var material = await _materialService.GetMaterialsForTeacher(MaterialType , teacherid, LevelId, SubjectId);
             return Ok(material);
         }
-
+        [HttpGet("GetMaterialForTeacherInClass/{MaterialType:int}")]
+        public async Task<IActionResult> GetMaterialForTeacherInClass(MaterialType MaterialType, int teacherid, int LevelId, int SubjectId, int classid)
+        {
+            var material = await _materialService.GetMaterialsForTeacher(MaterialType, teacherid, LevelId, SubjectId, classid);
+            return Ok(material);
+        }
         [HttpGet("DownloadMaterial/{MaterialId:int}")]
         public async Task<IActionResult> DownloadMaterial( int MaterialId)
         {

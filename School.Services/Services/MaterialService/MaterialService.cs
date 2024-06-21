@@ -46,9 +46,12 @@ namespace School.Services.Services.MaterialService
 
             return MaterialFields;
         }
-        private List<MaterialWithClasses> GetMaterialWithClasses(List<Material> materials)
+
+        public async Task<IEnumerable<MaterialWithClasses>> GetMaterialsForTeacher(MaterialType MaterialType, int teacherid, int levelid ,int subjectid ,int? classid=null)
         {
-            List<MaterialWithClasses> materialWithClassesDto = new List<MaterialWithClasses>();
+            List<MaterialWithClasses> materialsWithClassesDto = new List<MaterialWithClasses>();
+            List<Material> materials= await _materialRepository.GetMaterialWithClassesAsync(MaterialType,teacherid, levelid,subjectid, classid);
+
             foreach (Material material in materials)
             {
                 MaterialWithClasses dto = new MaterialWithClasses();
@@ -56,34 +59,23 @@ namespace School.Services.Services.MaterialService
                 dto.MaterialName = material.MaterialName;
                 foreach (var classmaterial in material.ClassMaterials)
                 {
-                    dto.MaterialToClasses.Add(new NumIdDto()
-                         { num = classmaterial.Class.Number , Id = classmaterial.Class.Id }
+                    dto.ClassesTakeMaterial.Add(new NumIdDto()
+                    { num = classmaterial.Class.Number, Id = classmaterial.Class.Id }
                     );
                 }
-                materialWithClassesDto.Add(dto);
+                materialsWithClassesDto.Add(dto);
             }
-            return materialWithClassesDto;
+            return materialsWithClassesDto;
         }
-        public async Task<GetMaterialForTeacherDto> GetMaterialsForTeacher(MaterialType MaterialType, int teacherid, int levelid ,int subjectid )
-        {
-            GetMaterialForTeacherDto getMaterialForTeacherDto = new GetMaterialForTeacherDto();
-            List<Material> materials = await _materialRepository.GetMaterialWithClassesAsync(MaterialType,teacherid, levelid,subjectid);
-            getMaterialForTeacherDto.materialWithClasses= GetMaterialWithClasses(materials);
-            IEnumerable<Class>classes = await _classRepository.GetClassesWithTeacherLevelSubjectAsync(teacherid,levelid,subjectid);   
-            foreach (Class class_ in classes)
-            {
-                getMaterialForTeacherDto.TeacherClasses.Add(new NumIdDto(){
-                     Id = class_.Id,
-                     num = class_.Number,
-                });
-            }
-            return getMaterialForTeacherDto;
-        }
+
+
         public async Task< string> UploadMaterial(IFormFile File , MaterialType materialType, MaterialAddDto dto)
         {
             string[] allowedExtension= allowedRevisionExtensions;
             string subfolder = "";
-
+            Material mat = await _materialRepository.GetMaterialOfNameAsync(File.FileName, materialType, dto.TeacherId, dto.Levelid, dto.SubjectId);
+            if (mat != null)
+                return null;
             if (materialType==MaterialType.Video)
             {
                 allowedExtension = allowedVideoExtensions;

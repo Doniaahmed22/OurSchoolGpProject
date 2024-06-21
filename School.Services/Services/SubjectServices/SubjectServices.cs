@@ -54,7 +54,7 @@ namespace School.Services.Services.SubjectServices
             };
             if (image != null) 
             {
-               string fullpath=await _fileService.SaveFileAsync(image, allowedImageExtensions, GlobalStaticService.BaseSubFolderForImageSubject, true);
+               string fullpath=await _fileService.SaveFileAsync(image, allowedImageExtensions, GlobalStaticService.BaseImageSubject, true);
                imagename = Path.GetFileName(fullpath);
                subject.Image = imagename;
 

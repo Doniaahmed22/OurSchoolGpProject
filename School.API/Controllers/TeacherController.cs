@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using School.Services.Dtos.SubjectDto;
 using School.Services.Dtos.TeacherDto;
 using School.Services.Services.SubjectServices;
 using School.Services.Services.TeacherServices;
@@ -40,11 +41,40 @@ namespace School.API.Controllers
         [HttpGet("GetTeacherSubjects/{Teacherid:int}")]  //int teacher mode subject page =>retuen all subject in level that teacher teach
         public IActionResult GetTeacherSubjects(int Teacherid)
         {
-            var subject = TeacherServices.GetTeacherSubjects(Teacherid);
+            var subject = TeacherServices.GetTeacherSubjectsInLevel(Teacherid);
             if (subject == null)
                 return NotFound();
             return Ok(subject);
         }
+
+        [HttpGet("GetTeacherLevel/{Teacherid:int}")]  //int teacher mode subject page =>GetAllLevelThatTeache teach in
+        public IActionResult GetTeacherLevel(int Teacherid)
+        {
+            var Levels = TeacherServices.GetTeacherLevels(Teacherid);
+            if (Levels == null)
+                return NotFound();
+            return Ok(Levels);
+        }
+
+
+        [HttpGet("GetTeacherSubjectsInLevel/{Teacherid:int}/{Levelid:int}")]  //in teacher mode subject page =>GetAll subject in  specific level teach 
+        public IActionResult GetTeacherSubjectsInLevel(int Teacherid,int Levelid)
+        {
+            var subjects = TeacherServices.GetTeacherSubjectsInLevel(Teacherid,Levelid);
+            if (subjects == null)
+                return NotFound();
+            return Ok(subjects);
+        }
+       
+        [HttpGet("GetTeacherClassesByLevelSubject/{Teacherid:int}")]  //in teacher mode material page =>GetAll classes in  specific level and subject teach 
+        public async Task< IActionResult> GetTeacherClassesByLevelSubject(int Teacherid, int Levelid,int subjectid)
+        {
+            var classes = await TeacherServices.GetTeacherClassesByLevelSubAsync (Teacherid, Levelid, subjectid);
+            if (classes == null)
+                return NotFound();
+            return Ok(classes);
+        } 
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddTeacher(AddTeacherDto teacherDto)
         {

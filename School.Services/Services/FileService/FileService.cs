@@ -13,10 +13,13 @@ namespace School.Services.Services.FileService
     {
 
         private readonly IWebHostEnvironment _environment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public FileService(IWebHostEnvironment environment)
+        public FileService(IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
             _environment = environment;
+            _httpContextAccessor = httpContextAccessor;
+
         }
         public async Task<string> SaveFileAsync(IFormFile File, string[] allowedFileExtensions ,string subfolder,bool AllowedRepeatedFilename )
         {
@@ -52,8 +55,9 @@ namespace School.Services.Services.FileService
             {
                 var fileName = File.FileName;
                 fileNameWithPath = Path.Combine(path, fileName);
+                /*
                 if (System.IO.File.Exists(fileNameWithPath))
-                   return null;
+                   return null;*/
             }
          
             using var stream = new FileStream(fileNameWithPath, FileMode.Create);
@@ -115,6 +119,13 @@ namespace School.Services.Services.FileService
             var contentPath = _environment.ContentRootPath;
             var filePath = Path.Combine(contentPath, sub);
             return filePath;
+        }
+
+        public string GetMediaUrl(string mediaContent)
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            var baseUrl = $"{request.Scheme}://{request.Host}";
+            return $"{baseUrl}/{mediaContent}";
         }
         public void DeleteFile(string subpath)
         {
