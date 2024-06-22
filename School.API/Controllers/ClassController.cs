@@ -9,14 +9,16 @@ using School.Services.Services.ClassServices;
 
 namespace School.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ClassController : ControllerBase
     {
         private readonly IClassServices classServices;
-        public ClassController(IClassServices classServices)
+       // private readonly IClassRecordServices ClassRecordServices;
+        public ClassController(IClassServices classServices)//, IClassRecordServices ClassRecordServices
         {
             this.classServices = classServices;
+            //this.ClassRecordServices = ClassRecordServices;
         }
 
         [HttpGet]

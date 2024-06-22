@@ -12,6 +12,8 @@ namespace School.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string GmailAddress { get; set; }
         public string Religion { get; set; }
         public DateTime BirthDay { get; set; }
         public int Age { get; set; }

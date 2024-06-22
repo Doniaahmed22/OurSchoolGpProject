@@ -20,6 +20,9 @@ using School.Services.Services.MaterialService;
 using School.Services.Services.DepartmentService;
 using School.Services.Services.LevelService;
 using School.Services.Services.TermService;
+using School.Services.Tokens;
+using School.Services.UserService;
+using School.Services.EmailServices;
 
 namespace School.API.Extensions
 {
@@ -50,6 +53,12 @@ namespace School.API.Extensions
             services.AddScoped<IdepartmentService, DepartmentService>();
             services.AddScoped<ILevelService, LevelService>();
             services.AddScoped<Services.Services.TermService.ITermService, TermService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailService, EmailService>();
+
+
+
 
             services.AddAutoMapper(typeof(MappingProfile));
 

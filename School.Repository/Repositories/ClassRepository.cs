@@ -55,6 +55,5 @@ namespace School.Repository.Repositories
 
         }
 
-
     }
 }
