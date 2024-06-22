@@ -10,6 +10,7 @@ namespace School.Services.Dtos.ParentDto
     {
         public string Name { get; set; }
         public string? Email { get; set; }
+        public string GmailAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
     }

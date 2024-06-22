@@ -15,6 +15,11 @@ namespace School.Services.UserService.Dtos
         [EmailAddress]
         public string Email { get; set; }
         [Required]
+        [EmailAddress]
+        public string GmailAddress { get; set; }
+
+
+        [Required]
         public string Password { get; set; }
 
     }

@@ -62,6 +62,7 @@ namespace School.API.Controllers
             RegisterDto registerDto = new RegisterDto
             {
                 DisplayName = studentDto.Name,
+                GmailAddress = studentDto.GmailAddress,
                 Email = studentDto.Name.Split(" ")[0] + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year+"@gmail.com",
                 Password = studentDto.Name.Split(" ")[0].ToUpper() + studentDto.Name.Split(" ")[1].ToLower() + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year + "!",
             };

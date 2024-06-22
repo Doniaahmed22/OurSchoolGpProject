@@ -38,6 +38,8 @@ namespace School.Services.Services.TeacherServices
                 TeacherDtoWithId teacherDto = new TeacherDtoWithId();
                 teacherDto.Id = teacher.Id;
                 teacherDto.Name = teacher.Name; 
+                teacherDto.GmailAddress = teacher.GmailAddress;
+                teacherDto.Email = teacher.Email;
                 teacherDto.BirthDay = teacher.BirthDay;
                 teacherDto.PhoneNumber = teacher.PhoneNumber;
                 teacherDto.Nationality = teacher.Nationality;
@@ -101,7 +103,8 @@ namespace School.Services.Services.TeacherServices
            teacher.Name = teacherDto.Name;
            teacher.BirthDay = teacherDto.BirthDay;
             teacher.Email = teacherDto.Email;
-           teacher.PhoneNumber = teacherDto.PhoneNumber;
+            teacher.GmailAddress = teacherDto.GmailAddress;
+            teacher.PhoneNumber = teacherDto.PhoneNumber;
            teacher.Nationality = teacherDto.Nationality;
            teacher.Gender = teacherDto.Gender;
            teacher.Degree = teacherDto.Degree;

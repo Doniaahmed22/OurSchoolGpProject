@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using School.Data.Entities.Identity;
+using School.Services.EmailServices;
 using School.Services.Tokens;
 using School.Services.UserService.Dtos;
 
@@ -10,12 +11,14 @@ namespace School.Services.UserService
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly EmailService _emailService;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
         public async Task<UserDto> Login(LoginDto input)
         {
@@ -66,6 +69,15 @@ namespace School.Services.UserService
             }
 
             await _userManager.AddToRoleAsync(appUser , role);
+
+            var receiver = input.GmailAddress;
+            // Prepare email
+            string subject = "Welcome to Our Service";
+            string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+
+            // Send email
+            await _emailService.SendEmailAsync(receiver, subject, body);
+            
 
 
             return new UserDto

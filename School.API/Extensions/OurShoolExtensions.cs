@@ -19,6 +19,7 @@ using System;
 using School.Services.Services.MaterialService;
 using School.Services.Tokens;
 using School.Services.UserService;
+using School.Services.EmailServices;
 
 namespace School.API.Extensions
 {
@@ -45,6 +46,7 @@ namespace School.API.Extensions
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailService, EmailService>();
 
 
 

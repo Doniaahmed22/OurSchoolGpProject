@@ -63,6 +63,7 @@ namespace School.API.Controllers
             RegisterDto registerDto = new RegisterDto
             {
                 DisplayName = parentDto.Name,
+                GmailAddress = parentDto.GmailAddress,
                 Email = parentDto.Name.Split(" ")[0] + parentDto.PhoneNumber+"@gmail.com",
                 Password = parentDto.Name.Split(" ")[0].ToUpper()+ parentDto.Name.Split(" ")[1].ToLower() + parentDto.PhoneNumber+ "!",
             };

@@ -4,6 +4,8 @@ using School.API.Extensions;
 using School.Data.Context;
 using School.Data.Entities.Identity;
 using School.Repository.SeedData;
+using School.Services.Dtos.EmailSending;
+using School.Services.EmailServices;
 
 namespace School.API
 {
@@ -27,10 +29,24 @@ namespace School.API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
+
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //.AddEntityFrameworkStores<AppUser>();
+
+            builder.Services.AddControllersWithViews();
+
+
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<SchoolIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Configuration.AddEnvironmentVariables();
+
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddSingleton<EmailService>();
+            builder.Services.AddLogging();
+            //builder.Services.AddSingleton<EmailService>();
 
             builder.Services.AddSchoolServices();
             builder.Services.AddIdentityServices(builder.Configuration);

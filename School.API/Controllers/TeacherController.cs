@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities.Identity;
+using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.StudentDto;
 using School.Services.Dtos.TeacherDto;
 using School.Services.Services.TeacherServices;
@@ -60,6 +61,7 @@ namespace School.API.Controllers
             RegisterDto registerDto = new RegisterDto
             {
                 DisplayName = teacherDto.Name,
+                GmailAddress = teacherDto.GmailAddress,
                 Email = teacherDto.Name.Split(" ")[0]+ teacherDto.Name.Split(" ")[1] + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "@gmail.com",
                 Password = teacherDto.Name.Split(" ")[0].ToUpper() + teacherDto.Name.Split(" ")[1].ToLower() + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "!",
             };
