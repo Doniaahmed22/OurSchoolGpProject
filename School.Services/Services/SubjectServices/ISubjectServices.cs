@@ -14,8 +14,10 @@ namespace School.Services.Services.SubjectServices
     {
         Task<IEnumerable<SubjectDtoWithId>> GetAllSubject();
         Task<SubjectDtoWithId> GetSubjectById(int id);
+        Task<IEnumerable<SubIdNameImg>> GetSubjectsByStudId(int StudId);
+
         Task AddSubject(IFormFile image, SubjectDto SubDto);
-         Task<Subject> DeleteSubject(int id);
+        Task<Subject> DeleteSubject(int id);
         Task<Subject> UpdateSubject(int id, SubjectDto SubDto);
         Task<IEnumerable<NameIdDto>> GetSubjectsByClassTeacher(int classid, int teacherid);
 

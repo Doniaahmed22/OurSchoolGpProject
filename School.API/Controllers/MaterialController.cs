@@ -38,6 +38,16 @@ namespace School.API.Controllers
             var material = await _materialService.GetMaterialsForTeacher(MaterialType, teacherid, LevelId, SubjectId, classid);
             return Ok(material);
         }
+        ////////
+        [HttpGet("GetMaterialForStudent/{MaterialType:int}")]
+        public async Task<IActionResult> GetMaterialForStudent(MaterialType MaterialType, int SubjectId, int StudentId)
+        {   
+            var material = await _materialService.GetMaterialForStudent(MaterialType, SubjectId, StudentId);
+            if(material == null)
+                return NotFound();
+            return Ok(material);
+        }
+
         [HttpGet("DownloadMaterial/{MaterialId:int}")]
         public async Task<IActionResult> DownloadMaterial( int MaterialId)
         {

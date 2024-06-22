@@ -35,6 +35,8 @@ namespace School.API.Extensions
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<ISchoolRepository, SchoolRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
 
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IParentServices, ParentServices>();

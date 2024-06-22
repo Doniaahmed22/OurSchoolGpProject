@@ -36,5 +36,13 @@ namespace School.Repository.Repositories
         {
             return await _context.Materials.FirstOrDefaultAsync(m =>m.MaterialName==matrialname && m.Type == materialType && m.TeacherId == teacherid && m.SubjectId == subjectid && m.Levelid == levelid);
         }
+        public async Task<IEnumerable<Material>> GetMaterialForStudent(MaterialType MaterialType, int SubjectId, int class_id)
+        {
+            return await _context.Materials.Include(m=>m.ClassMaterials)
+                .Where(m=>m.Type == MaterialType&&m.SubjectId==SubjectId&&
+                m.ClassMaterials.Any(cm=>cm.ClassId==class_id)).OrderBy(m=>m.MaterialName)
+                .ToListAsync();
+        }
+
     }
 }

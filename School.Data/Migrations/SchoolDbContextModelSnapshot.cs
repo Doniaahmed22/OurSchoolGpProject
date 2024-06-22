@@ -40,7 +40,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Attendences");
+                    b.ToTable("Attendences", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>
@@ -69,7 +69,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.ClassMaterial", b =>
@@ -84,7 +84,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("ClassMaterials");
+                    b.ToTable("ClassMaterials", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Department", b =>
@@ -101,7 +101,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Level", b =>
@@ -112,9 +112,6 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("LevelNumber")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -124,7 +121,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Levels");
+                    b.ToTable("Levels", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Material", b =>
@@ -159,7 +156,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Materials");
+                    b.ToTable("Materials", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Parent", b =>
@@ -190,7 +187,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parents");
+                    b.ToTable("Parents", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.SchoolInfo", b =>
@@ -219,7 +216,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("CurrentTerm");
 
-                    b.ToTable("SchoolInfo");
+                    b.ToTable("SchoolInfo", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Student", b =>
@@ -288,7 +285,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.StudentSubject", b =>
@@ -312,7 +309,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentSubjects");
+                    b.ToTable("StudentSubjects", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Subject", b =>
@@ -323,19 +320,13 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Default.jpeg");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.SubjectLevelDepartmentTerm", b =>
@@ -368,7 +359,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TermId");
 
-                    b.ToTable("SubjectLevelDepartmentTerms");
+                    b.ToTable("SubjectLevelDepartmentTerms", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Teacher", b =>
@@ -415,7 +406,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubject", b =>
@@ -430,7 +421,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("TeacherSubjects");
+                    b.ToTable("TeacherSubjects", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubjectClass", b =>
@@ -458,7 +449,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeacherSubjectClasses");
+                    b.ToTable("TeacherSubjectClasses", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Term", b =>
@@ -479,12 +470,9 @@ namespace School.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("termNumber")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Terms");
+                    b.ToTable("Terms", (string)null);
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendence", b =>

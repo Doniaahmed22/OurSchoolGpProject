@@ -11,6 +11,7 @@ namespace School.Repository.Interfaces
     {
         Task<List<Material>> GetMaterialWithClassesAsync(MaterialType materialType, int teacherid, int levelid, int subjectid, int? classid = null);
         Task<Material> GetMaterialOfNameAsync(string matrialname, MaterialType materialType, int teacherid, int levelid, int subjectid);
+        Task<IEnumerable<Material>> GetMaterialForStudent(MaterialType MaterialType, int SubjectId, int class_id);
 
     }
 }

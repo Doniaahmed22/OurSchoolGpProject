@@ -18,6 +18,7 @@ namespace School.Services.Services.MaterialService
     {
         private readonly IFileService _fileService;
         private readonly IMaterialRepository _materialRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IClassRepository _classRepository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,12 +29,14 @@ namespace School.Services.Services.MaterialService
         string[] allowedExamExtensions = { ".docx", ".pdf"};
         string[] allowedRevisionExtensions = { ".txt", ".doc", ".docx", ".pdf", ".pptx", ".ppt"  };
 
-        public MaterialService(IFileService fileService , IMaterialRepository materialRepository,IClassRepository classRepository, IUnitOfWork unitOfWork)
+        public MaterialService(IFileService fileService , IMaterialRepository materialRepository,
+            IClassRepository classRepository, IUnitOfWork unitOfWork, IStudentRepository studentRepository)
         {
             _fileService = fileService;
             _unitOfWork = unitOfWork;
             _materialRepository = materialRepository;
             _classRepository = classRepository;
+            _studentRepository = studentRepository;
         }
         public List<MaterialFieldDto> GetMaterialFields()
         {
@@ -68,7 +71,20 @@ namespace School.Services.Services.MaterialService
             return materialsWithClassesDto;
         }
 
-
+        public async Task<IEnumerable<NameIdDto>> GetMaterialForStudent(MaterialType MaterialType,int SubjectId,int StudentId)
+        {
+            List<NameIdDto> MaterialsDto = new List<NameIdDto>();
+            var student = await _studentRepository.GetById(StudentId);
+            
+            if(student.ClassId==null)
+                return null;
+            IEnumerable<Material>materials= await _materialRepository.GetMaterialForStudent(MaterialType, SubjectId, student.ClassId.Value);
+            foreach (Material material in materials)
+            {
+                MaterialsDto.Add(new NameIdDto() { Id = material.Id , Name = material.MaterialName });
+            }
+            return MaterialsDto;
+        }
         public async Task< string> UploadMaterial(IFormFile File , MaterialType materialType, MaterialAddDto dto)
         {
             string[] allowedExtension= allowedRevisionExtensions;
