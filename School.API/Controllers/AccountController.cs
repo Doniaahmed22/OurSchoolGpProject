@@ -1,29 +1,49 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using School.Data.Entities.Identity;
 using School.Services.EmailServices;
+using School.Services.Tokens;
 using School.Services.UserService;
 using School.Services.UserService.Dtos;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace School.API.Controllers
 {
-    
+
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
         private readonly EmailService _emailService;
+        private readonly TokenBlacklistService _tokenBlacklistService;
+        private readonly IConfiguration _configuration;
+        private readonly TokenValidationParameters _tokenValidationParameters;
 
-        public AccountController(IUserService userService, UserManager<AppUser> userManager, EmailService emailService)
+
+        public AccountController(IUserService userService, UserManager<AppUser> userManager, EmailService emailService, TokenBlacklistService tokenBlacklistService, IConfiguration configuration)
         {
             _userService = userService;
             _userManager = userManager;
             _emailService = emailService;
+            _tokenBlacklistService = tokenBlacklistService;
+            _configuration = configuration;
+            _tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration["Token:Issuer"],
+                ValidAudience = _configuration["Token:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
+            };
+
+
         }
 
         [HttpPost]
@@ -73,7 +93,7 @@ namespace School.API.Controllers
         }
 
 
-        /*
+        
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
         {
@@ -82,7 +102,6 @@ namespace School.API.Controllers
                 return BadRequest("User not found");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            //var resetUrl = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
             var resetUrl = $"{Request.Scheme}://{Request.Host}/api/account/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(model.GmailAddress)}";
 
 
@@ -90,8 +109,7 @@ namespace School.API.Controllers
 
             return Ok("Password reset link has been sent to your email");
         }
-        */
-
+        
 
 
         [HttpPost("ChangePassword")]
@@ -118,5 +136,41 @@ namespace School.API.Controllers
             }
         }
 
+
+
+        [HttpPost("signout")]
+        public IActionResult SignOut()
+        {
+
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return BadRequest("Authorization header is missing.");
+            }
+
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is missing.");
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                // Validate the token
+                tokenHandler.ValidateToken(token, _tokenValidationParameters, out SecurityToken validatedToken);
+
+                // If valid, blacklist the token
+                _tokenBlacklistService.BlacklistToken(token);
+
+                return Ok("Signed out successfully.");
+            }
+            catch (SecurityTokenException)
+            {
+                return Unauthorized("Invalid token.");
+            }
+
+
+        }
     }
 }

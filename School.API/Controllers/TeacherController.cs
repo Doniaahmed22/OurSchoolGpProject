@@ -13,6 +13,7 @@ using School.Services.Services.TeacherServices;
 using School.Services.UserService;
 using School.Services.UserService.Dtos;
 using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace School.API.Controllers
 {
@@ -32,12 +33,16 @@ namespace School.API.Controllers
             _userService = userService;
             _userManager = userManager;
         }
+
         [HttpGet("GetAll")]
+        [Authorize(Roles ="Teacher")]
         public async Task<IActionResult> GetAllTeacher() 
         {
             var teachers = await TeacherServices.GetTeachers();
             return Ok(teachers);
         }
+
+
         [HttpGet("GetById/{id:int}")]
         public async Task<IActionResult> GetTeacherById(int id)// ??teacher level- subjects and level - subjects and class
         {
@@ -47,12 +52,15 @@ namespace School.API.Controllers
             return Ok(teacher);
         }
 
+
         [HttpGet("SearchForTeacher/{name:alpha}")]
         public async Task<IActionResult> GetTeachersByName(string name)
         {
             var teachers = await TeacherServices.GetTeachers(name);
             return Ok(teachers);
         }
+        
+        
         [HttpGet("GetTeacherSubjects/{Teacherid:int}")]  //int teacher mode subject page =>retuen all subject in level that teacher teach
         public IActionResult GetTeacherSubjects(int Teacherid)
         {
@@ -61,6 +69,7 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(subject);
         }
+
 
         [HttpGet("GetTeacherLevel/{Teacherid:int}")]  //int teacher mode subject page =>GetAllLevelThatTeache teach in
         public IActionResult GetTeacherLevel(int Teacherid)
@@ -81,6 +90,7 @@ namespace School.API.Controllers
             return Ok(subjects);
         }
        
+
         [HttpGet("GetTeacherClassesByLevelSubject/{Teacherid:int}")]  //in teacher mode material page =>GetAll classes in  specific level and subject teach 
         public async Task< IActionResult> GetTeacherClassesByLevelSubject(int Teacherid, int Levelid,int subjectid)
         {
@@ -89,6 +99,7 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(classes);
         } 
+
 
         [HttpPost("Add")]
         public async Task<IActionResult> AddTeacher(AddTeacherDto teacherDto)
@@ -100,15 +111,17 @@ namespace School.API.Controllers
             {
                 DisplayName = teacherDto.Name,
                 GmailAddress = teacherDto.GmailAddress,
-                Email = teacherDto.Name.Split(" ")[0]+ teacherDto.Name.Split(" ")[1] + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "@gmail.com",
+                Email = teacherDto.Name.Split(" ")[0]+ teacherDto.Name.Split(" ")[1] + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "@school.com",
                 Password = teacherDto.Name.Split(" ")[0].ToUpper() + teacherDto.Name.Split(" ")[1].ToLower() + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "!",
             };
-            _userService.Register(registerDto,"Teacher");
+            await _userService.Register(registerDto,"Teacher");
 
             teacherDto.Email = registerDto.Email;
             await TeacherServices.AddTeacher(teacherDto);
             return Ok(teacherDto);
         }
+
+
         [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateTeacher(int id , AddTeacherDto teacherDto)
         {
@@ -119,7 +132,6 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok();
         }
-
 
 
         [HttpDelete("Delete/{id:int}")]
