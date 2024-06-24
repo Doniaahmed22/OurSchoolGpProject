@@ -1,12 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using School.API.Extensions;
 using School.Data.Context;
 using School.Data.Entities.Identity;
 using School.Repository.SeedData;
 using School.Services.Dtos.EmailSending;
 using School.Services.EmailServices;
+using School.Services.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace School.API
 {
@@ -31,11 +36,7 @@ namespace School.API
             });
 
 
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //.AddEntityFrameworkStores<AppUser>();
-
             builder.Services.AddControllersWithViews();
-
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<SchoolIdentityDbContext>()
@@ -56,8 +57,8 @@ namespace School.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerDocumentation();
-            //builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerDocumentation();
+            builder.Services.AddSwaggerGen();
 
 
             builder.Services.AddCors(corsoption =>
@@ -69,13 +70,60 @@ namespace School.API
             });
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            builder.Services.AddSingleton<TokenBlacklistService>();
+
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole",policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireParentRole",policy => policy.RequireRole("Parent"));
-                options.AddPolicy("RequireStudentRole",policy => policy.RequireRole("Student"));
-                options.AddPolicy("RequireTeacherRole",policy => policy.RequireRole("Teacher"));
-            });
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireParentRole", policy => policy.RequireRole("Parent"));
+                options.AddPolicy("RequireStudentRole", policy => policy.RequireRole("Student"));
+                options.AddPolicy("RequireTeacherRole", policy => policy.RequireRole("Teacher"));
+            })
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        ValidAudience = builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:Key"])),
+                        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) =>
+                        {
+                            var tokenBlacklistService = builder.Services.BuildServiceProvider().GetRequiredService<TokenBlacklistService>();
+                            var jwtToken = securityToken as JwtSecurityToken;
+                            if (jwtToken != null && tokenBlacklistService.IsTokenBlacklisted(jwtToken.RawData))
+                            {
+                                return false;
+                            }
+                            return expires != null && expires > DateTime.UtcNow;
+                        }
+                    };
+
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = context =>
+                        {
+                            var tokenBlacklistService = context.HttpContext.RequestServices.GetRequiredService<TokenBlacklistService>();
+                            var token = context.SecurityToken as JwtSecurityToken;
+                            if (token != null && tokenBlacklistService.IsTokenBlacklisted(token.RawData))
+                            {
+                                context.Fail("This token is blacklisted.");
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+            //builder.Services.AddScoped<UserRoleFilter>(); // Register the custom action filter
+
 
             var app = builder.Build();
 
@@ -88,6 +136,18 @@ namespace School.API
 
             app.UseCors("MyPolicy");
 
+            /*
+            //builder.Services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            //    options.AddPolicy("RequireParentRole", policy => policy.RequireRole("Parent"));
+            //    options.AddPolicy("RequireStudentRole", policy => policy.RequireRole("Student"));
+            //    options.AddPolicy("RequireTeacherRole", policy => policy.RequireRole("Teacher"));
+            //});
+            */
+
+
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 

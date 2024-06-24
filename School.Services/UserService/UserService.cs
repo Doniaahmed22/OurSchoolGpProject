@@ -20,30 +20,35 @@ namespace School.Services.UserService
             _tokenService = tokenService;
             _emailService = emailService;
         }
-        public async Task<UserDto> Login(LoginDto input)
-        {
-            var user = await _userManager.FindByEmailAsync(input.Email);
 
-            if(user is null)
+
+        public async Task<string> Login(LoginDto loginDto)
+        {
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
             {
                 return null;
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, input.Password, false);
-            
-            if(!result.Succeeded)
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+            if (!result.Succeeded)
             {
-                throw new Exception("login failed");
-      
+                return null;
             }
-            return new UserDto
-            {
-                Email = user.Email,
-                DisplayName = user.DisplayName,
-                Token = _tokenService.GenerateToken(user)
-            };
 
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count != 1)
+            {
+                return null;
+            }
+
+
+
+            var token = _tokenService.GenerateToken(user, roles.First());
+
+            return token;
         }
+
 
         public async Task<UserDto> Register(RegisterDto input , string role)
         {
@@ -68,23 +73,24 @@ namespace School.Services.UserService
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            await _userManager.AddToRoleAsync(appUser , role);
-
             var receiver = input.GmailAddress;
             // Prepare email
             string subject = "Welcome to Our Service";
             string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
 
             // Send email
-            await _emailService.SendEmailAsync(receiver, subject, body);
-            
-
+            await _emailService.SendEmailAsync(receiver, subject, body);           
+                        
+            if( !(await _userManager.AddToRoleAsync(appUser , role)).Succeeded  )
+            {
+                throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
+            }
 
             return new UserDto
             {
                 Email = input.Email,
                 DisplayName = input.DisplayName,
-                Token = _tokenService.GenerateToken(appUser)
+                Token = _tokenService.GenerateToken(appUser, role)
             };
 
         }

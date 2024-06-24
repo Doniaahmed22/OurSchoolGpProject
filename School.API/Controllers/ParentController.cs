@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using School.Data.Context;
-using School.Data.Entities;
 using School.Data.Entities.Identity;
 using School.Services.Dtos.ParentDto;
-using School.Services.Dtos.StudentDto;
 using School.Services.Services.ParentServices;
-using School.Services.Services.StudentServices;
+using School.Services.Tokens;
 using School.Services.UserService;
 using School.Services.UserService.Dtos;
+using System.Text;
 
 namespace School.API.Controllers
 {
@@ -22,22 +21,42 @@ namespace School.API.Controllers
         private readonly SchoolDbContext _context;
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public ParentController(IParentServices parentServices , SchoolDbContext context , IUserService userService, UserManager<AppUser> userManager)
+
+        public ParentController(IParentServices parentServices , SchoolDbContext context , IUserService userService, UserManager<AppUser> userManager, IConfiguration configuration)
         {
             _parentServices = parentServices;
             _context = context;
             _userService = userService;
             _userManager = userManager;
+            _configuration = configuration;
+
         }
 
+
+        
         [HttpGet]
         [Route("GetParents")]
+        [Authorize(Roles ="Parent")]
         public async Task<ActionResult<IEnumerable<ParentDtoWithId>>> GetParents()
+        {
+            
+            var Parents = await _parentServices.GetAllParents();
+            return Ok(Parents);
+        }
+
+
+        [HttpGet]
+        [Route("GetAllParents")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<ParentDtoWithId>>> GetAllParents()
         {
             var Parents = await _parentServices.GetAllParents();
             return Ok(Parents);
         }
+
+
 
         [HttpGet]
         [Route("GetParentById/{id}")]
@@ -50,6 +69,7 @@ namespace School.API.Controllers
             }
             return Ok(parent);
         }
+
 
         [HttpPost]
         [Route("AddParent")]
@@ -64,15 +84,16 @@ namespace School.API.Controllers
             {
                 DisplayName = parentDto.Name,
                 GmailAddress = parentDto.GmailAddress,
-                Email = parentDto.Name.Split(" ")[0] + parentDto.PhoneNumber+"@gmail.com",
+                Email = parentDto.Name.Split(" ")[0] + parentDto.PhoneNumber+"@school.com",
                 Password = parentDto.Name.Split(" ")[0].ToUpper()+ parentDto.Name.Split(" ")[1].ToLower() + parentDto.PhoneNumber+ "!",
             };
 
-            _userService.Register(registerDto, "Parent");
+            await _userService.Register(registerDto, "Parent");
 
             parentDto.Email = registerDto.Email;
 
             await _parentServices.AddParent(parentDto);
+
             return Ok(parentDto);
         }
 

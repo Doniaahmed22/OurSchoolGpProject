@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
@@ -32,6 +33,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetStudents")]
+        [Authorize(Roles ="Student")]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
             var students = await _studentServices.GetAllStudents();
@@ -63,11 +65,11 @@ namespace School.API.Controllers
             {
                 DisplayName = studentDto.Name,
                 GmailAddress = studentDto.GmailAddress,
-                Email = studentDto.Name.Split(" ")[0] + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year + "@gmail.com",
+                Email = studentDto.Name.Split(" ")[0] + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year+"@school.com",
                 Password = studentDto.Name.Split(" ")[0].ToUpper() + studentDto.Name.Split(" ")[1].ToLower() + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year + "!",
             };
 
-            _userService.Register(registerDto, "Student");
+            await _userService.Register(registerDto,"Student");
             studentDto.Email = registerDto.Email;
             await _studentServices.AddStudent(studentDto);
             return Ok(studentDto);
@@ -102,30 +104,25 @@ namespace School.API.Controllers
                         break;
                     }
                 }
-                //if (flag == false)
-                //{
-                //    var parent = await _context.Parents.FindAsync(student.ParentId);
-                //    _context.Parents.Remove(parent);
+                if (flag == false)
+                {
+                    var parent = await _context.Parents.FindAsync(student.ParentId);
+                    var par = await _userManager.FindByEmailAsync(parent.Email);
 
-                //}
+                    _userManager.DeleteAsync(par);
+                    _context.Parents.Remove(parent);
+
+                }
             }
 
-            var user = await _userManager.FindByEmailAsync(student.Email);
 
-            if (user is null)
+            var user2 = await _userManager.FindByEmailAsync(student.Email);
+
+            if (user2 is null)
             {
                 throw new Exception("User Email not found");
             }
-
-            if (flag == false)
-            {
-                var parent = await _context.Parents.FindAsync(student.ParentId);
-                var par = await _userManager.FindByEmailAsync(parent.Email);
-                await _userManager.DeleteAsync(par);
-                _context.Parents.Remove(parent);
-
-            }
-            await _userManager.DeleteAsync(user);
+            _userManager.DeleteAsync(user2);
 
             await _studentServices.DeleteStudent(id);
             return Ok();

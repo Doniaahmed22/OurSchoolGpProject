@@ -61,6 +61,7 @@ namespace School.API.Extensions
             services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            //services.AddTransient<IGetToken, GetToken>();
 
 
 

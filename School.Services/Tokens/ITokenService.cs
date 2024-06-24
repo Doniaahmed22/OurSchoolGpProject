@@ -9,6 +9,6 @@ namespace School.Services.Tokens
 {
     public interface ITokenService
     {
-        string GenerateToken(AppUser appUser);
+        string GenerateToken(AppUser user, string role);
     }
 }
