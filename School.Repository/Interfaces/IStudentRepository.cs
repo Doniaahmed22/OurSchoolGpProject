@@ -17,6 +17,8 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<Student>> GetStudentsByClassId(int ClassId);
         Task<IEnumerable<StudentWithAbsentDays>> GetStudentsWithAbsentDays();
        Task<Student> GetStudentWithAttendanceById(int stuId);
+        Task<IEnumerable<Student>> GetStudentsWithParentByClassID(int ClassId);
+        Task<IEnumerable<Student>> SeacrhStudentsByClassIDStudentName(int ClassId, string studentName);
 
 
     }

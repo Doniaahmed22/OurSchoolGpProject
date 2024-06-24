@@ -116,7 +116,7 @@ namespace School.Services.Services.StudentServices
         {
             List<AbsentDaysDto> StudentDtos = new List<AbsentDaysDto>();
             var students = await studentRepository.GetStudentsWithAbsentDays();
-            foreach(var student in students)
+            foreach (var student in students)
             {
                 AbsentDaysDto studentWithAbs = new AbsentDaysDto();
                 studentWithAbs.StudnetId = student.student.Id;
@@ -124,12 +124,41 @@ namespace School.Services.Services.StudentServices
                 studentWithAbs.LevelNum = student.student.Level.LevelNumber;
                 studentWithAbs.DepartmentName = student.student.Department.Name;
                 studentWithAbs.ClassNum = student.student.Class.Number;
-             
+
                 studentWithAbs.AbsentDays = student.AbsentDays;
                 studentWithAbs.AbsenceWarning = student.AbsenceWarning;
                 StudentDtos.Add(studentWithAbs);
             }
             return StudentDtos;
+        }
+        public async Task<IEnumerable<StudentWithParentDto>> GetStudentsWithParentByClassID(int ClassId , string studentname=null)
+        {
+            List<StudentWithParentDto> studentsDtos = new List<StudentWithParentDto>();
+            IEnumerable<Student> Students;
+
+            if(studentname==null)
+                Students = await studentRepository.GetStudentsWithParentByClassID(ClassId);
+            else
+                Students = await studentRepository.SeacrhStudentsByClassIDStudentName(ClassId,studentname);
+
+            if (Students == null)
+                return null;
+            foreach (Student student in Students)
+            {
+                StudentWithParentDto s = new StudentWithParentDto();
+
+                s.StudentId = student.Id;
+                s.StudentName = student.Name;
+                if (student.Parent != null)
+                {
+                    s.ParentPhoneNumber = student.Parent.PhoneNumber;
+                    s.ParentName = student.Parent.Name;
+                    s.ParentId = student.Parent.Id;
+                }
+
+                studentsDtos.Add(s);
+            }
+            return studentsDtos;
         }
 
     }

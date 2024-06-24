@@ -33,8 +33,8 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(record);
         }
-        [HttpGet("Search/{name:alpha}")]
-        public async Task<ActionResult<IEnumerable<SubjectRecordDto>>> GetRecordById(string name)
+        [HttpGet("Search/{name}")]
+        public async Task<ActionResult<IEnumerable<SubjectRecordDto>>> GetRecordByName(string name)
         {
 
             var records = await subjectRecordServices.SearchBySubjectName(name);

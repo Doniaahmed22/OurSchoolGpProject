@@ -53,7 +53,7 @@ namespace School.API.Controllers
         }
 
 
-        [HttpGet("SearchForTeacher/{name:alpha}")]
+        [HttpGet("SearchForTeacher/{name}")]
         public async Task<IActionResult> GetTeachersByName(string name)
         {
             var teachers = await TeacherServices.GetTeachers(name);

@@ -144,6 +144,22 @@ namespace School.API.Controllers
                 return NotFound();
             return Ok(students);
         }
+        [HttpGet("GetStudentsWithParentByClassID/{classid:int}")]
+        public async Task<IActionResult> GetStudentsWithParentByClassID(int classid)
+        {
+            var students = await _studentServices.GetStudentsWithParentByClassID(classid);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
 
+        [HttpGet("SeacrhStudentsByClassIDStudentName/{classid:int}/{StudentName}")]
+        public async Task<IActionResult> SeacrhStudentsByClassIDStudentName(int classid,string StudentName)
+        {
+            var students = await _studentServices.GetStudentsWithParentByClassID(classid, StudentName);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
     }
 }

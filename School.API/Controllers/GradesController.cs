@@ -56,7 +56,7 @@ namespace School.API.Controllers
             return Ok();
         }
 
-        [HttpGet("GetFinalDegrees/{levelid:int}/{departmentid:int}/{Studentname:alpha}")]
+        [HttpGet("GetFinalDegrees/{levelid:int}/{departmentid:int}/{Studentname}")]
         public async Task<ActionResult> GetFinalDegrees(int levelid, int departmentid, string Studentname)
         {
             var students = await _gradeServices.GetStudentsFinalGrades(levelid, departmentid, Studentname);

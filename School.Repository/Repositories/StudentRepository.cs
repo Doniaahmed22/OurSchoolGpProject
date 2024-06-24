@@ -61,7 +61,16 @@ namespace School.Repository.Repositories
                         .FirstOrDefaultAsync(s => s.Id == stuId);
            
         }
-        
+        public async Task<IEnumerable<Student>> GetStudentsWithParentByClassID(int ClassId)
+        {
+            return await _context.Students.Include(s=>s.Parent)
+                .Where(s => s.ClassId == ClassId).OrderBy(s => s.Name).ToListAsync();
+        }
+        public async Task<IEnumerable<Student>> SeacrhStudentsByClassIDStudentName(int ClassId , string studentName)
+        {
+            return await _context.Students.Include(s => s.Parent)
+                .Where(s => s.ClassId == ClassId&&s.Name.Contains(studentName)).OrderBy(s => s.Name).ToListAsync();
+        }
 
     }
 }

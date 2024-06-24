@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Data.Entities;
+using School.Data.Entities.ProgressReport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,8 +59,8 @@ namespace School.Data.Context
         public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<ClassMaterial> ClassMaterials { get; set; }
-        public DbSet<AbsenceWarning> AbsenceWarnings { get; set; }
-
+        public DbSet<AbsenceWarning> AbsenceWarnings { get; set; }      
+        public DbSet<ProgressReport> ProgressReport { get; set; }
 
     }
 }
