@@ -19,7 +19,7 @@ namespace School.Data.Entities
         public string Nationality { get; set; }
         public string Degree { get; set; }
 
-        public List<Attendence> Attendences { get; set; }
+        public List<Attendance> Attendences { get; set; }
         public List<TeacherSubject> TeacherSubject { get; set; }
         public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
     }

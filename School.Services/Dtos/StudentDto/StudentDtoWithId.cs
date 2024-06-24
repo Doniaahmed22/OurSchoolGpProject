@@ -30,6 +30,6 @@ namespace School.Services.Dtos.StudentDto
         public Class? Class { get; set; }
         public int? ClassId { get; set; }
         public List<StudentSubject>? StudentSubjects { get; set; }
-        public List<Attendence>? Attendences { get; set; }
+        public List<Data.Entities.Attendance>? Attendences { get; set; }
     }
 }

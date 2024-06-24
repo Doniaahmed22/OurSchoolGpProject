@@ -11,7 +11,7 @@ namespace School.Services.Services
 {
     static class GlobalStaticService
     {      
-        static public string BaseImageSubject= "Uploads/SubjectImages/";
+        static public string BaseImageSubjectGet= "Uploads/SubjectImages/";
         static public string BaseImageSubjectroot_Add = "wwwroot/Uploads/SubjectImages/";
     }
 }

@@ -99,7 +99,7 @@ namespace School.Services.Services.TeacherServices
             {
                 SubLevelImage subLevelImage = new SubLevelImage();
                 string imgeName = recode.Subject.Image;
-                subLevelImage.image = _fileService.GetMediaUrl(GlobalStaticService.BaseImageSubject+recode.Subject.Image);
+                subLevelImage.image = _fileService.GetMediaUrl(GlobalStaticService.BaseImageSubjectroot_Add+recode.Subject.Image);
 
                 subLevelImage.Subject.Name = recode.Subject.Name;
                 subLevelImage.Subject.Id = recode.Subject.Id;

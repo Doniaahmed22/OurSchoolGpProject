@@ -4,6 +4,7 @@ using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.GradesDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
 using System.Xml.Linq;
 
@@ -45,9 +46,9 @@ namespace School.Services.Services.StudentServices
             var student = _mapper.Map<Student>(studentDto);
 
             await _unitOfWork.repository<Student>().Add(student);
-            if (student.LevelId != null && student.DepartmentId != null)
+            if (student.LevelId != 0 && student.DepartmentId != 0)
             {
-                await SetSubjectStudentRecords(student.Id, student.LevelId.Value, student.DepartmentId.Value);
+                await SetSubjectStudentRecords(student.Id, student.LevelId, student.DepartmentId);
             }
         }
         public async Task SetSubjectStudentRecords(int StuId, int levelId, int departmentId)
@@ -57,7 +58,7 @@ namespace School.Services.Services.StudentServices
             IEnumerable<Subject> subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelId, departmentId, currentterm).ToList();
             foreach (Subject subject in subjects)
             {
-                gradeRepository.Add(new StudentSubject { StudentId = StuId, SubjectId = subject.Id });
+                await gradeRepository.Add(new StudentSubject { StudentId = StuId, SubjectId = subject.Id });
             }
 
         }
@@ -96,7 +97,41 @@ namespace School.Services.Services.StudentServices
 
         }
 
-  
+        public async Task<IEnumerable<NameIdDto>> GetStudentsByClassId(int ClassId)
+        {
+            List<NameIdDto> studentsDtos = new List<NameIdDto>();
+            IEnumerable<Student> Students = await studentRepository.GetStudentsByClassId(ClassId);
+            foreach (Student student in Students)
+            {
+                studentsDtos.Add(new NameIdDto()
+                {
+                    Id = student.Id,
+                    Name = student.Name,
+                });
+            }
+            return studentsDtos;
+        }
+
+        public async Task<IEnumerable<AbsentDaysDto>> GetStudentsWithAbsentDays()
+        {
+            List<AbsentDaysDto> StudentDtos = new List<AbsentDaysDto>();
+            var students = await studentRepository.GetStudentsWithAbsentDays();
+            foreach(var student in students)
+            {
+                AbsentDaysDto studentWithAbs = new AbsentDaysDto();
+                studentWithAbs.StudnetId = student.student.Id;
+                studentWithAbs.StudentName = student.student.Name;
+                studentWithAbs.LevelNum = student.student.Level.LevelNumber;
+                studentWithAbs.DepartmentName = student.student.Department.Name;
+                studentWithAbs.ClassNum = student.student.Class.Number;
+             
+                studentWithAbs.AbsentDays = student.AbsentDays;
+                studentWithAbs.AbsenceWarning = student.AbsenceWarning;
+                StudentDtos.Add(studentWithAbs);
+            }
+            return StudentDtos;
+        }
+
     }
 }
 

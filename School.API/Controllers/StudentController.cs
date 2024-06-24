@@ -22,7 +22,7 @@ namespace School.API.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
 
-        public StudentController(IStudentServices studentServices, SchoolDbContext context , IUserService userService, UserManager<AppUser> userManager)
+        public StudentController(IStudentServices studentServices, SchoolDbContext context, IUserService userService, UserManager<AppUser> userManager)
         {
             _studentServices = studentServices;
             _context = context;
@@ -52,7 +52,7 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("AddStudent")]
-        public async Task<IActionResult> AddStudent (StudentDto studentDto)
+        public async Task<IActionResult> AddStudent(StudentDto studentDto)
         {
             if (studentDto == null)
             {
@@ -63,11 +63,11 @@ namespace School.API.Controllers
             {
                 DisplayName = studentDto.Name,
                 GmailAddress = studentDto.GmailAddress,
-                Email = studentDto.Name.Split(" ")[0] + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year+"@gmail.com",
+                Email = studentDto.Name.Split(" ")[0] + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year + "@gmail.com",
                 Password = studentDto.Name.Split(" ")[0].ToUpper() + studentDto.Name.Split(" ")[1].ToLower() + studentDto.BirthDay.Day + studentDto.BirthDay.Month + studentDto.BirthDay.Year + "!",
             };
 
-            _userService.Register(registerDto,"Student");
+            _userService.Register(registerDto, "Student");
             studentDto.Email = registerDto.Email;
             await _studentServices.AddStudent(studentDto);
             return Ok(studentDto);
@@ -76,9 +76,9 @@ namespace School.API.Controllers
 
         [HttpPut]
         [Route("UpdateStudent")]
-        public async Task<IActionResult> UpdateStudent(int id,StudentDto studentDto)
+        public async Task<IActionResult> UpdateStudent(int id, StudentDto studentDto)
         {
-            await _studentServices.UpdateStudent(id,studentDto);
+            await _studentServices.UpdateStudent(id, studentDto);
             return Ok();
         }
 
@@ -121,16 +121,32 @@ namespace School.API.Controllers
             {
                 var parent = await _context.Parents.FindAsync(student.ParentId);
                 var par = await _userManager.FindByEmailAsync(parent.Email);
-                _userManager.DeleteAsync(par);
+                await _userManager.DeleteAsync(par);
                 _context.Parents.Remove(parent);
 
             }
-            _userManager.DeleteAsync(user);
-            
+            await _userManager.DeleteAsync(user);
+
             await _studentServices.DeleteStudent(id);
             return Ok();
         }
 
+        [HttpGet("GetStudentsByClassId/{ClassId:int}")]
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudentsByClassId(int ClassId)
+        {
+            var students = await _studentServices.GetStudentsByClassId(ClassId);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
+        [HttpGet("GetStudentsWithAbsentDays")]
+        public async Task<IActionResult> GetStudentsWithAbsentDays()
+        {
+            var students = await _studentServices.GetStudentsWithAbsentDays();
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
 
     }
 }

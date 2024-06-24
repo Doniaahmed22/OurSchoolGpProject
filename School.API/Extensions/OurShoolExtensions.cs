@@ -23,6 +23,7 @@ using School.Services.Services.TermService;
 using School.Services.Tokens;
 using School.Services.UserService;
 using School.Services.EmailServices;
+using School.Services.Services.AttendanceService;
 
 namespace School.API.Extensions
 {
@@ -58,6 +59,8 @@ namespace School.API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
 
 

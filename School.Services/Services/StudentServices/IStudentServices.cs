@@ -1,5 +1,6 @@
 ﻿using School.Data.Entities;
 using School.Services.Dtos.GradesDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace School.Services.Services.StudentServices
         Task AddStudent(StudentDto studentDto);
         Task UpdateStudent(int id,StudentDto entity);
         Task DeleteStudent(int id);
+
+        Task<IEnumerable<NameIdDto>> GetStudentsByClassId(int ClassId);
+        Task<IEnumerable<AbsentDaysDto>> GetStudentsWithAbsentDays();
 
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240623212327_changeNameToLimiAbsentDays")]
+    partial class changeNameToLimiAbsentDays
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,19 +23,6 @@ namespace School.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("School.Data.Entities.AbsenceWarning", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("WarningDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("StudentId", "WarningDate");
-
-                    b.ToTable("AbsenceWarnings", (string)null);
-                });
 
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
                 {
@@ -43,8 +32,8 @@ namespace School.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("AttendanceType")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsAttendence")
+                        .HasColumnType("bit");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
@@ -53,7 +42,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Attendences", (string)null);
+                    b.ToTable("Attendences");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>
@@ -82,7 +71,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("School.Data.Entities.ClassMaterial", b =>
@@ -97,7 +86,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("ClassMaterials", (string)null);
+                    b.ToTable("ClassMaterials");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Department", b =>
@@ -114,7 +103,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Level", b =>
@@ -137,7 +126,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Levels", (string)null);
+                    b.ToTable("Levels");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Material", b =>
@@ -172,7 +161,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Materials", (string)null);
+                    b.ToTable("Materials");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Parent", b =>
@@ -203,7 +192,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parents", (string)null);
+                    b.ToTable("Parents");
                 });
 
             modelBuilder.Entity("School.Data.Entities.SchoolInfo", b =>
@@ -235,7 +224,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("CurrentTerm");
 
-                    b.ToTable("SchoolInfo", (string)null);
+                    b.ToTable("SchoolInfo");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Student", b =>
@@ -284,6 +273,9 @@ namespace School.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumbOfAttendanceWarnings")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
@@ -304,7 +296,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("School.Data.Entities.StudentSubject", b =>
@@ -328,7 +320,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentSubjects", (string)null);
+                    b.ToTable("StudentSubjects");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Subject", b =>
@@ -351,7 +343,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("School.Data.Entities.SubjectLevelDepartmentTerm", b =>
@@ -384,7 +376,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TermId");
 
-                    b.ToTable("SubjectLevelDepartmentTerms", (string)null);
+                    b.ToTable("SubjectLevelDepartmentTerms");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Teacher", b =>
@@ -431,7 +423,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers", (string)null);
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubject", b =>
@@ -446,7 +438,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("TeacherSubjects", (string)null);
+                    b.ToTable("TeacherSubjects");
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubjectClass", b =>
@@ -474,7 +466,7 @@ namespace School.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeacherSubjectClasses", (string)null);
+                    b.ToTable("TeacherSubjectClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Term", b =>
@@ -500,16 +492,7 @@ namespace School.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Terms", (string)null);
-                });
-
-            modelBuilder.Entity("School.Data.Entities.AbsenceWarning", b =>
-                {
-                    b.HasOne("School.Data.Entities.Student", null)
-                        .WithMany("AbsenceWarnings")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Terms");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
@@ -751,8 +734,6 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Student", b =>
                 {
-                    b.Navigation("AbsenceWarnings");
-
                     b.Navigation("Attendences");
 
                     b.Navigation("StudentSubjects");
