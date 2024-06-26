@@ -37,11 +37,12 @@ namespace School.Data.Context
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
             modelBuilder.Entity<ClassMaterial>().HasKey(x => new { x.MaterialId, x.ClassId });
             modelBuilder.Entity<AbsenceWarning>().HasKey(x => new { x.StudentId, x.WarningDate });
+            modelBuilder.Entity<ProgressReport>().HasKey(x => new { x.StudentId, x.SubjectId });
+            modelBuilder.Entity<RequestMeeting>().HasKey(x => new { x.StudentId, x.Date });
 
             modelBuilder.Entity<SchoolInfo>()
                     .Property(e => e.CurrentTerm)
-                             .HasDefaultValue(1);
-            
+                             .HasDefaultValue(1);           
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Parent> Parents { get; set; }
@@ -61,6 +62,7 @@ namespace School.Data.Context
         public DbSet<ClassMaterial> ClassMaterials { get; set; }
         public DbSet<AbsenceWarning> AbsenceWarnings { get; set; }      
         public DbSet<ProgressReport> ProgressReport { get; set; }
+        public DbSet<RequestMeeting> requestMeetings { get; set; }
 
     }
 }

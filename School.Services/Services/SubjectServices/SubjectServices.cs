@@ -55,7 +55,7 @@ namespace School.Services.Services.SubjectServices
             Term term = await _schoolRepository.GetCurrentTerm();
             if (student.DepartmentId == 0 || student.LevelId == 0)
                 return null;
-            var subjects = await _subjectRepository.GetSubjectsByStudId(student.DepartmentId, student.LevelId, term.Id);
+            var subjects = await _subjectRepository.GetSubjectsByLevelDeptTerm(student.DepartmentId, student.LevelId, term.Id);
             foreach (var subject in subjects) {
                 subjectsDtos.Add(new SubIdNameImg() 
                     { image = _fileService.GetMediaUrl(GlobalStaticService.BaseImageSubjectGet + subject.Image) , SubjectId = subject.Id , SubjectName = subject.Name}

@@ -21,6 +21,7 @@ namespace School.Services.Services.StudentServices
         Task<IEnumerable<NameIdDto>> GetStudentsByClassId(int ClassId);
         Task<IEnumerable<AbsentDaysDto>> GetStudentsWithAbsentDays();
         Task<IEnumerable<StudentWithParentDto>> GetStudentsWithParentByClassID(int ClassId, string studentname = null);
+        Task<IEnumerable<StudentWithParentAllDto>> GetStudentsWithParent();
 
 
     }

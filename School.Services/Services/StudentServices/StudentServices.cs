@@ -131,15 +131,15 @@ namespace School.Services.Services.StudentServices
             }
             return StudentDtos;
         }
-        public async Task<IEnumerable<StudentWithParentDto>> GetStudentsWithParentByClassID(int ClassId , string studentname=null)
+        public async Task<IEnumerable<StudentWithParentDto>> GetStudentsWithParentByClassID(int ClassId, string studentname = null)
         {
             List<StudentWithParentDto> studentsDtos = new List<StudentWithParentDto>();
             IEnumerable<Student> Students;
 
-            if(studentname==null)
+            if (studentname == null)
                 Students = await studentRepository.GetStudentsWithParentByClassID(ClassId);
             else
-                Students = await studentRepository.SeacrhStudentsByClassIDStudentName(ClassId,studentname);
+                Students = await studentRepository.SeacrhStudentsByClassIDStudentName(ClassId, studentname);
 
             if (Students == null)
                 return null;
@@ -159,6 +159,33 @@ namespace School.Services.Services.StudentServices
                 studentsDtos.Add(s);
             }
             return studentsDtos;
+        }
+        public async Task< IEnumerable<StudentWithParentAllDto>> GetStudentsWithParent()
+        {
+            List<StudentWithParentAllDto>dtoList = new List<StudentWithParentAllDto>();
+            IEnumerable<Student> students= await studentRepository.GetStudentsWithParent();
+            foreach (Student student in students)
+            {
+                StudentWithParentAllDto dto = new StudentWithParentAllDto();
+                dto.StudentId = student.Id;
+                dto.StudentName = student.Name;
+                dto.LevelNumber = student.Level.LevelNumber;
+                dto.DepartmentName = student.Department.Name;
+                if(student.Class !=null)
+                    dto.ClassNumber = student.Class.Number;
+                if(student.Parent != null)
+                {
+                    dto.ParentPhoneNumber = student.Parent.PhoneNumber;
+                    dto.ParentName = student.Parent.Name;   
+                    dto.ParentId = student.Parent.Id;
+                }
+                if(student.requestMeetings != null) 
+                    dto.NumberOfRequestMeeting = student.requestMeetings.Count;
+                else
+                    dto.NumberOfRequestMeeting = 0;
+                dtoList.Add(dto);
+            }
+            return dtoList;
         }
 
     }

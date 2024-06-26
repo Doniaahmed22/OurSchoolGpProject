@@ -14,7 +14,7 @@ using School.Services.UserService.Dtos;
 
 namespace School.API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
@@ -157,6 +157,15 @@ namespace School.API.Controllers
         public async Task<IActionResult> SeacrhStudentsByClassIDStudentName(int classid,string StudentName)
         {
             var students = await _studentServices.GetStudentsWithParentByClassID(classid, StudentName);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
+
+        [HttpGet("GetStudentsWithParent")]
+        public async Task<IActionResult> GetStudentsWithParent()
+        {
+            var students = await _studentServices.GetStudentsWithParent();
             if (students == null)
                 return NotFound();
             return Ok(students);

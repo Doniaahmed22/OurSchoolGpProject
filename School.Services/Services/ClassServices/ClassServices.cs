@@ -211,12 +211,28 @@ namespace School.Services.Services.ClassServices
             foreach (var teacherSubject in dto)
             {
                 TeacherSubjectClass tsc = _class.TeacherSubjectClasses.FirstOrDefault(cr => cr.SubjectId == teacherSubject.SubjectId);
-                tsc.TeacherId = teacherSubject.TeacherId;
+                if(tsc != null) /////////////////####
+                     tsc.TeacherId = teacherSubject.TeacherId;
 
 
             }
            await _classRepository.Update(_class);
 
+        }
+        public async Task<IEnumerable<ClassInfoDto>> GetTeacherClasses(int TeacherId)
+        {
+            List<ClassInfoDto>dtoLis = new List<ClassInfoDto>();
+            IEnumerable<Class> classes = await _classRepository.GetTeacherClasses(TeacherId);
+            foreach(Class _class in classes)
+            {
+                ClassInfoDto classInfoDto = new ClassInfoDto();
+                classInfoDto.ClassId = _class.Id;
+                classInfoDto.ClassLevelNumber = _class.Level.LevelNumber;
+                classInfoDto.ClassNumber = _class.Number;
+                classInfoDto.ClassDepartmentName = _class.Department.Name; 
+                dtoLis.Add(classInfoDto);
+            }
+            return dtoLis;
         }
 
 

@@ -15,7 +15,7 @@ namespace School.Data.Entities
         public int DepartmentId { get; set; }
         public Level Level { get; set; }
         public int LevelId { get; set; }
-        public IEnumerable<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
+        public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
         public List<ClassMaterial> ClassMaterials { get; set; }
 
     }

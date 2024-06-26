@@ -9,7 +9,7 @@ using School.Services.Services.ClassServices;
 
 namespace School.API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClassController : ControllerBase
     {
@@ -119,7 +119,12 @@ namespace School.API.Controllers
             return Ok();
         }
 
-
+        [HttpGet("GetTeacherClasses/{TeacherId:int}")]
+        public async Task<IActionResult> GetTeacherClasses(int TeacherId)
+        {
+            var classes = await classServices.GetTeacherClasses(TeacherId);
+            return Ok(classes);
+        }
 
     }
 }
