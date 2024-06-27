@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using School.Data.Entities;
 using School.Services.Dtos.SubjectDto;
 using School.Services.Services.ClassServices;
 using School.Services.Services.SubjectServices;
@@ -25,6 +26,15 @@ namespace School.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var subject = await SubjectServices.GetSubjectById(id);
+            if (subject == null)
+                return NotFound();
+            return Ok(subject);
+        }
+
+        [HttpGet("GetSubjectsByStudId/{StudentId:int}")]
+        public async Task<IActionResult> GetSubjectsByStudId(int StudentId)
+        {
+            var subject = await SubjectServices.GetSubjectsByStudId(StudentId);
             if (subject == null)
                 return NotFound();
             return Ok(subject);

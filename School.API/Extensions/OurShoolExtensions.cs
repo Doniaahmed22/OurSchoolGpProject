@@ -24,6 +24,9 @@ using School.Services.Tokens;
 using School.Services.UserService;
 using School.Services.EmailServices;
 using School.Services.Services.AnnouncementService;
+using School.Services.Services.AttendanceService;
+using School.Services.Services.ProgressReportService;
+using School.Services.Services.RequestMeetingService;
 
 namespace School.API.Extensions
 {
@@ -36,6 +39,8 @@ namespace School.API.Extensions
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<ISchoolRepository, SchoolRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
 
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IParentServices, ParentServices>();
@@ -57,6 +62,8 @@ namespace School.API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             //services.AddTransient<IGetToken, GetToken>();
 
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
@@ -64,6 +71,10 @@ namespace School.API.Extensions
 
 
 
+            services.AddScoped<IProgressReportService, ProgressReportService>();
+            services.AddScoped<IProgressReportRepository, ProgressReportRepository>();
+            services.AddScoped<IRequestMeetingRepository, RequestMeetingRepository>();
+            services.AddScoped<IRequestMeetingService, RequestMeetingService>();
 
             services.AddAutoMapper(typeof(MappingProfile));
 

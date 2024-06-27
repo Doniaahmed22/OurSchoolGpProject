@@ -30,6 +30,12 @@ namespace School.Repository.Repositories
                 .Include(tsc => tsc.Subject).Select(tsc => tsc.Subject).ToListAsync();
 
         }
+        public async Task<IEnumerable<Subject>> GetSubjectsByLevelDeptTerm(int StuDepartmentId ,int StuLevelId, int TermId )
+        {
+            return await _context.SubjectLevelDepartmentTerms.Include(sldt=>sldt.Subject)
+                  .Where(sldt => sldt.DepartmentId== StuDepartmentId && sldt.LevelId==StuLevelId&&sldt.TermId==TermId)
+                  .Select(sldt => sldt.Subject).ToListAsync();
+        }
 
 
     }

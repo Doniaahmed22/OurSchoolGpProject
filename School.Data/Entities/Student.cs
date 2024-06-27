@@ -23,14 +23,18 @@ namespace School.Data.Entities
         public Char Gender { get; set; }
         public Parent? Parent { get; set; }
         public int? ParentId { get; set; }
-        public Level? Level { get; set; }
-        public int? LevelId { get; set; }
-        public Department? Department { get; set; }
-        public int? DepartmentId { get; set; }
+        public Level Level { get; set; }
+        [Required]
+        public int LevelId { get; set; }
+        public Department Department { get; set; }
+        [Required]
+        public int DepartmentId { get; set; }
         public Class? Class { get; set; }
         public int? ClassId { get; set; }
         public List<StudentSubject>? StudentSubjects { get; set; }
-        public List<Attendence>? Attendences { get; set; }
-
+        public List<Attendance>? Attendences { get; set; }
+        // public int NumbOfAttendanceWarnings { get; set; } = 0;
+        public List<AbsenceWarning>AbsenceWarnings { get; set; }
+        public List<RequestMeeting> requestMeetings {  get; set; } 
     }
 }

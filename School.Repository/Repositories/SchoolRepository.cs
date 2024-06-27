@@ -22,5 +22,19 @@ namespace School.Repository.Repositories
                 return null;
             return s.Term;
         }
+        
+        public int GetLimitAbsentDays()
+        {
+             return _context.SchoolInfo.Select(s=>s.LimitAbsentDays).First();
+        }
+        public async Task SetLimitAbsentDays(int LimitAbsentDays )
+        {
+            var schoool=await _context.SchoolInfo.FirstOrDefaultAsync();
+            if(schoool != null)
+            {
+                schoool.LimitAbsentDays = LimitAbsentDays;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

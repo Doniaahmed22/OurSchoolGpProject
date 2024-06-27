@@ -14,7 +14,7 @@ using School.Services.UserService.Dtos;
 
 namespace School.API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace School.API.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
 
-        public StudentController(IStudentServices studentServices, SchoolDbContext context , IUserService userService, UserManager<AppUser> userManager)
+        public StudentController(IStudentServices studentServices, SchoolDbContext context, IUserService userService, UserManager<AppUser> userManager)
         {
             _studentServices = studentServices;
             _context = context;
@@ -54,7 +54,7 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("AddStudent")]
-        public async Task<IActionResult> AddStudent (StudentDto studentDto)
+        public async Task<IActionResult> AddStudent(StudentDto studentDto)
         {
             if (studentDto == null)
             {
@@ -78,9 +78,9 @@ namespace School.API.Controllers
 
         [HttpPut]
         [Route("UpdateStudent")]
-        public async Task<IActionResult> UpdateStudent(int id,StudentDto studentDto)
+        public async Task<IActionResult> UpdateStudent(int id, StudentDto studentDto)
         {
-            await _studentServices.UpdateStudent(id,studentDto);
+            await _studentServices.UpdateStudent(id, studentDto);
             return Ok();
         }
 
@@ -128,6 +128,47 @@ namespace School.API.Controllers
             return Ok();
         }
 
+        [HttpGet("GetStudentsByClassId/{ClassId:int}")]
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudentsByClassId(int ClassId)
+        {
+            var students = await _studentServices.GetStudentsByClassId(ClassId);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
+        [HttpGet("GetStudentsWithAbsentDays")]
+        public async Task<IActionResult> GetStudentsWithAbsentDays()
+        {
+            var students = await _studentServices.GetStudentsWithAbsentDays();
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
+        [HttpGet("GetStudentsWithParentByClassID/{classid:int}")]
+        public async Task<IActionResult> GetStudentsWithParentByClassID(int classid)
+        {
+            var students = await _studentServices.GetStudentsWithParentByClassID(classid);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
 
+        [HttpGet("SeacrhStudentsByClassIDStudentName/{classid:int}/{StudentName}")]
+        public async Task<IActionResult> SeacrhStudentsByClassIDStudentName(int classid,string StudentName)
+        {
+            var students = await _studentServices.GetStudentsWithParentByClassID(classid, StudentName);
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
+
+        [HttpGet("GetStudentsWithParent")]
+        public async Task<IActionResult> GetStudentsWithParent()
+        {
+            var students = await _studentServices.GetStudentsWithParent();
+            if (students == null)
+                return NotFound();
+            return Ok(students);
+        }
     }
 }

@@ -19,7 +19,8 @@ namespace School.Data.Entities
         public string Rules { get; set; }
 
         [ForeignKey("Term")]
-        public int CurrentTerm { get; set; } 
+        public int CurrentTerm { get; set; }
+        public int LimitAbsentDays { get; set; } = 0;
         public Term Term { get; set; } 
     }
 }

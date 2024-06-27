@@ -11,6 +11,7 @@ namespace School.Repository.Interfaces
     {
         IEnumerable<Subject> GetSubjectsOfTeacher(int TeachId);
         Task<IEnumerable<Subject>> GetSubjectsByClassTeacher(int classid, int teacherid);
+        Task<IEnumerable<Subject>> GetSubjectsByLevelDeptTerm(int StuDepartmentId, int StuLevelId, int TermId);
 
     }
 }

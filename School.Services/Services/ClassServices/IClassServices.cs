@@ -23,6 +23,7 @@ namespace School.Services.Services.ClassServices
         Task<Class> UpdateClass(int id, ClassAddUpdateDto classDto);
         Task<Class> DeleteClass(int id);
         Task<IEnumerable<ClassDtoWithId>> GetClassesByClassNum(int classnum);
+        Task<IEnumerable<ClassInfoDto>> GetTeacherClasses(int TeacherId);
 
 
     }

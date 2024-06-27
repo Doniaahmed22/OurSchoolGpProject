@@ -17,14 +17,19 @@ namespace School.Services.Services.SubjectRecord
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISubjectRecordRepository _subjectRecordRepository;
-
+        private readonly IStudentRepository _studentRepository;
+        private readonly IClassRepository _classRepository;
+        private readonly ISchoolRepository _schoolRepository;
         private readonly IMapper _mapper;
 
-        public SubjectRecordServices(IUnitOfWork unitOfWork, IMapper mapper)
+        public SubjectRecordServices(IUnitOfWork unitOfWork, IStudentRepository studentRepository,ISchoolRepository schoolRepository, IMapper mapper, IClassRepository classRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
+            _studentRepository = studentRepository;
+            _schoolRepository = schoolRepository;
+            _classRepository = classRepository;
         }
 
         public  async Task<IEnumerable<SubjectRecordDto>> GetAllRecords()
@@ -97,9 +102,36 @@ namespace School.Services.Services.SubjectRecord
 
         public async Task AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto)
         {
+            Term term =await _schoolRepository.GetCurrentTerm();
             var Record = _mapper.Map<SubjectLevelDepartmentTerm>(dto);
-            await _unitOfWork.repository<SubjectLevelDepartmentTerm>().Add(Record);
 
+             _unitOfWork.repository<SubjectLevelDepartmentTerm>().AddWithoutSave(Record);
+            if (term.Id == Record.TermId)
+            {
+                IEnumerable<Student> students = await _studentRepository.GetStudentsByLevelIdDepartmentId(Record.LevelId, Record.DepartmentId);
+                foreach (Student student in students)
+                {
+                    if (student.StudentSubjects == null)
+                    {
+                        student.StudentSubjects = new List<StudentSubject>();
+                        IEnumerable<Subject> subjects = _subjectRecordRepository.GetSubjectsByLevelDeptTerm(Record.LevelId, Record.DepartmentId, term.Id);
+                        foreach (var subject in subjects)
+                            student.StudentSubjects.Add(new StudentSubject() { StudentId = student.Id, SubjectId = subject.Id });
+                    }
+                    student.StudentSubjects.Add(new StudentSubject() { StudentId = student.Id, SubjectId = Record.SubjectId });
+                }
+                IEnumerable<Class> classes = await _classRepository.GetClassesByLevelDepartment(Record.LevelId, Record.DepartmentId);
+                foreach(Class _class in classes)
+                {
+                    _class.TeacherSubjectClasses.Add(new TeacherSubjectClass()
+                    {
+                        ClassId = _class.Id,
+                        SubjectId = Record.SubjectId
+                    });
+                }
+
+            }
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task< SubjectLevelDepartmentTerm>UpdateRecord(int id,SubjectRecordAddUpdateDto record)

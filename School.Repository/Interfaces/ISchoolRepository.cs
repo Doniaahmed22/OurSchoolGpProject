@@ -11,6 +11,9 @@ namespace School.Repository.Interfaces
     public interface ISchoolRepository:IGenericRepository<SchoolInfo>
     {
         Task<Term> GetCurrentTerm();
+        int GetLimitAbsentDays();
+        Task SetLimitAbsentDays(int LimitAbsentDays);
+
 
     }
 }

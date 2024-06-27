@@ -54,6 +54,23 @@ namespace School.Repository.Repositories
             return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid).ToListAsync();
 
         }
+        public async Task<IEnumerable<Class>> GetTeacherClasses(int teacherId)
+        {
+            return await _context.TeacherSubjectClasses
+                .Where(tsc=>tsc.TeacherId==teacherId)
+                .Include(tsc => tsc.Class).ThenInclude(c => c.Level)
+                .Include(tsc => tsc.Class).ThenInclude(c => c.Department)
+                .Select(tsc=>tsc.Class)
+                .Distinct()
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Class>> GetClassesByLevelDepartment(int levelid , int departmentid)
+        {
+            return await _context.Classes.Include(c=>c.TeacherSubjectClasses)
+                .Where(c=>c.LevelId==levelid&&c.DepartmentId==departmentid)
+                .ToListAsync();
+        }
+
 
     }
 }

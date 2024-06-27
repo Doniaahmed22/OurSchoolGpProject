@@ -113,14 +113,14 @@ namespace School.Services.Services.FileService
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
         }
-
+/*
         public string GetFullBase(string sub)
         {
             var contentPath = _environment.ContentRootPath;
             var filePath = Path.Combine(contentPath, sub);
             return filePath;
         }
-
+*/
         public string GetMediaUrl(string mediaContent)
         {
             var request = _httpContextAccessor.HttpContext.Request;
