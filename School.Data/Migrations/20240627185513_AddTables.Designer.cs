@@ -12,8 +12,8 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20240623195805_AddNumbOfAttendanceWarnings_numberOfAbsentDayToWarn")]
-    partial class AddNumbOfAttendanceWarnings_numberOfAbsentDayToWarn
+    [Migration("20240627185513_AddTables")]
+    partial class AddTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,19 @@ namespace School.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("School.Data.Entities.AbsenceWarning", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WarningDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StudentId", "WarningDate");
+
+                    b.ToTable("AbsenceWarnings");
+                });
+
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
                 {
                     b.Property<int>("StudentId")
@@ -32,8 +45,8 @@ namespace School.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsAttendence")
-                        .HasColumnType("bit");
+                    b.Property<int>("AttendanceType")
+                        .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
@@ -195,6 +208,66 @@ namespace School.Data.Migrations
                     b.ToTable("Parents");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AbsenceRate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Advantages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Attitude")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Disadvantages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProgressLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Recommendations")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StudentId", "SubjectId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("ProgressReport");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.RequestMeeting", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StudentId", "Date");
+
+                    b.ToTable("requestMeetings");
+                });
+
             modelBuilder.Entity("School.Data.Entities.SchoolInfo", b =>
                 {
                     b.Property<string>("Name")
@@ -209,6 +282,9 @@ namespace School.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LimitAbsentDays")
+                        .HasColumnType("int");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -216,9 +292,6 @@ namespace School.Data.Migrations
                     b.Property<string>("Rules")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("numberOfAbsentDayToWarn")
-                        .HasColumnType("int");
 
                     b.HasKey("Name");
 
@@ -272,9 +345,6 @@ namespace School.Data.Migrations
                     b.Property<string>("Nationality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumbOfAttendanceWarnings")
-                        .HasColumnType("int");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
@@ -495,6 +565,15 @@ namespace School.Data.Migrations
                     b.ToTable("Terms");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.AbsenceWarning", b =>
+                {
+                    b.HasOne("School.Data.Entities.Student", null)
+                        .WithMany("AbsenceWarnings")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
                 {
                     b.HasOne("School.Data.Entities.Student", "Student")
@@ -577,6 +656,44 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>
+                {
+                    b.HasOne("School.Data.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("School.Data.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("School.Data.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.RequestMeeting", b =>
+                {
+                    b.HasOne("School.Data.Entities.Student", "Student")
+                        .WithMany("requestMeetings")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("School.Data.Entities.SchoolInfo", b =>
@@ -734,9 +851,13 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Student", b =>
                 {
+                    b.Navigation("AbsenceWarnings");
+
                     b.Navigation("Attendences");
 
                     b.Navigation("StudentSubjects");
+
+                    b.Navigation("requestMeetings");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Subject", b =>

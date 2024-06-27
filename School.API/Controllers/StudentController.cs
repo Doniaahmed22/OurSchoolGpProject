@@ -33,7 +33,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetStudents")]
-        [Authorize(Roles ="Student")]
+        //[Authorize(Roles ="Student")]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
             var students = await _studentServices.GetAllStudents();

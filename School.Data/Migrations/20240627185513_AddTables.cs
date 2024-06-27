@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace School.Data.Migrations
 {
-    public partial class createTables : Migration
+    public partial class AddTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -198,7 +198,8 @@ namespace School.Data.Migrations
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Info = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rules = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrentTerm = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
+                    CurrentTerm = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
+                    LimitAbsentDays = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,13 +355,31 @@ namespace School.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AbsenceWarnings",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    WarningDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AbsenceWarnings", x => new { x.StudentId, x.WarningDate });
+                    table.ForeignKey(
+                        name: "FK_AbsenceWarnings_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Attendences",
                 columns: table => new
                 {
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
-                    IsAttendence = table.Column<bool>(type: "bit", nullable: false)
+                    AttendanceType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -375,6 +394,63 @@ namespace School.Data.Migrations
                         name: "FK_Attendences_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProgressReport",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ProgressLevel = table.Column<int>(type: "int", nullable: false),
+                    Attitude = table.Column<int>(type: "int", nullable: false),
+                    AbsenceRate = table.Column<int>(type: "int", nullable: false),
+                    Advantages = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Disadvantages = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Recommendations = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProgressReport", x => new { x.StudentId, x.SubjectId });
+                    table.ForeignKey(
+                        name: "FK_ProgressReport_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProgressReport_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProgressReport_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "requestMeetings",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_requestMeetings", x => new { x.StudentId, x.Date });
+                    table.ForeignKey(
+                        name: "FK_requestMeetings_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -439,6 +515,16 @@ namespace School.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Materials_TeacherId",
                 table: "Materials",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProgressReport_SubjectId",
+                table: "ProgressReport",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProgressReport_TeacherId",
+                table: "ProgressReport",
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
@@ -515,10 +601,19 @@ namespace School.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AbsenceWarnings");
+
+            migrationBuilder.DropTable(
                 name: "Attendences");
 
             migrationBuilder.DropTable(
                 name: "ClassMaterials");
+
+            migrationBuilder.DropTable(
+                name: "ProgressReport");
+
+            migrationBuilder.DropTable(
+                name: "requestMeetings");
 
             migrationBuilder.DropTable(
                 name: "SchoolInfo");

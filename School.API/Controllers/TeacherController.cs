@@ -35,7 +35,7 @@ namespace School.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize(Roles ="Teacher")]
+        //[Authorize(Roles ="Teacher")]
         public async Task<IActionResult> GetAllTeacher() 
         {
             var teachers = await TeacherServices.GetTeachers();
