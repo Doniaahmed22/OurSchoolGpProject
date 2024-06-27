@@ -38,7 +38,7 @@ namespace School.API.Controllers
         
         [HttpGet]
         [Route("GetParents")]
-        [Authorize(Roles ="Parent")]
+        //[Authorize(Roles ="Parent")]
         public async Task<ActionResult<IEnumerable<ParentDtoWithId>>> GetParents()
         {
             
@@ -49,7 +49,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetAllParents")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<ParentDtoWithId>>> GetAllParents()
         {
             var Parents = await _parentServices.GetAllParents();

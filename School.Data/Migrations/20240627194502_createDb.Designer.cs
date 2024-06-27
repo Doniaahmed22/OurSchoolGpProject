@@ -12,8 +12,8 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20240627192854_createDataBase")]
-    partial class createDataBase
+    [Migration("20240627194502_createDb")]
+    partial class createDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
