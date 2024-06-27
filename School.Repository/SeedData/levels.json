@@ -1,0 +1,17 @@
+[
+    {
+        "Name":"One",
+        "fees":300,
+        "LevelNumber":1  
+    },
+    {
+        "Name":"Two",
+        "fees":400,
+        "LevelNumber":2  
+    },
+    {
+        "Name":"Three",
+        "fees":500,
+        "LevelNumber":3  
+    }
+]

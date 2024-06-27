@@ -23,6 +23,7 @@ using School.Services.Services.TermService;
 using School.Services.Tokens;
 using School.Services.UserService;
 using School.Services.EmailServices;
+using School.Services.Services.AnnouncementService;
 using School.Services.Services.AttendanceService;
 using School.Services.Services.ProgressReportService;
 using School.Services.Services.RequestMeetingService;
@@ -64,6 +65,12 @@ namespace School.API.Extensions
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             //services.AddTransient<IGetToken, GetToken>();
+
+            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            services.AddScoped<IAnnouncementService, AnnouncementService>();
+
+
+
             services.AddScoped<IProgressReportService, ProgressReportService>();
             services.AddScoped<IProgressReportRepository, ProgressReportRepository>();
             services.AddScoped<IRequestMeetingRepository, RequestMeetingRepository>();
