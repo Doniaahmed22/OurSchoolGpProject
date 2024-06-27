@@ -27,13 +27,13 @@ namespace School.Services.UserService
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
             {
-                return null;
+                return "1";
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (!result.Succeeded)
             {
-                return null;
+                return "2";
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -41,8 +41,6 @@ namespace School.Services.UserService
             {
                 return null;
             }
-
-
 
             var token = _tokenService.GenerateToken(user, roles.First());
 

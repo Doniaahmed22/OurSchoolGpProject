@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240625201140_UpdateAnnouncements")]
+    partial class UpdateAnnouncements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace School.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Subjects")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -50,19 +49,6 @@ namespace School.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Announcements");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
-                {
-                    b.Property<int>("AnnouncementId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AnnouncementId", "ClassId");
-
-                    b.ToTable("AnnouncementClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendence", b =>
@@ -94,6 +80,9 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AnnouncementId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
@@ -107,6 +96,8 @@ namespace School.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnnouncementId");
 
                     b.HasIndex("DepartmentId");
 
@@ -366,6 +357,9 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AnnouncementId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -377,6 +371,8 @@ namespace School.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnnouncementId");
 
                     b.ToTable("Subjects");
                 });
@@ -530,17 +526,6 @@ namespace School.Data.Migrations
                     b.ToTable("Terms");
                 });
 
-            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
-                {
-                    b.HasOne("School.Data.Entities.Announcement", "Announcement")
-                        .WithMany("AnnouncementClasses")
-                        .HasForeignKey("AnnouncementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Announcement");
-                });
-
             modelBuilder.Entity("School.Data.Entities.Attendence", b =>
                 {
                     b.HasOne("School.Data.Entities.Student", null)
@@ -558,6 +543,10 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>
                 {
+                    b.HasOne("School.Data.Entities.Announcement", null)
+                        .WithMany("NumberOfClasses")
+                        .HasForeignKey("AnnouncementId");
+
                     b.HasOne("School.Data.Entities.Department", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
@@ -681,6 +670,13 @@ namespace School.Data.Migrations
                     b.Navigation("subject");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.Subject", b =>
+                {
+                    b.HasOne("School.Data.Entities.Announcement", null)
+                        .WithMany("Subjects")
+                        .HasForeignKey("AnnouncementId");
+                });
+
             modelBuilder.Entity("School.Data.Entities.SubjectLevelDepartmentTerm", b =>
                 {
                     b.HasOne("School.Data.Entities.Department", "Department")
@@ -762,7 +758,9 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Announcement", b =>
                 {
-                    b.Navigation("AnnouncementClasses");
+                    b.Navigation("NumberOfClasses");
+
+                    b.Navigation("Subjects");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>

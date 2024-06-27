@@ -40,6 +40,15 @@ namespace School.Data.Context
                     .Property(e => e.CurrentTerm)
                              .HasDefaultValue(1);
 
+
+            modelBuilder.Entity<AnnouncementClass>()
+            .HasKey(ac => new { ac.AnnouncementId, ac.ClassId });
+
+            modelBuilder.Entity<AnnouncementClass>()
+                .HasOne(ac => ac.Announcement)
+                .WithMany(a => a.AnnouncementClasses)
+                .HasForeignKey(ac => ac.AnnouncementId);
+
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Parent> Parents { get; set; }
@@ -57,6 +66,8 @@ namespace School.Data.Context
         public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<ClassMaterial> ClassMaterials { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<AnnouncementClass> AnnouncementClasses { get; set; }
 
 
     }

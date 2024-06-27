@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240625162427_createDB")]
+    partial class createDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,14 +35,8 @@ namespace School.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ForWhich")
-                        .HasColumnType("int");
-
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subjects")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -50,19 +46,6 @@ namespace School.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Announcements");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
-                {
-                    b.Property<int>("AnnouncementId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AnnouncementId", "ClassId");
-
-                    b.ToTable("AnnouncementClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendence", b =>
@@ -530,17 +513,6 @@ namespace School.Data.Migrations
                     b.ToTable("Terms");
                 });
 
-            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
-                {
-                    b.HasOne("School.Data.Entities.Announcement", "Announcement")
-                        .WithMany("AnnouncementClasses")
-                        .HasForeignKey("AnnouncementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Announcement");
-                });
-
             modelBuilder.Entity("School.Data.Entities.Attendence", b =>
                 {
                     b.HasOne("School.Data.Entities.Student", null)
@@ -758,11 +730,6 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.Announcement", b =>
-                {
-                    b.Navigation("AnnouncementClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>

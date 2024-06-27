@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using School.API.Extensions;
+using School.API.Helper;
 using School.Data.Context;
 using School.Data.Entities.Identity;
 using School.Repository.SeedData;
@@ -23,7 +24,12 @@ namespace School.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            //builder.Services.AddControllers();
+            builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
 
             builder.Services.AddDbContext<SchoolDbContext>(options =>
             {
@@ -126,6 +132,8 @@ namespace School.API
 
 
             var app = builder.Build();
+
+            await ApplySeeding.ApplySeedingAsync(app);
 
             app.UseSwagger();
             app.UseSwaggerUI();

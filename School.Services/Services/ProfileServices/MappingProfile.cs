@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using School.Data.Entities;
+using School.Services.Dtos.AnnouncementDto;
 using School.Services.Dtos.ClassDto;
 using School.Services.Dtos.ClassRecord;
 using School.Services.Dtos.ParentDto;
@@ -43,6 +44,17 @@ namespace School.Services.Services.ProfileServices
             CreateMap<TeacherSubjectClass, ClassRecordDto>();
             CreateMap<ClassRecordDto, TeacherSubjectClass>();
             // CreateMap<SubjectLevelDepartmentTerm, SubjectRecordDto>();
+
+            CreateMap<Announcement, CreateSchoolDto>();
+            CreateMap<CreateSchoolDto, Announcement>();
+
+            CreateMap<Announcement, CreateAnnouncementDto>();
+            CreateMap<CreateAnnouncementDto, Announcement>(); 
+            
+            CreateMap<Announcement, GetAnnouncements>();
+            CreateMap<GetAnnouncements, Announcement>();
+
+
             // Other mappings
         }
     }

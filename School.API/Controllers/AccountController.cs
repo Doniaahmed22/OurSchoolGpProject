@@ -52,9 +52,14 @@ namespace School.API.Controllers
         {
              var user = await _userService.Login(input);
 
-            if(user is null)
+            if(user == "1")
             {
-                return Unauthorized("user not Authorize");
+                return NotFound("Wrong E-Mail");
+            }
+
+            if (user == "2")
+            {
+                return NotFound("Wrong Password");
             }
 
             return Ok(user);
