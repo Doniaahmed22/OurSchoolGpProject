@@ -103,6 +103,8 @@ namespace School.Services.Services.AttendanceService
         public async Task<AbsenceStudent> RemoveAbsenceWarn(int studentid)
         {
             var AbsenceWarn = await _attendanceRepository.GetFirstAbsenceWarnByStuId(studentid);
+            if (AbsenceWarn == null)
+                return null;
             IEnumerable<Attendance> attendances = await _attendanceRepository.GetLastAbsencesAttendanceRecord(studentid, _schoolRepository.GetLimitAbsentDays());
             foreach (Attendance attendance in attendances)
             {
@@ -119,7 +121,27 @@ namespace School.Services.Services.AttendanceService
         }
         public async Task AddLimitAbsentDays(int LimitAbsentDays)
         {
+            if (LimitAbsentDays == 0)
+                return;
             await _schoolRepository.SetLimitAbsentDays(LimitAbsentDays);
+            IEnumerable<Student> students =await _studentRepository.GetStudentsWithAbsenceAttendance_Warns();
+            foreach (Student student in students)
+            {
+                if (student.Attendences == null) continue;
+                List<Attendance>AbsenceRecords = student.Attendences.Where(a=>a.AttendanceType == AttendanceType.Absent).OrderBy(a=>a.Date).ToList(); 
+                if(AbsenceRecords==null||AbsenceRecords.Count< LimitAbsentDays)
+                {
+                    student.AbsenceWarnings = new List<AbsenceWarning>();
+                    continue;
+                }
+                student.AbsenceWarnings = new List<AbsenceWarning>();
+                for (int i = LimitAbsentDays; i<=AbsenceRecords.Count();i+= LimitAbsentDays)
+                {
+                    student.AbsenceWarnings.Add(new AbsenceWarning() { WarningDate = AbsenceRecords[i-1].Date , StudentId = student.Id});
+                }
+
+            }
+            await _unitOfWork.CompleteAsync();
             
         }
         public async Task< StudentAttendanceReportDto >GetStudenceAttendanceReport(int studentId)

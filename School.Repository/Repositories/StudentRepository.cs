@@ -84,6 +84,10 @@ namespace School.Repository.Repositories
                 .Where(s => s.LevelId == levelId && s.DepartmentId == departmentId).ToListAsync();
 
         }
+        public async Task<IEnumerable<Student>> GetStudentsWithAbsenceAttendance_Warns()
+        {
+            return await _context.Students.Include(s=>s.AbsenceWarnings).Include(s=>s.Attendences).ToListAsync();
+        }
 
 
     }
