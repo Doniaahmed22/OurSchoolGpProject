@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace School.Data.Migrations
 {
-    public partial class createDb : Migration
+    public partial class addTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
