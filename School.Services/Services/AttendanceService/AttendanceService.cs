@@ -30,12 +30,13 @@ namespace School.Services.Services.AttendanceService
             int limitAbsentAttendance = _schoolRepository.GetLimitAbsentDays();
             foreach (var studentAtten in StudentsAttendance)
             {
-               
-                if (studentAtten.AttendanceType==AttendanceType.None)
+
+                if (studentAtten.AttendanceType == AttendanceType.None)
                     continue;
 
-                var AttendanceRecord =await _attendanceRepository.GetAttendanceRecord(studentAtten.StudentId, DateTime.Today);
-                if(AttendanceRecord == null) {
+                var AttendanceRecord = await _attendanceRepository.GetAttendanceRecord(studentAtten.StudentId, DateTime.Today);
+                if (AttendanceRecord == null)
+                {
                     _unitOfWork.repository<Attendance>().AddWithoutSave(new Attendance()
                     {
                         Date = DateTime.Today,
@@ -51,33 +52,35 @@ namespace School.Services.Services.AttendanceService
 
                     if (studentAtten.AttendanceType == AttendanceType.Present && AttendanceRecord.AttendanceType == AttendanceType.Absent)
                     {
-                        var AbsencWarningRecord = await _attendanceRepository.GetAbsencWarningRecord(studentAtten.StudentId,DateTime.Today);
+                        var AbsencWarningRecord = await _attendanceRepository.GetAbsencWarningRecord(studentAtten.StudentId, DateTime.Today);
                         if (AbsencWarningRecord != null)
                             _attendanceRepository.RemoveAbsencWarningRecord(AbsencWarningRecord);
-                    }           
+                    }
                     AttendanceRecord.AttendanceType = studentAtten.AttendanceType;
                 }
 
-                if (studentAtten.AttendanceType== AttendanceType.Absent) {
-                    var student =  await _studentRepository.GetStudentWithAttendanceById(studentAtten.StudentId);   
+                if (studentAtten.AttendanceType == AttendanceType.Absent)
+                {
+                    var student = await _studentRepository.GetStudentWithAttendanceById(studentAtten.StudentId);
                     if (student != null)
                     {
-                        int NumberOfAbsentDays =  student.Attendences.Count(a=>a.AttendanceType== AttendanceType.Absent);
-                        if(NumberOfAbsentDays% limitAbsentAttendance == 0)
+                        int NumberOfAbsentDays = student.Attendences.Count(a => a.AttendanceType == AttendanceType.Absent);
+                        if (NumberOfAbsentDays % limitAbsentAttendance == 0)
                         {
                             _unitOfWork.repository<AbsenceWarning>().
                              AddWithoutSave(new AbsenceWarning()
                              {
                                  StudentId = studentAtten.StudentId,
                                  WarningDate = DateTime.Today
-                             }); 
+                             });
                         }
                     }
                 }
             }
             await _unitOfWork.CompleteAsync();
         }
-       public async Task<AbsenceStudent> RemoveAbsenceWarn(int studentid)
+        /*
+        public async Task<AbsenceStudent> RemoveAbsenceWarn(int studentid)
        {
            var AbsenceWarn= await _attendanceRepository.GetFirstAbsenceWarnByStuId(studentid);
             if (AbsenceWarn == null)
@@ -96,10 +99,50 @@ namespace School.Services.Services.AttendanceService
                 AbsentDays = _attendanceRepository.GetAbsentDaysByStudentId(studentid),
                 Studentid = studentid,
             };
-       }
-       public async Task AddLimitAbsentDays(int LimitAbsentDays)
+       }*/
+        public async Task<AbsenceStudent> RemoveAbsenceWarn(int studentid)
         {
+            var AbsenceWarn = await _attendanceRepository.GetFirstAbsenceWarnByStuId(studentid);
+            if (AbsenceWarn == null)
+                return null;
+            IEnumerable<Attendance> attendances = await _attendanceRepository.GetLastAbsencesAttendanceRecord(studentid, _schoolRepository.GetLimitAbsentDays());
+            foreach (Attendance attendance in attendances)
+            {
+                 attendance.AttendanceType = AttendanceType.AbsenceExcuse;
+            }
+            _attendanceRepository.RemoveAbsencWarningRecord(AbsenceWarn);
+            await _unitOfWork.CompleteAsync();
+            return new AbsenceStudent()
+            {
+                AbsenceWarns = _attendanceRepository.GetAbsenWarnByStudentId(studentid),
+                AbsentDays = _attendanceRepository.GetAbsentDaysByStudentId(studentid),
+                Studentid = studentid,
+            };
+        }
+        public async Task AddLimitAbsentDays(int LimitAbsentDays)
+        {
+            if (LimitAbsentDays == 0)
+                return;
             await _schoolRepository.SetLimitAbsentDays(LimitAbsentDays);
+            IEnumerable<Student> students =await _studentRepository.GetStudentsWithAbsenceAttendance_Warns();
+            foreach (Student student in students)
+            {
+                if (student.Attendences == null) continue;
+                List<Attendance>AbsenceRecords = student.Attendences.Where(a=>a.AttendanceType == AttendanceType.Absent).OrderBy(a=>a.Date).ToList(); 
+                if(AbsenceRecords==null||AbsenceRecords.Count< LimitAbsentDays)
+                {
+                    student.AbsenceWarnings = new List<AbsenceWarning>();
+                    continue;
+                }
+                student.AbsenceWarnings = new List<AbsenceWarning>();
+                for (int i = LimitAbsentDays; i<=AbsenceRecords.Count();i+= LimitAbsentDays)
+                {
+                    student.AbsenceWarnings.Add(new AbsenceWarning() { WarningDate = AbsenceRecords[i-1].Date , StudentId = student.Id});
+                }
+
+            }
+            await _unitOfWork.CompleteAsync();
+            
         }
         public async Task< StudentAttendanceReportDto >GetStudenceAttendanceReport(int studentId)
         {

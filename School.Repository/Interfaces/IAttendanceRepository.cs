@@ -21,6 +21,8 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<Attendance>> GetAttendance(int stuId);
 
         Task<IEnumerable<AbsenceWarning>> GetAbsenceWarning(int stuId);
+        Task<IEnumerable<Attendance>> GetLastAbsencesAttendanceRecord(int studentid, int warndays);
+
 
     }
 }

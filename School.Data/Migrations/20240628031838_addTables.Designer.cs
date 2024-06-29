@@ -12,8 +12,8 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20240627185513_AddTables")]
-    partial class AddTables
+    [Migration("20240628031838_addTables")]
+    partial class addTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,49 @@ namespace School.Data.Migrations
                     b.HasKey("StudentId", "WarningDate");
 
                     b.ToTable("AbsenceWarnings");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ForWhich")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subjects")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcements");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
+                {
+                    b.Property<int>("AnnouncementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnnouncementId", "ClassId");
+
+                    b.ToTable("AnnouncementClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
@@ -574,6 +617,17 @@ namespace School.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("School.Data.Entities.AnnouncementClass", b =>
+                {
+                    b.HasOne("School.Data.Entities.Announcement", "Announcement")
+                        .WithMany("AnnouncementClasses")
+                        .HasForeignKey("AnnouncementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Announcement");
+                });
+
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
                 {
                     b.HasOne("School.Data.Entities.Student", "Student")
@@ -835,6 +889,11 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Announcement", b =>
+                {
+                    b.Navigation("AnnouncementClasses");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Class", b =>

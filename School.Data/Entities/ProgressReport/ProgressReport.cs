@@ -19,11 +19,6 @@ namespace School.Data.Entities.ProgressReport
 
         [Required]
         public AttitudeType Attitude { get; set; }
-
-        [Required]
-        [Range(0, 100)]
-        public int AbsenceRate { get; set; }
-
         public string Advantages { get; set; }
 
         public string Disadvantages { get; set; }

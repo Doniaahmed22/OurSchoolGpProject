@@ -36,5 +36,6 @@ namespace School.Data.Entities
         // public int NumbOfAttendanceWarnings { get; set; } = 0;
         public List<AbsenceWarning>AbsenceWarnings { get; set; }
         public List<RequestMeeting> requestMeetings {  get; set; } 
+        
     }
 }

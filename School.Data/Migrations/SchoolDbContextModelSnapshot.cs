@@ -257,9 +257,6 @@ namespace School.Data.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AbsenceRate")
-                        .HasColumnType("int");
-
                     b.Property<string>("Advantages")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

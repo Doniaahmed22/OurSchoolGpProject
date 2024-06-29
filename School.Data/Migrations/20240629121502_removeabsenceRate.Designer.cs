@@ -12,8 +12,8 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20240627194502_createDb")]
-    partial class createDb
+    [Migration("20240629121502_removeabsenceRate")]
+    partial class removeabsenceRate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -257,9 +257,6 @@ namespace School.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AbsenceRate")
                         .HasColumnType("int");
 
                     b.Property<string>("Advantages")

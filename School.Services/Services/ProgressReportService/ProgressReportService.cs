@@ -25,7 +25,6 @@ namespace School.Services.Services.ProgressReportService
             ReportDto reportDto = new ReportDto();
             if (report == null)
                 return reportDto;
-            reportDto.AbsenceRate = report.AbsenceRate;
             reportDto.Attitude = report.Attitude;
             reportDto.Status = report.Status;
             reportDto.Recommendations = report.Recommendations;
@@ -45,7 +44,6 @@ namespace School.Services.Services.ProgressReportService
             {
                 ProgressReport report = new ProgressReport()
                 {
-                    AbsenceRate = reportDto.AbsenceRate,
                     Attitude = reportDto.Attitude,
                     Status = reportDto.Status,
                     Recommendations = reportDto.Recommendations,
@@ -61,7 +59,6 @@ namespace School.Services.Services.ProgressReportService
             }
             else
             {
-                exist_report.AbsenceRate = reportDto.AbsenceRate;
                 exist_report.Attitude = reportDto.Attitude;
                 exist_report.Status = reportDto.Status;
                 exist_report.Recommendations = reportDto.Recommendations;

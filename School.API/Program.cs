@@ -25,11 +25,21 @@ namespace School.API
 
             // Add services to the container.
 
+<<<<<<< HEAD
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
                 });
+=======
+            builder.Services.AddControllers();
+            /*
+            builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });*/
+>>>>>>> 86d9a338ff9284f40db387281e991a549f39a875
 
             builder.Services.AddDbContext<SchoolDbContext>(options =>
             {
