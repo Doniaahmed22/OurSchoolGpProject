@@ -15,9 +15,6 @@ namespace School.Services.Dtos.ProgressReportDto
         [Range(0, 100)]
         public int ProgressLevel { get; set; }
         public AttitudeType Attitude { get; set; }
-
-        [Range(0, 100)]
-        public int AbsenceRate { get; set; }
         public string Advantages { get; set; }
         public string Disadvantages { get; set; }
         public string Recommendations { get; set; }
