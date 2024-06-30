@@ -23,14 +23,16 @@ namespace School.Services.Tokens
         }
 
         public string GenerateToken(AppUser user, string role)
-        {
+         {
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, role) // Add the single role claim
+            new Claim(ClaimTypes.Role, role), // Add the single role claim
+            new Claim(ClaimTypes.Email, user.Email),
+
         };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"]));

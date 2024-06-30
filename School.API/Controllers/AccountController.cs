@@ -84,7 +84,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("api/GetCurrentUserDetails")]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<UserDto>> GetCurrentUserDetails ()
         {
             var email = User?.FindFirstValue(ClaimTypes.Email);
@@ -93,28 +93,63 @@ namespace School.API.Controllers
             return new UserDto
             {
                 Email = user.Email,
-                DisplayName = user.DisplayName
-            };
+                DisplayName = user.DisplayName,
+
+        };
         }
 
 
-        
-        [HttpPost("forgot-password")]
+
+
+        [HttpPost]
+        [Route("api/forgot-password")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
                 return BadRequest("User not found");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetUrl = $"{Request.Scheme}://{Request.Host}/api/account/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(model.GmailAddress)}";
+            var resetLink = Url.Action("ResetPassword", "Account",
+                                       new { token, email = model.Email }, Request.Scheme);
 
+            // Send the reset link to the secondary email
+            await _emailService.SendEmailAsync(model.GmailAddress, "Reset Password",
+                                              $"Please reset your password by clicking here: {resetLink}");
 
-            await _emailService.SendEmailAsync(model.GmailAddress , "Reset Password", $"<a href='{resetUrl}'>Click here to reset your password</a>");
-
-            return Ok("Password reset link has been sent to your email");
+            return Ok();
         }
-        
+
+
+
+
+        [HttpPost]
+        [Route("api/reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("User not found");
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok();
+        }
+
+
+
+
+
+
+
 
 
         [HttpPost("ChangePassword")]

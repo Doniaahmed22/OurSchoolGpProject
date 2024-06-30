@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using School.Data.Entities;
+using School.Data.Entities.Identity;
 using School.Data.Entities.ProgressReport;
 using System;
 using System.Collections.Generic;
@@ -11,7 +14,7 @@ using System.Xml;
 
 namespace School.Data.Context
 {
-    public class SchoolDbContext : DbContext
+    public class SchoolDbContext : IdentityDbContext<AppUser, IdentityRole, string>
     {
         public SchoolDbContext(DbContextOptions<SchoolDbContext> options) : base(options)
         {
@@ -20,6 +23,10 @@ namespace School.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles").HasKey(r => r.Id);
+
             modelBuilder.Entity<Subject>()
             .Property(s => s.Image)
             .HasDefaultValue("Default.jpeg");
