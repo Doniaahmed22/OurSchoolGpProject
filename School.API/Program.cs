@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using School.API.Extensions;
-using School.API.Helper;
 using School.Data.Context;
 using School.Data.Entities.Identity;
 using School.Repository.SeedData;
@@ -18,28 +17,17 @@ namespace School.API
 {
     public class Program
     {
-
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
 
-<<<<<<< HEAD
-            builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-                });
-=======
             builder.Services.AddControllers();
-            /*
-            builder.Services.AddControllers()
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            });*/
->>>>>>> 86d9a338ff9284f40db387281e991a549f39a875
+                //.AddJsonOptions(options =>
+                //{
+                //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                //});
 
             builder.Services.AddDbContext<SchoolDbContext>(options =>
             {
@@ -124,7 +112,6 @@ namespace School.API
 
             var app = builder.Build();
 
-            await ApplySeeding.ApplySeedingAsync(app);
 
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -153,5 +140,3 @@ namespace School.API
         }
     }
 }
-
-    

@@ -71,77 +71,8 @@ namespace School.Services.EmailServices
                }
            }
 
-   
-
-
-
-
-
-
-
-
-            //try
-            //{
-            //    MailMessage mail = new MailMessage();
-            //    SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-
-            //    mail.From = new MailAddress("ourschoolproject22@gmail.com");
-            //    mail.To.Add("ourschoolproject22@gmail.com");
-            //    mail.Subject = subject;
-            //    mail.Body = body;
-
-            //    smtp.Port = 587;
-            //    smtp.Credentials = new NetworkCredential("ourschoolproject22@gmail.com", "ourschool123456");
-            //    smtp.EnableSsl = true;
-
-            //    smtp.Send(mail);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
-
-
         }
     }
 
-    /*
-    public class EmailService
-    {
-        private readonly EmailSettings _emailSettings;
-
-        public EmailService(IConfiguration configuration)
-        {
-            _emailSettings = configuration.GetSection("EmailSettings").Get<EmailSettings>();
-        }
-
-        public async Task SendEmailAsync(string toEmail, string subject, string body)
-        {
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail));
-            emailMessage.To.Add(new MailboxAddress("", toEmail));
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart("html") { Text = body };
-
-            using var client = new MailKit.Net.Smtp.SmtpClient();
-            try
-            {
-                await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
-                await client.AuthenticateAsync(_emailSettings.Username, _emailSettings.Password);
-                await client.SendAsync(emailMessage);
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (logging, rethrow, etc.)
-                throw;
-            }
-            finally
-            {
-                await client.DisconnectAsync(true);
-            }
-        }
-
-    }
-    */
 
    
