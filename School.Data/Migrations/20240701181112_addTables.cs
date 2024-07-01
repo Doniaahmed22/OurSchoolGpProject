@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace School.Data.Migrations
 {
-    public partial class TestOneDb : Migration
+    public partial class addTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -284,6 +284,32 @@ namespace School.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReceiverId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -588,7 +614,6 @@ namespace School.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     ProgressLevel = table.Column<int>(type: "int", nullable: false),
                     Attitude = table.Column<int>(type: "int", nullable: false),
-                    AbsenceRate = table.Column<int>(type: "int", nullable: false),
                     Advantages = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Disadvantages = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recommendations = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -738,6 +763,16 @@ namespace School.Data.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProgressReport_SubjectId",
                 table: "ProgressReport",
                 column: "SubjectId");
@@ -848,6 +883,9 @@ namespace School.Data.Migrations
                 name: "ClassMaterials");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "ProgressReport");
 
             migrationBuilder.DropTable(
@@ -875,10 +913,10 @@ namespace School.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Materials");
 
             migrationBuilder.DropTable(
-                name: "Materials");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Students");

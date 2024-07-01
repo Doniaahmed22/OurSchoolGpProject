@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School.Data.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace School.Data.Entities
     {
 
         public int Id { get; set; }
+//        public string UserId { get; set; }
+ //       public AppUser User {  get; set; } 
         public string Name { get; set; }
         public string Email { get; set; }
         public string GmailAddress { get; set; }

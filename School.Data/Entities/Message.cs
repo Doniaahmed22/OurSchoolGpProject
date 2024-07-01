@@ -13,8 +13,7 @@ namespace School.Data.Entities
         public string Content { get; set; }
         public DateTime MessageDate { get; set; }
         public string SenderId { get; set; }
-        public AppUser Sender { get; set; }
-        
+        public AppUser Sender { get; set; }      
         public string ReceiverId { get; set; }
         public AppUser Receiver { get; set; }
         
