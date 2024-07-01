@@ -37,6 +37,18 @@ namespace School.Data.Context
             modelBuilder.Entity<Class>().HasOne(x => x.Department).WithMany().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Class>().HasOne(x => x.Level).WithMany().OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany()
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany()
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.NoAction); 
+
             modelBuilder.Entity<StudentSubject>().HasKey(x => new { x.StudentId, x.SubjectId });
             modelBuilder.Entity<Attendance>().HasKey(x => new { x.StudentId, x.Date });
             modelBuilder.Entity<TeacherSubject>().HasKey(x => new { x.TeacherId, x.SubjectId });
@@ -83,6 +95,7 @@ namespace School.Data.Context
         public DbSet<AbsenceWarning> AbsenceWarnings { get; set; }      
         public DbSet<ProgressReport> ProgressReport { get; set; }
         public DbSet<RequestMeeting> requestMeetings { get; set; }
+        public DbSet<Message>  Messages { get; set; }
 
     }
 }

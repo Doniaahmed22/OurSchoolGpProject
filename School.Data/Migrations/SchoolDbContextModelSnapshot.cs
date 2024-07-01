@@ -420,6 +420,38 @@ namespace School.Data.Migrations
                     b.ToTable("Materials");
                 });
 
+            modelBuilder.Entity("School.Data.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("MessageDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("School.Data.Entities.Parent", b =>
                 {
                     b.Property<int>("Id")
@@ -970,6 +1002,25 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Message", b =>
+                {
+                    b.HasOne("School.Data.Entities.Identity.AppUser", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("School.Data.Entities.Identity.AppUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>
