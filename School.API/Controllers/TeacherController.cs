@@ -118,6 +118,7 @@ namespace School.API.Controllers
 
             teacherDto.Email = registerDto.Email;
             await TeacherServices.AddTeacher(teacherDto);
+            await _userService.SendEmail(registerDto);
             return Ok(teacherDto);
         }
 

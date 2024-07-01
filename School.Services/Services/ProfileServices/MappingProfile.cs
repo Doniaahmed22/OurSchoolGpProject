@@ -4,6 +4,7 @@ using School.Services.Dtos.AnnouncementDto;
 using School.Services.Dtos.ClassDto;
 using School.Services.Dtos.ClassRecord;
 using School.Services.Dtos.ParentDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
 using School.Services.Dtos.SubjectDto;
 using School.Services.Dtos.SubjectRecord;
@@ -49,10 +50,13 @@ namespace School.Services.Services.ProfileServices
             CreateMap<CreateSchoolDto, Announcement>();
 
             CreateMap<Announcement, CreateAnnouncementDto>();
-            CreateMap<CreateAnnouncementDto, Announcement>(); 
-            
+            CreateMap<CreateAnnouncementDto, Announcement>();
+
             CreateMap<Announcement, GetAnnouncements>();
-            CreateMap<GetAnnouncements, Announcement>();
+            CreateMap<GetAnnouncements, Announcement>(); 
+            
+            CreateMap<Student, NameIdDto>();
+            CreateMap<NameIdDto, Student>();
 
 
             // Other mappings

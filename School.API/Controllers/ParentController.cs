@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using School.Data.Context;
 using School.Data.Entities.Identity;
 using School.Services.Dtos.ParentDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Services.ParentServices;
 using School.Services.Tokens;
 using School.Services.UserService;
@@ -94,6 +95,8 @@ namespace School.API.Controllers
 
             await _parentServices.AddParent(parentDto);
 
+            await _userService.SendEmail(registerDto);
+
             return Ok(parentDto);
         }
 
@@ -125,7 +128,17 @@ namespace School.API.Controllers
             return Ok();
         }
 
+
+        [HttpGet]
+        [Route("GetStudentsOfParents")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<NameIdDto>>> GetStudentsOfParents(int id)
+        {
+            var Students = await _parentServices.GetStudentsOfParents(id);
+            return Ok(Students);
+        }
+
+
     }
 }
-
 
