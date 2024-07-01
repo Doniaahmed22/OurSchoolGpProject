@@ -70,6 +70,8 @@ namespace School.API.Extensions
             services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 
+            services.AddScoped<IParentRepository, ParentRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
 
             services.AddScoped<IProgressReportService, ProgressReportService>();
             services.AddScoped<IProgressReportRepository, ProgressReportRepository>();

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities.Identity;
+using School.Repository.Interfaces;
 using School.Services.EmailServices;
 using School.Services.Tokens;
 using School.Services.UserService.Dtos;
@@ -12,28 +14,34 @@ namespace School.Services.UserService
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly EmailService _emailService;
+        private readonly IParentRepository _parentRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService,IParentRepository parentRepository, IStudentRepository studentRepository, ITeacherRepository teacherRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _emailService = emailService;
+            _parentRepository = parentRepository;
+            _studentRepository = studentRepository;
+            _teacherRepository = teacherRepository;
         }
 
 
-        public async Task<string> Login(LoginDto loginDto)
+        public async Task<GetLoginDetails> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
             {
-                return "1";
+                return null;
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (!result.Succeeded)
             {
-                return "2";
+                return null;
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -44,11 +52,36 @@ namespace School.Services.UserService
 
             var token = _tokenService.GenerateToken(user, roles.First());
 
-            return token;
+            var id = 0; 
+            if(roles.First() == "Student")
+            {
+                id = await _studentRepository.GetStudentByUserId(user.Id);
+            }
+            else if (roles.First() == "Parent")
+            {
+                id = await _parentRepository.GetParentByUserId(user.Id);
+            }
+            else if (roles.First() == "Teacher")
+            {
+                id = await _teacherRepository.GetTeacherByUserId(user.Id);
+            }
+            //else if (roles.First() == "Admin")
+            //{
+            //    id = 0;
+            //}
+
+            return new GetLoginDetails
+            {
+                userId = user.Id,
+                role = roles.First(),
+                id = id,
+                token = token
+            };
+
         }
 
 
-        public async Task<UserDto> Register(RegisterDto input , string role)
+        public async Task<GetRegisteerDto> Register(RegisterDto input , string role)
         {
             var user = await _userManager.FindByEmailAsync(input.Email);
 
@@ -71,28 +104,39 @@ namespace School.Services.UserService
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            var receiver = input.GmailAddress;
-            // Prepare email
-            string subject = "Welcome to Our Service";
-            string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+            //var receiver = input.GmailAddress;
+            //// Prepare email
+            //string subject = "Welcome to Our Service";
+            //string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
 
-            // Send email
-            await _emailService.SendEmailAsync(receiver, subject, body);           
+            //// Send email
+            //await _emailService.SendEmailAsync(receiver, subject, body);           
                         
             if( !(await _userManager.AddToRoleAsync(appUser , role)).Succeeded  )
             {
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            return new UserDto
+            return new GetRegisteerDto
             {
                 Email = input.Email,
-                DisplayName = input.DisplayName,
-                Token = _tokenService.GenerateToken(appUser, role)
+                DisplayName = input.DisplayName
             };
 
         }
 
+        public async Task<string> SendEmail (RegisterDto input)
+        {
+            var receiver = input.GmailAddress;
+            // Prepare email
+            string subject = "Welcome to Our Service";
+            string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+
+            // Send email
+            await _emailService.SendEmailAsync(receiver, subject, body);
+
+            return "done";
+        }
 
         public async Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model)
         {

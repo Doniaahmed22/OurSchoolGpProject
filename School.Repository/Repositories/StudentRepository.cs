@@ -89,6 +89,12 @@ namespace School.Repository.Repositories
             return await _context.Students.Include(s=>s.AbsenceWarnings).Include(s=>s.Attendences).ToListAsync();
         }
 
+        public async Task<int> GetStudentByUserId(string UserId)
+        {
+            var student = await _context.Students.Where(x => x.UserId == UserId).ToListAsync();
+            return student[0].Id;
+        }
+
 
     }
 }

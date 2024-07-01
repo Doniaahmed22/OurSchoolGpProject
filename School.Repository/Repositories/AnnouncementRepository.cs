@@ -17,7 +17,7 @@ namespace School.Repository.Repositories
 
         public async Task<List<Announcement>> GetStudentsAsync(int studentId)
         {
-            return  await (from a in _context.Announcements
+            return await (from a in _context.Announcements
                                  where a.ForWhich == 1 || a.ForWhich == 4
                                  join ac in _context.AnnouncementClasses on a.Id equals ac.AnnouncementId
                                  join s in _context.Students on ac.ClassId equals s.ClassId 

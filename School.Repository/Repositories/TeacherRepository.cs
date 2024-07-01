@@ -60,5 +60,12 @@ namespace School.Repository.Repositories
                 .Where(tsc => tsc.TeacherId == teacherid && tsc.SubjectId == subjectid && tsc.Class.LevelId == levelid).Select(tsc => tsc.Class).Distinct().ToListAsync();
         }
 
+
+        public async Task<int> GetTeacherByUserId(string UserId)
+        {
+            var Teacher = await _context.Teachers.Where(x => x.UserId == UserId).ToListAsync();
+            return Teacher[0].Id;
+        }
+
     }
 }

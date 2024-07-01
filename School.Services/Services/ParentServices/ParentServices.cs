@@ -2,6 +2,7 @@
 using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Services.Dtos.ParentDto;
+using School.Services.Dtos.SharedDto;
 
 namespace School.Services.Services.ParentServices
 {
@@ -9,11 +10,13 @@ namespace School.Services.Services.ParentServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IParentRepository _parentRepository;
 
-        public ParentServices(IUnitOfWork unitOfWork, IMapper mapper)
+        public ParentServices(IUnitOfWork unitOfWork, IMapper mapper, IParentRepository parentRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _parentRepository = parentRepository;
         }
 
         public async Task<IEnumerable<ParentDtoWithId>> GetAllParents()
@@ -50,5 +53,14 @@ namespace School.Services.Services.ParentServices
         {
             await _unitOfWork.repository<Parent>().Delete(id);
         }
+
+
+        public async Task<IEnumerable<NameIdDto>> GetStudentsOfParents(int id)
+        {
+            var Students = await _parentRepository.GetStudentsOfParents(id);
+            return _mapper.Map<IEnumerable<NameIdDto>>(Students);
+        }
+
+
     }
 }

@@ -9,9 +9,10 @@ namespace School.Services.UserService
 {
     public interface IUserService
     {
-        Task<UserDto> Register(RegisterDto input, string role);
-        //Task<UserDto> Login(LoginDto input);
-        Task<string> Login(LoginDto loginDto);
+        Task<GetRegisteerDto> Register(RegisterDto input, string role);
+        Task<string> SendEmail(RegisterDto input);
+
+        Task<GetLoginDetails> Login(LoginDto loginDto);
 
         Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model);
     }

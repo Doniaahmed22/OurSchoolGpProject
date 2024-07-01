@@ -48,19 +48,14 @@ namespace School.API.Controllers
 
         [HttpPost]
         [Route("api/Login")]
-        public async Task<ActionResult<UserDto>> Login (LoginDto input)
+        public async Task<ActionResult<GetLoginDetails>> Login (LoginDto input)
         {
              var user = await _userService.Login(input);
 
-            if(user == "1")
+            if(user == null)
             {
-                return NotFound("Wrong E-Mail");
-            }
-
-            if (user == "2")
-            {
-                return NotFound("Wrong Password");
-            }
+                return BadRequest("E-Mail or password not correct");
+            }          
 
             return Ok(user);
         }

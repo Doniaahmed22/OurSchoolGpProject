@@ -19,6 +19,8 @@ namespace School.Services.Dtos.TeacherDto
         public string Religion { get; set; }
         public string Nationality { get; set; }
         public string Degree { get; set; }
-        public List<int> TeacherSubjectsId { get; set; } 
+        public List<int> TeacherSubjectsId { get; set; }
+        public string? UserId { get; set; }
+
     }
 }

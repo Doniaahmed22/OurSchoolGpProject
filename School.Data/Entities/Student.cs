@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School.Data.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,7 +36,10 @@ namespace School.Data.Entities
         public List<Attendance>? Attendences { get; set; }
         // public int NumbOfAttendanceWarnings { get; set; } = 0;
         public List<AbsenceWarning>AbsenceWarnings { get; set; }
-        public List<RequestMeeting> requestMeetings {  get; set; } 
-        
+        public List<RequestMeeting> requestMeetings {  get; set; }
+
+        public string UserId { get; set; }
+        //public AppUser AppUser { get; set; }
+
     }
 }
