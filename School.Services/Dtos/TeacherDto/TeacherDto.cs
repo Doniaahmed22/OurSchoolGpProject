@@ -1,4 +1,5 @@
-﻿using School.Services.Dtos.SharedDto;
+﻿using School.Data.Entities.Identity;
+using School.Services.Dtos.SharedDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;

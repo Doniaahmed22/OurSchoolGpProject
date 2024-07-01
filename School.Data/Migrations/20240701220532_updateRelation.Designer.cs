@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240701220532_updateRelation")]
+    partial class updateRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,38 +420,6 @@ namespace School.Data.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Materials");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("MessageDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ReceiverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Parent", b =>
@@ -1002,25 +972,6 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.Message", b =>
-                {
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "Receiver")
-                        .WithMany()
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>

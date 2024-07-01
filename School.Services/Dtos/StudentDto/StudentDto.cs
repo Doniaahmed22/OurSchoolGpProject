@@ -24,5 +24,7 @@ namespace School.Services.Dtos.StudentDto
         public int? LevelId { get; set; }
         public int? DepartmentId { get; set; }
         public int? ClassId { get; set; }
+        public string? UserId { get; set; }
+
     }
 }

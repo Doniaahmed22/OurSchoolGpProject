@@ -117,6 +117,10 @@ namespace School.API.Controllers
             await _userService.Register(registerDto,"Teacher");
 
             teacherDto.Email = registerDto.Email;
+
+            var user = await _userManager.FindByEmailAsync(registerDto.Email);
+            teacherDto.UserId = user.Id;
+
             await TeacherServices.AddTeacher(teacherDto);
             await _userService.SendEmail(registerDto);
             return Ok(teacherDto);

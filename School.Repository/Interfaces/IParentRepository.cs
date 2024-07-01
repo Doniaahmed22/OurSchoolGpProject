@@ -10,6 +10,7 @@ namespace School.Repository.Interfaces
     public interface IParentRepository
     {
         Task<List<Student>> GetStudentsOfParents(int id);
+        Task<int> GetParentByUserId(string UserId);
 
     }
 }

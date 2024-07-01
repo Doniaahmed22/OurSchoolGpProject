@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Data.Context;
 
@@ -11,9 +12,10 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240701214403_addUserIdForeign")]
+    partial class addUserIdForeign
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -420,38 +422,6 @@ namespace School.Data.Migrations
                     b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("School.Data.Entities.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("MessageDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ReceiverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("School.Data.Entities.Parent", b =>
                 {
                     b.Property<int>("Id")
@@ -462,6 +432,9 @@ namespace School.Data.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -478,11 +451,9 @@ namespace School.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Parents");
                 });
@@ -590,6 +561,9 @@ namespace School.Data.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
@@ -632,11 +606,9 @@ namespace School.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ClassId");
 
@@ -737,6 +709,9 @@ namespace School.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
@@ -771,11 +746,9 @@ namespace School.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Teachers");
                 });
@@ -1004,23 +977,13 @@ namespace School.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("School.Data.Entities.Message", b =>
+            modelBuilder.Entity("School.Data.Entities.Parent", b =>
                 {
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "Receiver")
+                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>
@@ -1074,6 +1037,10 @@ namespace School.Data.Migrations
 
             modelBuilder.Entity("School.Data.Entities.Student", b =>
                 {
+                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("School.Data.Entities.Class", "Class")
                         .WithMany()
                         .HasForeignKey("ClassId")
@@ -1094,6 +1061,8 @@ namespace School.Data.Migrations
                     b.HasOne("School.Data.Entities.Parent", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Class");
 
@@ -1156,6 +1125,15 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("School.Data.Entities.Teacher", b =>
+                {
+                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubject", b =>

@@ -13,5 +13,6 @@ namespace School.Services.Dtos.ParentDto
         public string GmailAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
+        public string? UserId { get; set; }
     }
 }

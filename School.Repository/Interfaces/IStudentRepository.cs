@@ -22,6 +22,7 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<Student>> GetStudentsWithParent();
         Task<IEnumerable<Student>> GetStudentsByLevelIdDepartmentId(int levelId, int departmentId);
         Task<IEnumerable<Student>> GetStudentsWithAbsenceAttendance_Warns();
+        Task<int> GetStudentByUserId(string UserId);
 
 
     }
