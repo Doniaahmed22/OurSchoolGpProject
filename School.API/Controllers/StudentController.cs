@@ -72,6 +72,7 @@ namespace School.API.Controllers
             await _userService.Register(registerDto,"Student");
             studentDto.Email = registerDto.Email;
             await _studentServices.AddStudent(studentDto);
+            await _userService.SendEmail(registerDto);
             return Ok(studentDto);
         }
 

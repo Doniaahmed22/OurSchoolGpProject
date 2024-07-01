@@ -1,4 +1,5 @@
 ﻿using School.Services.Dtos.ParentDto;
+using School.Services.Dtos.SharedDto;
 using School.Services.Dtos.StudentDto;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace School.Services.Services.ParentServices
         Task AddParent(ParentDto parentDto);
         Task UpdateParent(int id ,ParentDto entity);
         Task DeleteParent(int id);
+        Task<IEnumerable<NameIdDto>> GetStudentsOfParents(int id);
+
     }
 }

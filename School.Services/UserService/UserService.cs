@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities.Identity;
 using School.Services.EmailServices;
 using School.Services.Tokens;
@@ -48,7 +49,7 @@ namespace School.Services.UserService
         }
 
 
-        public async Task<UserDto> Register(RegisterDto input , string role)
+        public async Task<GetRegisteerDto> Register(RegisterDto input , string role)
         {
             var user = await _userManager.FindByEmailAsync(input.Email);
 
@@ -71,28 +72,39 @@ namespace School.Services.UserService
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            var receiver = input.GmailAddress;
-            // Prepare email
-            string subject = "Welcome to Our Service";
-            string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+            //var receiver = input.GmailAddress;
+            //// Prepare email
+            //string subject = "Welcome to Our Service";
+            //string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
 
-            // Send email
-            await _emailService.SendEmailAsync(receiver, subject, body);           
+            //// Send email
+            //await _emailService.SendEmailAsync(receiver, subject, body);           
                         
             if( !(await _userManager.AddToRoleAsync(appUser , role)).Succeeded  )
             {
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            return new UserDto
+            return new GetRegisteerDto
             {
                 Email = input.Email,
-                DisplayName = input.DisplayName,
-                Token = _tokenService.GenerateToken(appUser, role)
+                DisplayName = input.DisplayName
             };
 
         }
 
+        public async Task<string> SendEmail (RegisterDto input)
+        {
+            var receiver = input.GmailAddress;
+            // Prepare email
+            string subject = "Welcome to Our Service";
+            string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+
+            // Send email
+            await _emailService.SendEmailAsync(receiver, subject, body);
+
+            return "done";
+        }
 
         public async Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model)
         {
