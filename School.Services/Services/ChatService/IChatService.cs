@@ -12,6 +12,7 @@ namespace School.Services.Services.ChatService
         Task<IEnumerable<ChatWithLastMessageDto>> GetRecentChatsForUser(String userId);
         Task<IEnumerable<MessageDto>> GetChatBetweenTowUser(string UserId1, string UserId2);
         Task<MessageDto> StoreMessage(string Senderid, string recieverid, string message);
+        Task<IEnumerable<FriendChatDto>> FindFriends(string userid, string Name = null);
 
     }
 }

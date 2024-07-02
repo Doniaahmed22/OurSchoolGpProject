@@ -89,7 +89,26 @@ namespace School.Services.Services.ChatService
             return messageDto;
         }
 
+        public async Task<IEnumerable< FriendChatDto>> FindFriends(string userid,string Name = null)
+        {
+            List<FriendChatDto>friendsChatDto = new List<FriendChatDto>();
+            IEnumerable<(AppUser user, string roleName)> friends;
+            if(Name == null)
+                friends = await _chatRepository.FindFriendsByName( userid,Name);
+            else
+                friends = await _chatRepository.GetAllChatFriends( userid);
 
+            foreach (var friend in friends)
+            {
+                friendsChatDto.Add(new FriendChatDto()
+                {
+                    Role = friend.roleName,
+                    UserId = friend.user.Id,
+                    UserName = friend.user.DisplayName
+                });
+            }
+            return friendsChatDto;
+        }
 
     }
 }

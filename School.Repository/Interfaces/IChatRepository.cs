@@ -14,8 +14,8 @@ namespace School.Repository.Interfaces
     {
         Task<IEnumerable<ChatWithLastMessage>> GetRecentChatsForUser(String userId);
         Task<IEnumerable<Message>> GetChatBetweenTowUser(string UserId1, string UserId2);
-        Task<List<(AppUser user, string roleName)>> FindFriendsByName(string Name);
-        Task<List<(AppUser user, string roleName)>> GetAllFriends();
+        Task<List<(AppUser user, string roleName)>> FindFriendsByName(string userid, string Name);
+        Task<List<(AppUser user, string roleName)>> GetAllChatFriends(string userid);
 
 
     }

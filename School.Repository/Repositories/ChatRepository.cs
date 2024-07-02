@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace School.Repository.Repositories
 {
@@ -26,12 +27,13 @@ namespace School.Repository.Repositories
         {
             List<ChatWithLastMessage> usersWithLastMessage = new List<ChatWithLastMessage>();
             var Conversions = await _context.Messages
-                .Where(m => m.SenderId == userId || m.ReceiverId == userId)
-                .GroupBy(m => m.SenderId == userId ? m.ReceiverId : m.SenderId)
-                .OrderByDescending(g => g.Max(m => m.MessageDate))
-                .Take(10).ToListAsync();
+                .Where(m => m.SenderId == userId || m.ReceiverId == userId).ToListAsync();
 
-            foreach (var conversion in Conversions)
+           var Conversions2 = Conversions.GroupBy(m => m.SenderId == userId ? m.ReceiverId : m.SenderId)
+                .OrderByDescending(g => g.Max(m => m.MessageDate))
+                .Take(10);
+
+            foreach (var conversion in Conversions2)
             {
                 AppUser User = await _userManager.FindByIdAsync(conversion.Key);
                 Message LastMessage = conversion.OrderByDescending(msg => msg.MessageDate).First();
@@ -47,34 +49,44 @@ namespace School.Repository.Repositories
                     .OrderBy(m => m.MessageDate).ToListAsync();
         }
 
-        public async Task<List<(AppUser user, string roleName)>> FindFriendsByName(string Name)
+        public async Task<List<(AppUser user, string roleName)>> FindFriendsByName( string userid, string Name)
         {
-            var usersWithRoles = await _userManager.Users
-                .SelectMany(
-                    user => _userManager.GetRolesAsync(user).Result.DefaultIfEmpty(),
-                    (user, roleName) => new { User = user, RoleName = roleName }
-                )
-                .Where(ur => ur.RoleName != null&&ur.User.DisplayName.Contains(Name))
-                .Select(ur => new { User = ur.User, RoleName = ur.RoleName })
-                .ToListAsync();
-            var result = usersWithRoles.Select(ur => (ur.User, ur.RoleName)).ToList();
+            var users = await _userManager.Users
+                        .Where(u => u.DisplayName.Contains(Name) && u.Id != userid).Take(10)
+                        .OrderBy(u=>u.DisplayName)
+                        .ToListAsync();
+            var usersWithRoles = new List<(AppUser user, string roleName)>();
 
-            return result;
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user) ;
+                foreach (var role in roles)
+                {
+                    usersWithRoles.Add((user, role));
+                }
+            }
+
+            return usersWithRoles;
         }
         
-       public async Task<List<(AppUser user, string roleName)>> GetAllFriends()
+       public async Task<List<(AppUser user, string roleName)>> GetAllChatFriends(string userid)
         {
-            var usersWithRoles = await _userManager.Users
-                .SelectMany(
-                    user => _userManager.GetRolesAsync(user).Result.DefaultIfEmpty(),
-                    (user, roleName) => new { User = user, RoleName = roleName }
-                )
-                .Where(ur => ur.RoleName != null)//notknow if we will include admin in chat or not
-                .Select(ur => new { User = ur.User, RoleName = ur.RoleName })
-                .ToListAsync();
-            var result = usersWithRoles.Select(ur => (ur.User, ur.RoleName)).ToList();
+            var users = await _userManager.Users
+                        .Where(u => u.Id != userid).Take(10)
+                        .OrderBy(u => u.DisplayName)
+                        .ToListAsync();
+            var usersWithRoles = new List<(AppUser user, string roleName)>();
 
-            return result;
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach (var role in roles)
+                {
+                    usersWithRoles.Add((user, role));
+                }
+            }
+
+            return usersWithRoles;
         }
     }
 }
