@@ -157,6 +157,7 @@ namespace School.Services.Services.TeacherServices
            teacher.Gender = teacherDto.Gender;
            teacher.Degree = teacherDto.Degree;
            teacher.Religion = teacherDto.Religion;
+           teacher.UserId = teacherDto.UserId;
 
             foreach (int SubjectId in teacherDto.TeacherSubjectsId)
                 teacherSubjects.Add(new TeacherSubject() { SubjectId = SubjectId });

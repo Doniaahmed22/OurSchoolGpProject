@@ -12,7 +12,7 @@ namespace School.Services.UserService
         Task<GetRegisteerDto> Register(RegisterDto input, string role);
         Task<string> SendEmail(RegisterDto input);
 
-        Task<string> Login(LoginDto loginDto);
+        Task<GetLoginDetails> Login(LoginDto loginDto);
 
         Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model);
         string GetAuthenticatedUserId();

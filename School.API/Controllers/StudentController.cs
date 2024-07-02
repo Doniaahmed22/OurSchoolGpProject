@@ -6,6 +6,7 @@ using School.Data.Context;
 using School.Data.Entities;
 using School.Data.Entities.Identity;
 using School.Services.Dtos.GradesDto;
+using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.StudentDto;
 using School.Services.Dtos.SubjectDto;
 using School.Services.Services.StudentServices;
@@ -71,6 +72,10 @@ namespace School.API.Controllers
 
             await _userService.Register(registerDto,"Student");
             studentDto.Email = registerDto.Email;
+
+            var user = await _userManager.FindByEmailAsync(registerDto.Email);
+            studentDto.UserId = user.Id;
+
             await _studentServices.AddStudent(studentDto);
             await _userService.SendEmail(registerDto);
             return Ok(studentDto);

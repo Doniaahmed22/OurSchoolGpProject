@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using School.Data.Context;
+using School.Data.Entities;
 using School.Data.Entities.Identity;
 using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.SharedDto;
@@ -92,6 +93,9 @@ namespace School.API.Controllers
             await _userService.Register(registerDto, "Parent");
 
             parentDto.Email = registerDto.Email;
+
+            var user = await _userManager.FindByEmailAsync(registerDto.Email);
+            parentDto.UserId = user.Id;
 
             await _parentServices.AddParent(parentDto);
 

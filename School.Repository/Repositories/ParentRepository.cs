@@ -24,5 +24,11 @@ namespace School.Repository.Repositories
             return students;
         }
 
+        public async Task<int> GetParentByUserId(string UserId)
+        {
+            var parent = await _context.Parents.Where(x => x.UserId == UserId).ToListAsync();
+            return parent[0].Id;
+        }
+
     }
 }
