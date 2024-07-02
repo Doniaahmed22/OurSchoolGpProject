@@ -93,7 +93,7 @@ namespace School.Services.Services.ChatService
         {
             List<FriendChatDto>friendsChatDto = new List<FriendChatDto>();
             IEnumerable<(AppUser user, string roleName)> friends;
-            if(Name == null)
+            if(Name != null)
                 friends = await _chatRepository.FindFriendsByName( userid,Name);
             else
                 friends = await _chatRepository.GetAllChatFriends( userid);

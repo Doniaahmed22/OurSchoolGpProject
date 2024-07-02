@@ -32,8 +32,8 @@ namespace School.API.Controllers
             return Ok(friends);
         }
 
-        [HttpGet("GetAllFriends/{UserId}/{Name}")]
-        public async Task<IActionResult> GetAllFriends(string UserId, string Name)
+        [HttpGet("SearchForUser/{UserId}/{Name}")]
+        public async Task<IActionResult> SearchForUser(string UserId, string Name)
         {
             var friends = await _chatService.FindFriends(UserId, Name);
             return Ok(friends);
