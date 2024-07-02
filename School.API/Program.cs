@@ -9,6 +9,7 @@ using School.Data.Entities.Identity;
 using School.Repository.SeedData;
 using School.Services.Dtos.EmailSending;
 using School.Services.EmailServices;
+using School.Services.Hubs;
 using School.Services.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -109,6 +110,7 @@ namespace School.API
                         }
                     };
                 });
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -124,7 +126,7 @@ namespace School.API
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.MapHub<ChatHub>("/chatHub");
             app.MapControllers();
 
             // Seed data

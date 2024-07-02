@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Entities;
+using School.Data.Entities.ChatHub;
 using School.Data.Entities.Identity;
 using School.Data.Entities.ProgressReport;
 using System;
@@ -96,6 +97,7 @@ namespace School.Data.Context
         public DbSet<ProgressReport> ProgressReport { get; set; }
         public DbSet<RequestMeeting> requestMeetings { get; set; }
         public DbSet<Message>  Messages { get; set; }
+        public DbSet<ActiveUserConnection> ActiveUserConnections { get; set; }
 
     }
 }
