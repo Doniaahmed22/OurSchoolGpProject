@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities.ProgressReport;
 using School.Services.Dtos.ProgressReportDto;
@@ -16,6 +17,7 @@ namespace School.API.Controllers
             _progressReportService = progressReportService;
         }
 
+        [Authorize(Roles = "Parent")]
         [HttpGet("GetReport/{StudendId:int}/{SubjectId:int}")]
         public async Task<IActionResult> GetReport(int StudendId,int SubjectId)
         {

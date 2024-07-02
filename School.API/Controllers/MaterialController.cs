@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities;
 using School.Services.Dtos.MaterialDto;
@@ -39,6 +40,8 @@ namespace School.API.Controllers
             return Ok(material);
         }
         ////////
+        [Authorize(Roles = "Student")]
+
         [HttpGet("GetMaterialForStudent/{MaterialType:int}")]
         public async Task<IActionResult> GetMaterialForStudent(MaterialType MaterialType, int SubjectId, int StudentId)
         {   
