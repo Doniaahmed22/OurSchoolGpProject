@@ -24,7 +24,7 @@ namespace School.Data.Entities
 
         public List<Attendance> Attendences { get; set; }
         public List<TeacherSubject> TeacherSubject { get; set; }
-        public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
+        public List<ClassTeacherSubjectDto> TeacherSubjectClasses { get; set; }
 
         public string UserId { get; set; }
         //public AppUser AppUser { get; set; }

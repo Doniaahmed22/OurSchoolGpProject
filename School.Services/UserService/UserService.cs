@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities.Identity;
 using School.Repository.Interfaces;
 using School.Services.EmailServices;
 using School.Services.Tokens;
 using School.Services.UserService.Dtos;
+using System.Security.Claims;
 
 namespace School.Services.UserService
 {
@@ -17,13 +19,14 @@ namespace School.Services.UserService
         private readonly IParentRepository _parentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly ITeacherRepository _teacherRepository;
-
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService,IParentRepository parentRepository, IStudentRepository studentRepository, ITeacherRepository teacherRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService,IParentRepository parentRepository, IStudentRepository studentRepository, ITeacherRepository teacherRepository,IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _emailService = emailService;
+            _httpContextAccessor = httpContextAccessor;
             _parentRepository = parentRepository;
             _studentRepository = studentRepository;
             _teacherRepository = teacherRepository;
@@ -81,7 +84,7 @@ namespace School.Services.UserService
         }
 
 
-        public async Task<GetRegisteerDto> Register(RegisterDto input , string role)
+        public async Task<GetRegisteerDto> Register(RegisterDto input, string role)
         {
             var user = await _userManager.FindByEmailAsync(input.Email);
 
@@ -97,16 +100,22 @@ namespace School.Services.UserService
                 UserName = input.Email.Split("@")[0]
             };
 
-            var result = await _userManager.CreateAsync(appUser,input.Password);
+            var result = await _userManager.CreateAsync(appUser, input.Password);
 
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-          
-                        
-            if( !(await _userManager.AddToRoleAsync(appUser , role)).Succeeded  )
+            //var receiver = input.GmailAddress;
+            //// Prepare email
+            //string subject = "Welcome to Our Service";
+            //string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
+
+            //// Send email
+            //await _emailService.SendEmailAsync(receiver, subject, body);           
+
+            if (!(await _userManager.AddToRoleAsync(appUser, role)).Succeeded)
             {
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
@@ -119,7 +128,7 @@ namespace School.Services.UserService
 
         }
 
-        public async Task<string> SendEmail (RegisterDto input)
+        public async Task<string> SendEmail(RegisterDto input)
         {
             var receiver = input.GmailAddress;
             // Prepare email
@@ -152,6 +161,17 @@ namespace School.Services.UserService
                 return (false, result.Errors.Select(e => e.Description).ToArray());
             }
         }
+        public string GetAuthenticatedUserId()
+        {
+            var userId = "";
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                var NameIdentifier = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                userId = NameIdentifier;
+            }
+            return userId;
+        }
+
 
 
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace School.Data.Entities
 {
-    public class TeacherSubjectClass:BaseEntity
+    public class ClassTeacherSubjectDto:BaseEntity
     {
         [Key]
         public int Id { get; set; }

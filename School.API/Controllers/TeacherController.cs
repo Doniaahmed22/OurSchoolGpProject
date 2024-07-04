@@ -35,7 +35,7 @@ namespace School.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        //[Authorize(Roles ="Teacher")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetAllTeacher() 
         {
             var teachers = await TeacherServices.GetTeachers();
@@ -72,6 +72,7 @@ namespace School.API.Controllers
 
 
         [HttpGet("GetTeacherLevel/{Teacherid:int}")]  //int teacher mode subject page =>GetAllLevelThatTeache teach in
+        [Authorize(Roles = "Teacher")]
         public IActionResult GetTeacherLevel(int Teacherid)
         {
             var Levels = TeacherServices.GetTeacherLevels(Teacherid);
@@ -213,6 +214,12 @@ namespace School.API.Controllers
             return Ok();
         }
 
+        [HttpGet("GetTeachersOfStudent/{StudentId:int}")]
+        public async Task<IActionResult> GetTeachersOfStudent(int StudentId)
+        {
+             var dto =  await TeacherServices.GetTeachersOfStudent(StudentId);
+             return Ok(dto);
+        }
 
     }
 }

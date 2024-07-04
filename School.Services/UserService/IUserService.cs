@@ -15,5 +15,7 @@ namespace School.Services.UserService
         Task<GetLoginDetails> Login(LoginDto loginDto);
 
         Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model);
+        string GetAuthenticatedUserId();
+
     }
 }

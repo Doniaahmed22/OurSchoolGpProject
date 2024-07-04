@@ -1,4 +1,5 @@
 ﻿using School.Data.Entities;
+using School.Repository.Dto;
 using School.Repository.Repositories;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace School.Repository.Interfaces
         Task<Term> GetCurrentTerm();
         int GetLimitAbsentDays();
         Task SetLimitAbsentDays(int LimitAbsentDays);
+        Task<SchoolDegreesLimitation> GetWorkyearMidTermFinal();
 
 
     }

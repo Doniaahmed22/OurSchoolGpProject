@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities;
+using School.Repository.Dto;
 using School.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,14 +28,23 @@ namespace School.Repository.Repositories
         {
              return _context.SchoolInfo.Select(s=>s.LimitAbsentDays).First();
         }
-        public async Task SetLimitAbsentDays(int LimitAbsentDays )
+        public async Task SetLimitAbsentDays(int LimitAbsentDays)
         {
-            var schoool=await _context.SchoolInfo.FirstOrDefaultAsync();
-            if(schoool != null)
+            var schoool = await _context.SchoolInfo.FirstOrDefaultAsync();
+            if (schoool != null)
             {
                 schoool.LimitAbsentDays = LimitAbsentDays;
                 await _context.SaveChangesAsync();
             }
+        }
+        public async Task<SchoolDegreesLimitation> GetWorkyearMidTermFinal()
+        {
+            var schoool = await _context.SchoolInfo.FirstOrDefaultAsync();
+            if (schoool != null)
+            {
+                return  new SchoolDegreesLimitation() { Workyear = schoool.Workyear ,  midterm = schoool.Midterm, finalDegree = schoool.FinalDegree }  ;
+            }
+            return null;
         }
     }
 }

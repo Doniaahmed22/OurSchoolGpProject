@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using School.Data.Entities;
+using School.Repository.Interfaces;
 using School.Services.Dtos.GradesDto;
 using School.Services.Services.GradeService;
 
@@ -11,9 +12,11 @@ namespace School.API.Controllers
     public class GradesController : ControllerBase
     {
         private readonly IGradeServices _gradeServices;
-        public GradesController(IGradeServices gradeServices)
+        private readonly ISchoolRepository _schoolRepository;
+        public GradesController(IGradeServices gradeServices , ISchoolRepository schoolRepository)
         {
             _gradeServices = gradeServices;
+            _schoolRepository = schoolRepository;
         }
         [HttpGet("{classid:int}/{subjectid:int}")]
         public async Task<ActionResult<IEnumerable<StudentGradeDto>>> GetStudentsWithGrades(int classid, int subjectid)
@@ -25,6 +28,10 @@ namespace School.API.Controllers
         public async Task<ActionResult> UpdateStudentDegreeInSubject
             (int studentid, int subjectid, StudentGradesBeforFinal dto)
         {
+            var errors = await _gradeServices.validateStudentDegreeInSubject(subjectid, dto);
+            if(errors.Count>0)
+                return BadRequest(errors);
+
             var studentgrade = await _gradeServices.UpdateStudentDegreeInSubject(studentid, subjectid, dto);
             if (studentgrade == null)
                 return NotFound();
@@ -52,6 +59,9 @@ namespace School.API.Controllers
         [HttpPut("UpdateFinalDegree/{StudentId:int}")]
         public async Task<ActionResult> UpdateFinalDegreeStudentId(int StudentId, List<SubjectFinalId> SubjectFinalIds)
         {
+            var errors =await  _gradeServices.validateFinalGradeForSubjects(SubjectFinalIds);
+            if(errors.Count > 0) 
+                return BadRequest(errors);
             var student = await _gradeServices.UpdateFinalDegreeStudentId(StudentId, SubjectFinalIds);
             return Ok();
         }

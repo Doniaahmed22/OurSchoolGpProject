@@ -20,14 +20,16 @@ namespace School.Services.Services.GradeService
         private readonly IStudentRepository studentRepository;
         private readonly IGenericRepository<SchoolInfo> SchoolInfo;
         private readonly IGradeRepository gradeRepository;
+        private readonly ISchoolRepository _schoolRepository;
 
-        public GradeServices(IUnitOfWork unitOfWork, IMapper mapper)
+        public GradeServices(IUnitOfWork unitOfWork, IMapper mapper, ISchoolRepository schoolRepository)
         {
             _unitOfWork = unitOfWork;
             subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
             SchoolInfo = _unitOfWork.repository<SchoolInfo>();
             gradeRepository = (GradeRepository)_unitOfWork.repository<StudentSubject>();
             studentRepository = (StudentRepository)_unitOfWork.repository<Student>();
+            _schoolRepository = schoolRepository;
         }
 
         public async Task<List<StudentGradeDto>> GetStudentsWithGradesInSubjectbyClassId(int classid, int subjectid, string name = "")
@@ -50,7 +52,18 @@ namespace School.Services.Services.GradeService
             }
             return studentGradesDto;
         }
+        public async Task< List<string>> validateStudentDegreeInSubject(int subjectid, StudentGradesBeforFinal studentgrade)
+        {
+            List<string> SubjectError = new List<string>();
+            var DegreesLimit = await _schoolRepository.GetWorkyearMidTermFinal();
+            string subname = (await _unitOfWork.repository<Subject>().GetById(subjectid)).Name;
 
+            if (studentgrade.midterm < 0 || studentgrade.midterm > DegreesLimit.midterm)
+                SubjectError.Add($"Midterm Grade for {subname} must be greater than or equal 0 and less than or equal {DegreesLimit.midterm}");
+            if (studentgrade.WorkYear < 0 || studentgrade.WorkYear > DegreesLimit.Workyear)
+                SubjectError.Add($"WorkYear Grade for {subname} must be greater than or equal 0 and less than or equal {DegreesLimit.Workyear}");
+            return SubjectError;
+        }
         public async Task<StudentSubject> UpdateStudentDegreeInSubject(int studentid, int subjectid, StudentGradesBeforFinal studentgrade)
         {
             StudentSubject StuGrades = await gradeRepository.GetStuGradesBySubjectId(studentid, subjectid);
@@ -78,19 +91,19 @@ namespace School.Services.Services.GradeService
             return levelsDepartments;
 
         }
-        public async Task<StudentsFinalDegresDto> GetStudentsFinalGrades(int levelid,int departmentid,string name="")
+        public async Task<StudentsFinalDegresDto> GetStudentsFinalGrades(int levelid, int departmentid, string name = "")
         {
             IEnumerable<SchoolInfo> schools = await _unitOfWork.repository<SchoolInfo>().GetAll();
             int currentterm = schools.ToList()[0].CurrentTerm;
-            var subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelid, departmentid,currentterm);
+            var subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelid, departmentid, currentterm);
             StudentsFinalDegresDto StudentsFinalDegres = new StudentsFinalDegresDto();
             foreach (Subject subject in subjects)
             {
                 StudentsFinalDegres.Subjects.Add(new NameIdDto { Name = subject.Name, Id = subject.Id });
             }
             IEnumerable<Student> students;
-            if(name=="")
-               students = await studentRepository.GetStudentsFinalDegreeByLevelDepart(levelid, departmentid);
+            if (name == "")
+                students = await studentRepository.GetStudentsFinalDegreeByLevelDepart(levelid, departmentid);
             else
                 students = await studentRepository.GetStudentsFinalGradesByName(levelid, departmentid, name);
             foreach (Student student in students)
@@ -109,6 +122,19 @@ namespace School.Services.Services.GradeService
                 StudentsFinalDegres.studentsFinalGrade.Add(studentFinalGrade);
             }
             return StudentsFinalDegres;
+        }
+        public async Task< Dictionary<int, string>> validateFinalGradeForSubjects(List<SubjectFinalId> SubjectFinalIds)
+        {
+            Dictionary<int, string> SubjectError = new Dictionary<int, string>();
+            int finalDegree = (await _schoolRepository.GetWorkyearMidTermFinal()).finalDegree;
+            foreach (var SubjectFinalId in SubjectFinalIds)
+            {
+                if (SubjectFinalId.final >= 0 && SubjectFinalId.final <= finalDegree)
+                    continue;
+              string subname = ( await _unitOfWork.repository<Subject>().GetById(SubjectFinalId.SubjectId)).Name;
+              SubjectError[SubjectFinalId.SubjectId] = $"Final Degree for {subname} Must Be Greater Than or Equal Zero and Less Than or Equal {finalDegree}";
+            }
+            return SubjectError;
         }
         public async Task<Student>UpdateFinalDegreeStudentId(int StudentId, List <SubjectFinalId> SubjectFinalIds)
         {

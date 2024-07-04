@@ -26,7 +26,7 @@ namespace School.Services.Dtos.ClassDto
                 TeachersSubjectDto teachersSubjectDto = new TeachersSubjectDto ();
                 teachersSubjectDto.Subject.Name = Subject.Name;
                 teachersSubjectDto.Subject.Id = Subject.Id;
-                TeacherSubjectClass tsc = c.TeacherSubjectClasses.FirstOrDefault(tsc => tsc.SubjectId == Subject.Id);
+                ClassTeacherSubjectDto tsc = c.TeacherSubjectClasses.FirstOrDefault(tsc => tsc.SubjectId == Subject.Id);
                 if(tsc != null)
                 {
                     Teacher t = tsc.Teacher;

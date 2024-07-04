@@ -14,7 +14,7 @@ namespace School.Services.Services.ClassServices
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClassRepository _classRepository;
         private readonly ISubjectRecordRepository _subjectRecordRepository;
-        private readonly IGenericRepository<TeacherSubjectClass> _classRecordRepoistory;
+        private readonly IGenericRepository<ClassTeacherSubjectDto> _classRecordRepoistory;
         private readonly ISchoolRepository schoolRepository;
         private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ namespace School.Services.Services.ClassServices
             _mapper = mapper;
             _classRepository = (ClassRepository)_unitOfWork.repository<Class>();
             _subjectRecordRepository = (SubjectRecordRepository)_unitOfWork.repository<SubjectLevelDepartmentTerm>();
-            _classRecordRepoistory = _unitOfWork.repository<TeacherSubjectClass>();
+            _classRecordRepoistory = _unitOfWork.repository<ClassTeacherSubjectDto>();
             schoolRepository = (SchoolRepository)_unitOfWork.repository<SchoolInfo>();
 
         }
@@ -132,10 +132,10 @@ namespace School.Services.Services.ClassServices
 
             Term term = await schoolRepository.GetCurrentTerm();
             IEnumerable<Subject>Subjects = _subjectRecordRepository.GetSubjectsByLevelDeptTerm(classItem.LevelId, classItem.DepartmentId, term.Id).ToList();
-            List< TeacherSubjectClass >teacherSubjectClasses = new List< TeacherSubjectClass >();
+            List< ClassTeacherSubjectDto >teacherSubjectClasses = new List< ClassTeacherSubjectDto >();
             foreach(var subject in Subjects)
             {
-                teacherSubjectClasses.Add(new TeacherSubjectClass() { SubjectId = subject.Id, ClassId = classItem.Id });
+                teacherSubjectClasses.Add(new ClassTeacherSubjectDto() { SubjectId = subject.Id, ClassId = classItem.Id });
             }
             classItem.TeacherSubjectClasses = teacherSubjectClasses;
             await _classRepository.Update(classItem);
@@ -178,7 +178,7 @@ namespace School.Services.Services.ClassServices
                     TeachersSubjectDto teachersSubjectDto = new TeachersSubjectDto();
                     teachersSubjectDto.Subject.Name = Subject.Name;
                     teachersSubjectDto.Subject.Id = Subject.Id;
-                    TeacherSubjectClass tsc = _class.TeacherSubjectClasses.FirstOrDefault(tsc => tsc.SubjectId == Subject.Id);
+                    ClassTeacherSubjectDto tsc = _class.TeacherSubjectClasses.FirstOrDefault(tsc => tsc.SubjectId == Subject.Id);
                     if (tsc != null)
                     {
                         Teacher t = tsc.Teacher;
@@ -210,7 +210,7 @@ namespace School.Services.Services.ClassServices
             var _class = await _classRepository.GetClassWithTeacherSubjectClassById(classid);
             foreach (var teacherSubject in dto)
             {
-                TeacherSubjectClass tsc = _class.TeacherSubjectClasses.FirstOrDefault(cr => cr.SubjectId == teacherSubject.SubjectId);
+                ClassTeacherSubjectDto tsc = _class.TeacherSubjectClasses.FirstOrDefault(cr => cr.SubjectId == teacherSubject.SubjectId);
                 if(tsc != null) /////////////////####
                      tsc.TeacherId = teacherSubject.TeacherId;
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using School.Data.Entities;
+using School.Repository.Dto;
 using School.Repository.Interfaces;
 using School.Repository.Repositories;
 using School.Services.Dtos.SharedDto;
@@ -21,11 +22,14 @@ namespace School.Services.Services.TeacherServices
         private readonly ITeacherRepository teacherRepository;
         private readonly IFileService _fileService;
         // private readonly IClassRepository _classRepository;
-        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper , IFileService fileService)//,IClassRepository classRepository)
+        private readonly IStudentRepository _studentRepository;
+
+        public TeacherServices (IUnitOfWork unitOfWork, IMapper mapper , IFileService fileService , IStudentRepository studentRepository)//,IClassRepository classRepository)
         {
             _unitOfWork = unitOfWork;   
             teacherRepository = (TeacherRepository)_unitOfWork.repository<Teacher>();
-            _fileService = fileService;
+            _fileService = fileService; 
+            _studentRepository = studentRepository;
            // _classRepository = classRepository;
         }
 
@@ -89,7 +93,7 @@ namespace School.Services.Services.TeacherServices
         public IEnumerable<SubLevelImage> GetTeacherSubjectsInLevel(int teacherid , int Levelid=0)
         {
             List<SubLevelImage> dto = new List<SubLevelImage>();
-            IEnumerable<TeacherSubjectClass> teacherSubjectClassRecords;
+            IEnumerable<Data.Entities.ClassTeacherSubjectDto> teacherSubjectClassRecords;
             if(Levelid == 0) 
                  teacherSubjectClassRecords = teacherRepository.GetTeacherSubjects(teacherid);
             else
@@ -194,7 +198,27 @@ namespace School.Services.Services.TeacherServices
             await teacherRepository.Delete(id); 
             return teacher;
         }
+        public async Task< IEnumerable<TecherClassInfo>> GetTeachersOfStudent(int Studentid)
+        {
+            List<TecherClassInfo> Dtos = new List<TecherClassInfo>();
+            var stu = await _studentRepository.GetById(Studentid);
+            if (stu.ClassId == 0)
+                return null;
+            IEnumerable<TeacherSubjectDto> teacherSubjects = teacherRepository.GetTeachersByClassId(stu.ClassId.Value);
+            foreach(var ts in teacherSubjects)
+            {
+                TecherClassInfo techerClassInfo = new TecherClassInfo();
+                techerClassInfo.SubjectName = ts.TeacherSubjectName;
+                if (ts.Teacher != null)
+                {
+                    techerClassInfo.TeacherName = ts.Teacher.Name;
+                    techerClassInfo.TeacherPhone = ts.Teacher.PhoneNumber;
+                }
 
+                Dtos.Add(techerClassInfo);
+            }
+            return Dtos;
+        }
 
     }
 }

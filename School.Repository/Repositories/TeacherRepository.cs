@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
 using School.Data.Entities;
+using School.Repository.Dto;
 using School.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace School.Repository.Repositories
             return  _context.Teachers.Include(t => t.TeacherSubject)
                 .ThenInclude(ts => ts.Subject).Where(t=>t.Name.Contains(name));
         }
-        public IEnumerable<TeacherSubjectClass> GetTeacherSubjects(int teacherid)
+        public IEnumerable<ClassTeacherSubjectDto> GetTeacherSubjects(int teacherid)
         {
             return _context.TeacherSubjectClasses.Include(c => c.Class).ThenInclude(c => c.Level)
                 .Include(tsc => tsc.Subject).Where(tsc => tsc.TeacherId == teacherid).AsEnumerable()
@@ -45,7 +46,7 @@ namespace School.Repository.Repositories
                 .OrderBy(tsc => tsc.Class.Level.LevelNumber).Select(s=>s.Class.Level)
                 .ToList();
         }
-        public IEnumerable<TeacherSubjectClass> GetTeacherSubjectsInLevel(int teacherid, int levelid)
+        public IEnumerable<ClassTeacherSubjectDto> GetTeacherSubjectsInLevel(int teacherid, int levelid)
         {
             return _context.TeacherSubjectClasses.Include(c => c.Class).ThenInclude(c => c.Level).Include(tsc=>tsc.Subject)
                 .Where(tsc => tsc.TeacherId == teacherid&& tsc.Class.LevelId== levelid).AsEnumerable()
@@ -65,6 +66,12 @@ namespace School.Repository.Repositories
         {
             var Teacher = await _context.Teachers.Where(x => x.UserId == UserId).ToListAsync();
             return Teacher[0].Id;
+        }
+        public IEnumerable<TeacherSubjectDto> GetTeachersByClassId(int classid)
+        {
+            return _context.TeacherSubjectClasses.Include(tsc => tsc.Teacher).Include(tsc=>tsc.Subject)
+                    .Where(tsc => tsc.ClassId == classid)
+                    .Select(tsc => new TeacherSubjectDto() {   Teacher = tsc.Teacher , TeacherSubjectName = tsc.Subject.Name  });
         }
 
     }

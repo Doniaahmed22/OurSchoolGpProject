@@ -27,6 +27,9 @@ using School.Services.Services.AnnouncementService;
 using School.Services.Services.AttendanceService;
 using School.Services.Services.ProgressReportService;
 using School.Services.Services.RequestMeetingService;
+using School.Services.Services.ChatService;
+using School.Repository.Interfaces.ChatHub;
+using School.Repository.Repositories.ChatHub;
 
 namespace School.API.Extensions
 {
@@ -77,7 +80,9 @@ namespace School.API.Extensions
             services.AddScoped<IProgressReportRepository, ProgressReportRepository>();
             services.AddScoped<IRequestMeetingRepository, RequestMeetingRepository>();
             services.AddScoped<IRequestMeetingService, RequestMeetingService>();
-
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IActiveUserRepository , ActiveUserRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
 
             return services;

@@ -3,6 +3,7 @@ using School.Data.Entities;
 using School.Repository.Interfaces;
 using School.Services.Dtos.ParentDto;
 using School.Services.Dtos.SharedDto;
+using School.Services.Dtos.StudentDto;
 
 namespace School.Services.Services.ParentServices
 {
@@ -55,10 +56,15 @@ namespace School.Services.Services.ParentServices
         }
 
 
-        public async Task<IEnumerable<NameIdDto>> GetStudentsOfParents(int id)
+        public async Task<IEnumerable<StudentNameGender>> GetStudentsOfParents(int id)
         {
+            List<StudentNameGender> dtolist = new List<StudentNameGender>();
             var Students = await _parentRepository.GetStudentsOfParents(id);
-            return _mapper.Map<IEnumerable<NameIdDto>>(Students);
+            foreach (var student in Students)
+            {
+                dtolist.Add(new StudentNameGender { Id = student.Id, Name = student.Name , Gender = student.Gender});
+            }
+            return dtolist;
         }
 
 

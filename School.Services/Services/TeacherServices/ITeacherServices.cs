@@ -23,5 +23,7 @@ namespace School.Services.Services.TeacherServices
         Task AddTeacher(AddTeacherDto teacherDto);
         Task<Teacher> UpdateTeacher(int id, AddTeacherDto teacherDto);
         Task<Teacher> DeleteTeacher(int id);
+        Task<IEnumerable<TecherClassInfo>> GetTeachersOfStudent(int Studentid);
+
     }
 }
