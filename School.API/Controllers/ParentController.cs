@@ -82,11 +82,33 @@ namespace School.API.Controllers
                 return BadRequest("Parent is Empty");
             }
 
+            if(parentDto.Name.Split(" ").Length < 2)
+            {
+                return BadRequest("name must be at least first and second");
+            }
+
+            if (parentDto.PhoneNumber.Length < 11 )
+            {
+                return BadRequest("phone number must be 11 number");
+            }
+
+            var validPrefixes = new[] { "011", "012", "015", "010" };
+            if (!validPrefixes.Any(prefix => parentDto.PhoneNumber.StartsWith(prefix)))
+            {
+                return BadRequest("Your phone number must begin with 011, 010, 012, or 015.");
+            }
+
+            if (parentDto.GmailAddress.Split("@")[1] != "gmail.com" )
+            {
+                return BadRequest("this is invalid Gmail address it must terminate with @gmail.com");
+            }
+
+
             RegisterDto registerDto = new RegisterDto
             {
                 DisplayName = parentDto.Name,
                 GmailAddress = parentDto.GmailAddress,
-                Email = parentDto.Name.Split(" ")[0] + parentDto.PhoneNumber+"@school.com",
+                Email = parentDto.Name.Split(" ")[0] + parentDto.Name.Split(" ")[1] + parentDto.PhoneNumber+"@school.com",
                 Password = parentDto.Name.Split(" ")[0].ToUpper()+ parentDto.Name.Split(" ")[1].ToLower() + parentDto.PhoneNumber+ "!",
             };
 
@@ -109,6 +131,32 @@ namespace School.API.Controllers
         [Route("UpdateParent")]
         public async Task<IActionResult> UpdateParent(int id, ParentDto parentDto)
         {
+            if (parentDto == null)
+            {
+                return BadRequest("Parent is Empty");
+            }
+
+            if (parentDto.Name.Split(" ").Length < 2)
+            {
+                return BadRequest("name must be at least your name and your father's name");
+            }
+
+            if (parentDto.PhoneNumber.Length < 11)
+            {
+                return BadRequest("phone number must be 11 number");
+            }
+
+            var validPrefixes = new[] { "011", "012", "015", "010" };
+            if (!validPrefixes.Any(prefix => parentDto.PhoneNumber.StartsWith(prefix)))
+            {
+                return BadRequest("Your phone number must begin with 011, 010, 012, or 015.");
+            }
+
+            if (parentDto.GmailAddress.Split("@")[1] != "gmail.com")
+            {
+                return BadRequest("this is invalid Gmail address it must terminate with @gmail.com");
+            }
+
             await _parentServices.UpdateParent(id, parentDto);
             return Ok();
         }

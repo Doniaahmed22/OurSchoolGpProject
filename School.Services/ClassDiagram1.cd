@@ -1,0 +1,945 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="School.Services.UserService.Dtos.ChangePasswordModel">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAABAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>UserService\Dtos\ChangePasswordModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.ForgotPasswordDto">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserService\Dtos\ForgotPasswordDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.GetLoginDetails">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>UserService\Dtos\GetLoginDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.GetRegisteerDto">
+    <Position X="2.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserService\Dtos\GetRegisteerDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.LoginDto">
+    <Position X="4.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>UserService\Dtos\LoginDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.RegisterDto">
+    <Position X="6.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAEAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>UserService\Dtos\RegisterDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.ResetPasswordModel">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAABIAA=</HashCode>
+      <FileName>UserService\Dtos\ResetPasswordModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.Dtos.UserDto">
+    <Position X="4.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>UserService\Dtos\UserDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.UserService.UserService" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAgAAEQAAAAAJAAAAQAgABAAAAAAAQAIAAAAA=</HashCode>
+      <FileName>UserService\UserService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Tokens.GetToken">
+    <Position X="6" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAEAAAAAAAA=</HashCode>
+      <FileName>Tokens\GetToken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Tokens.TokenBlacklistService">
+    <Position X="7.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Tokens\TokenBlacklistService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Tokens.TokenService" BaseTypeListCollapsed="true">
+    <Position X="6" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Tokens\TokenService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.AnnouncementService.AnnouncementService" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCAAAAEAAACAgCAAAAAhAAAAAAAAAAACAAAAAAAABAA=</HashCode>
+      <FileName>Services\AnnouncementService\AnnouncementService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.AttendanceService.AttendanceService" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAgAAAAQAAAAAAAAIAABABIAEAAA=</HashCode>
+      <FileName>Services\AttendanceService\AttendanceService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.ChatService.ChatService">
+    <Position X="8.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ChatService\ChatService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Services.ClassServices.ClassServices" BaseTypeListCollapsed="true">
+    <Position X="10" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAgAAAgAAgJBAAAAAgIAAoAAAhAAAgAAAAA=</HashCode>
+      <FileName>Services\ClassServices\ClassServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.DepartmentService.DepartmentService" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DepartmentService\DepartmentService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.FileService.FileService" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAABAAAAABAAAAgEIAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\FileService\FileService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.GradeService.GradeServices" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAgBAgAQAgAAAAACAAAAAkAABAAA=</HashCode>
+      <FileName>Services\GradeService\GradeServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.LevelService.LevelService" BaseTypeListCollapsed="true">
+    <Position X="10" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Services\LevelService\LevelService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.MaterialService.MaterialService" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAEAAAJgACAgAAAgAAIAAQAAAAAQAEAoCACAI=</HashCode>
+      <FileName>Services\MaterialService\MaterialService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.ParentServices.ParentServices" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAgIBAQAEAAAAAAAAAAAQAAAIAIA=</HashCode>
+      <FileName>Services\ParentServices\ParentServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.ProfileServices.MappingProfile">
+    <Position X="11.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ProfileServices\MappingProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Services.ProgressReportService.ProgressReportService" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Services\ProgressReportService\ProgressReportService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.RequestMeetingService.RequestMeetingService" BaseTypeListCollapsed="true">
+    <Position X="10" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\RequestMeetingService\RequestMeetingService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.StudentServices.StudentServices" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAQEAAAEAgABQAQAAAAAAACJAQIAGAAAAAA=</HashCode>
+      <FileName>Services\StudentServices\StudentServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.SubjectRecord.SubjectRecordServices" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAAAAAAhABAAQAAAAAAgABAgAAAoAAAAA=</HashCode>
+      <FileName>Services\SubjectRecord\SubjectRecordServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.SubjectServices.SubjectServices" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAAAIQAAAgADIAQAAABAABAAAAAgAIAAAIA=</HashCode>
+      <FileName>Services\SubjectServices\SubjectServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.TeacherServices.TeacherServices" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAIAEgAgAAACgAQAAAAAAAAAAAAAwAAAQ=</HashCode>
+      <FileName>Services\TeacherServices\TeacherServices.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.TermService.TermService" BaseTypeListCollapsed="true">
+    <Position X="10" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\TermService\TermService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Services.Services.GlobalStaticService">
+    <Position X="6.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\GlobalStaticService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.EmailServices.EmailService">
+    <Position X="12" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAgAAAAAAAQAAAAA=</HashCode>
+      <FileName>EmailServices\EmailService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Services.Dtos.AnnouncementDto.CreateAnnouncementDto">
+    <Position X="21.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAEAEAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Dtos\AnnouncementDto\CreateAnnouncementDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.AnnouncementDto.CreateSchoolDto">
+    <Position X="23.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAgAAAAAAIAAAAAA=</HashCode>
+      <FileName>Dtos\AnnouncementDto\CreateSchoolDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.AnnouncementDto.GetAnnouncements">
+    <Position X="30.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAAIAAAAAA=</HashCode>
+      <FileName>Dtos\AnnouncementDto\GetAnnouncements.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.Attendance.AbsenceStudent">
+    <Position X="21.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\Attendance\AbsenceStudent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.Attendance.DateWithAttendanceType">
+    <Position X="25.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Dtos\Attendance\DateWithAttendanceType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.Attendance.StudentAttendanceReportDto">
+    <Position X="30.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\Attendance\StudentAttendanceReportDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.Attendance.StudentIdPresentDto">
+    <Position X="28.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Dtos\Attendance\StudentIdPresentDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassAddUpdateDto">
+    <Position X="27" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAEAAAAAAABAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassAddUpdateDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassAllTeachersWithSubjectDto">
+    <Position X="14.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassAllTeachersWithSubjectDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassDtoWithId">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAQAAAAAAAAAAAEAAAAEABEAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassDtoWithId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassGetAllDto">
+    <Position X="28.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAEAAAAAACAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassGetAllDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassInfoDto">
+    <Position X="30.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAEAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassInfoDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.ClassWithTeacher_Subject">
+    <Position X="16.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\ClassWithTeacher_Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.TeachersSubjectDto">
+    <Position X="23.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\TeachersSubjectDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.TeacherSubjectDto">
+    <Position X="25.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\TeacherSubjectDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.TeacherSubjectUpdateClassRecordsDto">
+    <Position X="27" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\TeacherSubjectUpdateClassRecordsDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassDto.TeacherWithSubjectInClass">
+    <Position X="28.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassDto\TeacherWithSubjectInClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ClassRecord.ClassRecordDto">
+    <Position X="32.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ClassRecord\ClassRecordDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.EmailSending.EmailSettings">
+    <Position X="27" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAQAAAAAACACAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Dtos\EmailSending\EmailSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.StudentFinalGrade">
+    <Position X="23.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\StudentFinalGrade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.StudentGradeDto">
+    <Position X="25.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\StudentGradeDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.StudentGradesBeforFinal">
+    <Position X="27" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\StudentGradesBeforFinal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.StudentsFinalDegresDto">
+    <Position X="30.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Dtos\GradesDto\StudentsFinalDegresDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.SubjectFinalDegree">
+    <Position X="25.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\SubjectFinalDegree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.SubjectFinalId">
+    <Position X="27" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\SubjectFinalId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.GradesDto.SubjectGradesDto">
+    <Position X="28.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAAEAAAEAAAAA=</HashCode>
+      <FileName>Dtos\GradesDto\SubjectGradesDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.LevelDeoartmentDto.LevelsDepartmentsDto">
+    <Position X="21.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\LevelDeoartmentDto\LevelsDepartmentsDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.MaterialDto.GetMaterialForTeacherDto">
+    <Position X="32.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\MaterialDto\GetMaterialForTeacherDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.MaterialDto.MaterialAddDto">
+    <Position X="23.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAACACAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\MaterialDto\MaterialAddDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.MaterialDto.MaterialFieldDto">
+    <Position X="25.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\MaterialDto\MaterialFieldDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.MaterialDto.MaterialInfoDto">
+    <Position X="27" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\MaterialDto\MaterialInfoDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.MaterialDto.MaterialWithClasses">
+    <Position X="28.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAQAAAAEAAAA=</HashCode>
+      <FileName>Dtos\MaterialDto\MaterialWithClassesDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ParentDto.ParentDto">
+    <Position X="25.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAACAAAAAAAAAAQAwAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ParentDto\ParentDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ParentDto.ParentDtoWithId">
+    <Position X="27" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAACAAAAAAAAAAQAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ParentDto\ParentDtoWithId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ProgressReportDto.ReportDto">
+    <Position X="6.25" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\ProgressReportDto\ReportDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.ProgressReportDto.ReportWithoutDateDto">
+    <Position X="6.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAEEAAAAAAAAAAACQAAAAACAAAAAAAAAAACAQE=</HashCode>
+      <FileName>Dtos\ProgressReportDto\ReportWithoutDateDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.RequestMeetingDto.RequestMeetingDto">
+    <Position X="28.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Dtos\RequestMeetingDto\RequestMeetingDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SharedDto.NameDto">
+    <Position X="30.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SharedDto\NameDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SharedDto.NameIdDto">
+    <Position X="32.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SharedDto\NameIdDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SharedDto.NameNumberId">
+    <Position X="21.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SharedDto\NameNumberId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SharedDto.NumIdDto">
+    <Position X="23.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SharedDto\NumIdDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.StudentDto.AbsentDaysDto">
+    <Position X="23.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgARAAACAAAEAAAAAAAAAAAAAAAAAAABQAAAAAAAAA=</HashCode>
+      <FileName>Dtos\StudentDto\AbsentDaysDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.StudentDto.StudentDto">
+    <Position X="32.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAgACAAgACAAEAAQAwAABAIAAACAgAAAAAACAA=</HashCode>
+      <FileName>Dtos\StudentDto\StudentDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.StudentDto.StudentDtoWithId">
+    <Position X="21.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACCAAAgACAAgACAAEIAQAQAEBAICAADAgAAAAAACBA=</HashCode>
+      <FileName>Dtos\StudentDto\StudentDtoWithId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.StudentDto.StudentWithParentAllDto">
+    <Position X="19.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAgAAAAAQIAAAAAAAA=</HashCode>
+      <FileName>Dtos\StudentDto\StudentWithParentAllDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.StudentDto.StudentWithParentDto">
+    <Position X="19.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAABEAAAAAAAAAgAAAAACAAA=</HashCode>
+      <FileName>Dtos\StudentDto\StudentWithParentDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectDto.SubIdNameImg">
+    <Position X="32.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Dtos\SubjectDto\SubIdNameImg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectDto.SubjectDto">
+    <Position X="21.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectDto\SubjectDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectDto.SubjectDtoWithId">
+    <Position X="23.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectDto\SubjectDtoWithId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectDto.SubLevelImage">
+    <Position X="21.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAEAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectDto\SubLevelImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectRecord.SubjectRecordAddUpdateDto">
+    <Position X="6.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAgAAAAAAAAAACABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectRecord\SubjectRecordAddUpdateDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectRecord.SubjectRecordDto">
+    <Position X="30.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAkAAAAAABEAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectRecord\SubjectRecordDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectRecord.SubjectRecordGetAll">
+    <Position X="32.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACEAAAAAABAAAACAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectRecord\SubjectRecordGetAll.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.SubjectRecord.SubjectRecordUpdateDto">
+    <Position X="6.25" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\SubjectRecord\SubjectRecordUpdateDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.TeacherDto.AddTeacherDto">
+    <Position X="25.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAACAAAACAAAAAQAwQCAAIAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Dtos\TeacherDto\AddTeacherDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.TeacherDto.GetAllDto">
+    <Position X="28.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Dtos\TeacherDto\GetAllDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.TeacherDto.TeacherDto">
+    <Position X="6.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAACAAAACAAAAAQAQQAAAIAAAAAAAAAEAACAA=</HashCode>
+      <FileName>Dtos\TeacherDto\TeacherDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Services.Dtos.TeacherDto.TeacherDtoWithId">
+    <Position X="6.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dtos\TeacherDto\TeacherDtoWithId.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="School.Repository.SeedData.SeedData">
+    <Position X="26.25" Y="17" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="School.Repository.Repositories.AnnouncementRepository" BaseTypeListCollapsed="true">
+    <Position X="45.75" Y="14" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Repository.Repositories.AttendanceRepository">
+    <Position X="23" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.ChatRepository">
+    <Position X="32" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.ClassRepository">
+    <Position X="41" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.GenericRepository&lt;TEntity&gt;">
+    <Position X="30.75" Y="14" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.GradeRepository">
+    <Position X="25.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.MaterialRepository">
+    <Position X="34.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.ParentRepository" BaseTypeListCollapsed="true">
+    <Position X="47.5" Y="14" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Repository.Repositories.ProgressReportRepository">
+    <Position X="18.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.RequestMeetingRepository">
+    <Position X="27.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.SchoolRepository">
+    <Position X="36.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.StudentRepository">
+    <Position X="43.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.SubjectRecordRepository">
+    <Position X="20.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.SubjectRepository">
+    <Position X="29.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.TeacherRepository">
+    <Position X="38.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="School.Repository.Repositories.UnitOfWork" BaseTypeListCollapsed="true">
+    <Position X="45.75" Y="15" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="School.Repository.Dto.StudentWithAbsentDays">
+    <Position X="48.25" Y="25.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="School.Services.UserService.IUserService">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAgABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>UserService\IUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Tokens.ITokenService">
+    <Position X="6" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tokens\ITokenService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.AnnouncementService.IAnnouncementService">
+    <Position X="4.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCAAAAEAAACAgCAAAAAgAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Services\AnnouncementService\IAnnouncementService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.AttendanceService.IAttendanceService">
+    <Position X="6.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAIAAAABAAEAAA=</HashCode>
+      <FileName>Services\AttendanceService\IAttendanceService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.ChatService.IChatService">
+    <Position X="8.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ChatService\IChatService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.ClassServices.IClassServices">
+    <Position X="10" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAgAAAJAAAAAAgAAAIAAAhAAAgAAAAA=</HashCode>
+      <FileName>Services\ClassServices\IClassServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.DepartmentService.IdepartmentService">
+    <Position X="11.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DepartmentService\IdepartmentService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.FileService.IFileService">
+    <Position X="4.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAgEAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Services\FileService\IFileService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.GradeService.IGradeServices">
+    <Position X="6.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAABAgAAAgAAAAAAAAAAAgAABAAA=</HashCode>
+      <FileName>Services\GradeService\IGradeServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.LevelService.ILevelService">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Services\LevelService\ILevelService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.MaterialService.IMaterialService">
+    <Position X="10" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAEAAAIAACAAAAAAAAAAAQAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Services\MaterialService\IMaterialService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.ParentServices.IParentServices">
+    <Position X="11.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAQAEAAAAAAAAAAAQAAAIAIA=</HashCode>
+      <FileName>Services\ParentServices\IParentServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.ProgressReportService.IProgressReportService">
+    <Position X="4.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Services\ProgressReportService\IProgressReportService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.RequestMeetingService.IRequestMeetingService">
+    <Position X="6.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\RequestMeetingService\IRequestMeetingService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.StudentServices.IStudentServices">
+    <Position X="8.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAQEAAAEAAAAQAAAAAAAAAAJAQIAAAAAAAA=</HashCode>
+      <FileName>Services\StudentServices\IStudentServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.SubjectRecord.ISubjectRecordServices">
+    <Position X="10" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAAAAAAhAAAAAAAAAAAAABAgAAAAAAAAA=</HashCode>
+      <FileName>Services\SubjectRecord\ISubjectRecordServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.SubjectServices.ISubjectServices">
+    <Position X="11.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAAAAQAAAAAAIAAAAABAABAAAAAgAAAAAAA=</HashCode>
+      <FileName>Services\SubjectServices\ISubjectServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.TeacherServices.ITeacherServices">
+    <Position X="4.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAEgAAAAACgAQAAAAAAAAAAAAAQAAAQ=</HashCode>
+      <FileName>Services\TeacherServices\ITeacherServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.Services.TermService.ITermService">
+    <Position X="6.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\TermService\ITermService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Services.EmailServices.IEmailService">
+    <Position X="12" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>EmailServices\IEmailService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IAnnouncementRepository">
+    <Position X="60.25" Y="18" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IAttendanceRepository">
+    <Position X="37.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IChatRepository">
+    <Position X="46.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IClassRepository">
+    <Position X="55.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IGenericRepository&lt;TEntity&gt;">
+    <Position X="45.25" Y="18" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IGradeRepository">
+    <Position X="39.75" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IMaterialRepository">
+    <Position X="48.75" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IParentRepository">
+    <Position X="62" Y="18" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IProgressReportRepository">
+    <Position X="33" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IRequestMeetingRepository">
+    <Position X="42" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.ISchoolRepository">
+    <Position X="51" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IStudentRepository">
+    <Position X="57.75" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.ISubjectRecordRepository">
+    <Position X="35.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.ISubjectRepository">
+    <Position X="44.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.ITeacherRepository">
+    <Position X="53.25" Y="19.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="School.Repository.Interfaces.IUnitOfWork">
+    <Position X="60.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -50,11 +50,12 @@ namespace School.API.Controllers
         [Route("api/Login")]
         public async Task<ActionResult<GetLoginDetails>> Login (LoginDto input)
         {
+
              var user = await _userService.Login(input);
 
             if(user == null)
             {
-                return BadRequest("E-Mail or password not correct");
+                return Unauthorized("E-Mail or password not correct");
             }          
 
             return Ok(user);

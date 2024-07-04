@@ -104,13 +104,7 @@ namespace School.Services.UserService
                 throw new Exception(result.Errors.Select(x => x.Description).FirstOrDefault());
             }
 
-            //var receiver = input.GmailAddress;
-            //// Prepare email
-            //string subject = "Welcome to Our Service";
-            //string body = $"Hello {input.DisplayName},<br/>Your account has been created.<br/> Email : {input.Email}, Password: {input.Password}";
-
-            //// Send email
-            //await _emailService.SendEmailAsync(receiver, subject, body);           
+          
                         
             if( !(await _userManager.AddToRoleAsync(appUser , role)).Succeeded  )
             {

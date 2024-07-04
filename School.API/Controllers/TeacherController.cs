@@ -107,11 +107,37 @@ namespace School.API.Controllers
             if(teacherDto == null)
                 return BadRequest("Teacher is empty");
 
+            if (teacherDto.Name.Split(" ").Length < 2)
+            {
+                return BadRequest("name must be at least your name and your father's name");
+            }
+
+            if (teacherDto.PhoneNumber.Length < 11)
+            {
+                return BadRequest("phone number must be 11 number");
+            }
+
+            var validPrefixes = new[] { "011", "012", "015", "010" };
+            if (!validPrefixes.Any(prefix => teacherDto.PhoneNumber.StartsWith(prefix)))
+            {
+                return BadRequest("Your phone number must begin with 011, 010, 012, or 015.");
+            }
+
+            if (teacherDto.GmailAddress.Split("@")[1] != "gmail.com")
+            {
+                return BadRequest("this is invalid Gmail address it must terminate with @gmail.com");
+            }
+
+            if (teacherDto.Gender != 'm' && teacherDto.Gender != 'M' && teacherDto.Gender != 'f' && teacherDto.Gender != 'F')
+            {
+                return BadRequest("Gender must be f or F for Femail OR m or M for Mail");
+            }
+
             RegisterDto registerDto = new RegisterDto
             {
                 DisplayName = teacherDto.Name,
                 GmailAddress = teacherDto.GmailAddress,
-                Email = teacherDto.Name.Split(" ")[0]+ teacherDto.Name.Split(" ")[1] + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "@school.com",
+                Email = teacherDto.Name.Split(" ")[0]+ teacherDto.Name.Split(" ")[1] + teacherDto.PhoneNumber + "@school.com",
                 Password = teacherDto.Name.Split(" ")[0].ToUpper() + teacherDto.Name.Split(" ")[1].ToLower() + teacherDto.BirthDay.Day + teacherDto.BirthDay.Month + teacherDto.BirthDay.Year + "!",
             };
             await _userService.Register(registerDto,"Teacher");
@@ -132,6 +158,33 @@ namespace School.API.Controllers
         {
             if (teacherDto == null)
                 return BadRequest("Teacher is empty");
+
+            if (teacherDto.Name.Split(" ").Length < 2)
+            {
+                return BadRequest("name must be at least your name and your father's name");
+            }
+
+            if (teacherDto.PhoneNumber.Length < 11)
+            {
+                return BadRequest("phone number must be 11 number");
+            }
+
+            var validPrefixes = new[] { "011", "012", "015", "010" };
+            if (!validPrefixes.Any(prefix => teacherDto.PhoneNumber.StartsWith(prefix)))
+            {
+                return BadRequest("Your phone number must begin with 011, 010, 012, or 015.");
+            }
+
+            if (teacherDto.GmailAddress.Split("@")[1] != "gmail.com")
+            {
+                return BadRequest("this is invalid Gmail address it must terminate with @gmail.com");
+            }
+
+            if (teacherDto.Gender != 'm' && teacherDto.Gender != 'M' && teacherDto.Gender != 'f' && teacherDto.Gender != 'F')
+            {
+                return BadRequest("Gender must be f or F for Femail OR m or M for Mail");
+            }
+
             var teacher = await TeacherServices.UpdateTeacher(id, teacherDto);
             if (teacher == null)
                 return NotFound();
