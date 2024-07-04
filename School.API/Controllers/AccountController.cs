@@ -79,7 +79,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("api/GetCurrentUserDetails")]
-        [Authorize(Roles ="Admin")]
+//        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<UserDto>> GetCurrentUserDetails ()
         {
             var email = User?.FindFirstValue(ClaimTypes.Email);

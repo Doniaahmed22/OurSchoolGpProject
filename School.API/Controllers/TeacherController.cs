@@ -161,6 +161,12 @@ namespace School.API.Controllers
             return Ok();
         }
 
+        [HttpGet("GetTeachersOfStudent/{StudentId:int}")]
+        public async Task<IActionResult> GetTeachersOfStudent(int StudentId)
+        {
+             var dto =  await TeacherServices.GetTeachersOfStudent(StudentId);
+             return Ok(dto);
+        }
 
     }
 }

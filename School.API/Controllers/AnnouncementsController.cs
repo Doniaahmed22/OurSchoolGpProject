@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Data.Context;
@@ -21,7 +22,7 @@ namespace School.API.Controllers
         }
 
 
-
+        //[Authorize(Roles = "Student")]
         [HttpGet]
         [Route("api/GetStudentsAnnouncements")]
         public async Task<ActionResult<IEnumerable<GetAnnouncements>>> GetStudentsAnnouncements(int id)
@@ -30,7 +31,7 @@ namespace School.API.Controllers
             return Ok(announcements);
         }
 
-
+        //[Authorize(Roles = "Parent")]
         [HttpGet]
         [Route("api/GetParentssAnnouncements")]
         public async Task<ActionResult<IEnumerable<CreateSchoolDto>>> GetParentssAnnouncements()
@@ -39,7 +40,7 @@ namespace School.API.Controllers
             return Ok(announcements);
         }
 
-
+        //[Authorize(Roles = "Teacher")]
         [HttpGet]
         [Route("api/GetTeachersAnnouncements")]
         public async Task<ActionResult<IEnumerable<CreateSchoolDto>>> GetTeachersAnnouncements()
@@ -48,7 +49,7 @@ namespace School.API.Controllers
             return Ok(announcements);
         }
 
-
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/SchoolPostAnnouncement")]
         public async Task<ActionResult> SchoolPostAnnouncement(CreateSchoolDto createSchoolDto)
@@ -58,7 +59,7 @@ namespace School.API.Controllers
                 //CreatedAtAction(nameof(GetAnnouncements), new { id = createdAnnouncement.Id }, createdAnnouncement);
         }
 
-
+        //[Authorize(Roles = "Teacher")]
         [HttpPost]
         [Route("api/TeacherCreateAnnouncement")]
         public async Task<IActionResult> CreateAnnouncement([FromBody] CreateAnnouncementDto dto)
@@ -67,7 +68,7 @@ namespace School.API.Controllers
             return Ok("Announcement Added Successfully");
         }
 
-
+        //[Authorize(Roles = "Admin")]
         [HttpGet("GetAllAnnouncements")]
         public async Task<IActionResult> GetAllAnnouncements()
         {
@@ -75,6 +76,7 @@ namespace School.API.Controllers
             return Ok(announcements);
         }
 
+        //[Authorize(Roles = "Teacher")]
         [HttpGet("GetTeacherSubjectsAsync")]
         public async Task<IActionResult> GetTeacherSubjectsAsync(int teacherId)
         {
@@ -82,6 +84,7 @@ namespace School.API.Controllers
             return Ok(announcements);
         }
 
+        //[Authorize(Roles = "Teacher")]
         [HttpGet("GetTeacherClassesBasedOnSubjectAsync")]
         public async Task<IActionResult> GetTeacherClassesBasedOnSubjectAsync(int teacherId, int subjectId)
         {

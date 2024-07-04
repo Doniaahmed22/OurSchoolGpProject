@@ -1,4 +1,5 @@
 ﻿using School.Data.Entities;
+using School.Repository.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace School.Repository.Interfaces
         IEnumerable<Teacher> GetTeachersWithSubject();
         Task<Teacher> GetTeachersWithSubjectById(int techerid);
         IEnumerable<Teacher> GetTeachersByName(string name);
-        IEnumerable<TeacherSubjectClass> GetTeacherSubjects(int teacherid);
+        IEnumerable<ClassTeacherSubjectDto> GetTeacherSubjects(int teacherid);
         IEnumerable<Level> GetTeacherLevels(int teacherid);
-        IEnumerable<TeacherSubjectClass> GetTeacherSubjectsInLevel(int teacherid, int levelid);
+        IEnumerable<ClassTeacherSubjectDto> GetTeacherSubjectsInLevel(int teacherid, int levelid);
         Task<IEnumerable<Class>> GetTeacherClassesAsync(int teacherid, int levelid, int subjectid);
         Task<int> GetTeacherByUserId(string UserId);
-
-
+        IEnumerable<TeacherSubjectDto> GetTeachersByClassId(int classid);
+        
     }
 }

@@ -53,7 +53,7 @@ namespace School.Data.Context
             modelBuilder.Entity<StudentSubject>().HasKey(x => new { x.StudentId, x.SubjectId });
             modelBuilder.Entity<Attendance>().HasKey(x => new { x.StudentId, x.Date });
             modelBuilder.Entity<TeacherSubject>().HasKey(x => new { x.TeacherId, x.SubjectId });
-            modelBuilder.Entity<TeacherSubjectClass>().HasKey(x => x.Id);
+            modelBuilder.Entity<ClassTeacherSubjectDto>().HasKey(x => x.Id);
             modelBuilder.Entity<SubjectLevelDepartmentTerm>().HasKey(x => x.Id);
             modelBuilder.Entity<ClassMaterial>().HasKey(x => new { x.MaterialId, x.ClassId });
             modelBuilder.Entity<AbsenceWarning>().HasKey(x => new { x.StudentId, x.WarningDate });
@@ -64,6 +64,17 @@ namespace School.Data.Context
                     .Property(e => e.CurrentTerm)
                              .HasDefaultValue(1);
 
+            modelBuilder.Entity<SchoolInfo>()
+                    .Property(e => e.Midterm)
+                    .HasDefaultValue(20);
+
+            modelBuilder.Entity<SchoolInfo>()
+            .Property(e => e.Workyear)
+                 .HasDefaultValue(20);
+
+            modelBuilder.Entity<SchoolInfo>()
+                  .Property(e => e.FinalDegree)
+                  .HasDefaultValue(60);
 
             modelBuilder.Entity<AnnouncementClass>()
             .HasKey(ac => new { ac.AnnouncementId, ac.ClassId });
@@ -87,7 +98,7 @@ namespace School.Data.Context
         public DbSet<Attendance> Attendences { get; set; }
         public DbSet<SchoolInfo> SchoolInfo { get; set; }
         public DbSet<TeacherSubject> TeacherSubjects { get; set; }
-        public DbSet<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
+        public DbSet<ClassTeacherSubjectDto> TeacherSubjectClasses { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<ClassMaterial> ClassMaterials { get; set; }
         public DbSet<Announcement> Announcements { get; set; }

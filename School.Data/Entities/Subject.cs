@@ -14,7 +14,7 @@ namespace School.Data.Entities
         public List<StudentSubject> StudentSubjects { get; set; }
         public List<SubjectLevelDepartmentTerm> SubjeSubjectLevelDepartmentTermctLevels { get; set; }
         public List<TeacherSubject> TeachersSubject { get; set; }
-        public List<TeacherSubjectClass> TeacherSubjectClasses { get; set; }
+        public List<ClassTeacherSubjectDto> TeacherSubjectClasses { get; set; }
 
     }
 }

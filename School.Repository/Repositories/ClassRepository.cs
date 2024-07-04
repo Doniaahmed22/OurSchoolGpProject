@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace School.Repository.Repositories
 {
-    public class ClassRepository:GenericRepository<Class>, IClassRepository
+    public class ClassRepository : GenericRepository<Class>, IClassRepository
     {
-       // private readonly ISubjectRecordRepository SubjectRecordRepository;
+        // private readonly ISubjectRecordRepository SubjectRecordRepository;
         public ClassRepository(SchoolDbContext context) : base(context)//, ISubjectRecordRepository SubjectRecordRepository
         {
-           // this.SubjectRecordRepository = SubjectRecordRepository;
+            // this.SubjectRecordRepository = SubjectRecordRepository;
         }
 
         public IEnumerable<Class> GetAllClasses()
@@ -28,28 +28,28 @@ namespace School.Repository.Repositories
         public async Task<Class> GetClassById(int id)
         {
             return await _context.Classes.Include(c => c.Department)
-                .Include(c => c.Level).FirstOrDefaultAsync(c=>c.Id==id);
+                .Include(c => c.Level).FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task<Class> GetClassWithTeacherSubjectClassById(int id)
         {
-            return await _context.Classes.Include(c=>c.TeacherSubjectClasses)
+            return await _context.Classes.Include(c => c.TeacherSubjectClasses)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Class> GetClassWithTeacherAndSubject(int id)
         {
-            return await _context.Classes.Include(c=>c.Level).Include(c=>c.Department).Include(c => c.TeacherSubjectClasses)
+            return await _context.Classes.Include(c => c.Level).Include(c => c.Department).Include(c => c.TeacherSubjectClasses)
                .ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).FirstOrDefaultAsync(c => c.Id == id);
-                                   
+
         }
-        public async Task<IEnumerable<Class> >GetClassesbyClassNum(int classnum)
+        public async Task<IEnumerable<Class>> GetClassesbyClassNum(int classnum)
         {
             return await _context.Classes.Include(c => c.Level).Include(c => c.Department)
                 .Where(c => c.Number == classnum).ToArrayAsync();//.Include(c => c.TeacherSubjectClasses)
-                                                                                                                                            //.ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).Where(c => c.Number == classnum).ToArrayAsync();
+                                                                 //.ThenInclude(r => r.Teacher).Include(c => c.TeacherSubjectClasses).ThenInclude(r => r.Subject).Where(c => c.Number == classnum).ToArrayAsync();
 
         }
-        public async Task<IEnumerable<TeacherSubjectClass>> GetClassRecordsByClassId(int classid)
+        public async Task<IEnumerable<ClassTeacherSubjectDto>> GetClassRecordsByClassId(int classid)
         {
             return await _context.TeacherSubjectClasses.Where(c => c.ClassId == classid).ToListAsync();
 
@@ -57,17 +57,17 @@ namespace School.Repository.Repositories
         public async Task<IEnumerable<Class>> GetTeacherClasses(int teacherId)
         {
             return await _context.TeacherSubjectClasses
-                .Where(tsc=>tsc.TeacherId==teacherId)
+                .Where(tsc => tsc.TeacherId == teacherId)
                 .Include(tsc => tsc.Class).ThenInclude(c => c.Level)
                 .Include(tsc => tsc.Class).ThenInclude(c => c.Department)
-                .Select(tsc=>tsc.Class)
+                .Select(tsc => tsc.Class)
                 .Distinct()
                 .ToListAsync();
         }
-        public async Task<IEnumerable<Class>> GetClassesByLevelDepartment(int levelid , int departmentid)
+        public async Task<IEnumerable<Class>> GetClassesByLevelDepartment(int levelid, int departmentid)
         {
-            return await _context.Classes.Include(c=>c.TeacherSubjectClasses)
-                .Where(c=>c.LevelId==levelid&&c.DepartmentId==departmentid)
+            return await _context.Classes.Include(c => c.TeacherSubjectClasses)
+                .Where(c => c.LevelId == levelid && c.DepartmentId == departmentid)
                 .ToListAsync();
         }
 

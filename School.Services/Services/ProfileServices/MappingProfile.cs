@@ -42,8 +42,8 @@ namespace School.Services.Services.ProfileServices
             CreateMap < Class, ClassAddUpdateDto>();
             CreateMap<ClassAddUpdateDto, Class>();
 
-            CreateMap<TeacherSubjectClass, ClassRecordDto>();
-            CreateMap<ClassRecordDto, TeacherSubjectClass>();
+            CreateMap<Data.Entities.ClassTeacherSubjectDto, ClassRecordDto>();
+            CreateMap<ClassRecordDto, Data.Entities.ClassTeacherSubjectDto>();
             // CreateMap<SubjectLevelDepartmentTerm, SubjectRecordDto>();
 
             CreateMap<Announcement, CreateSchoolDto>();

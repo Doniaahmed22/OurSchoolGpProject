@@ -16,7 +16,7 @@ namespace School.Services.Services.ParentServices
         Task AddParent(ParentDto parentDto);
         Task UpdateParent(int id ,ParentDto entity);
         Task DeleteParent(int id);
-        Task<IEnumerable<NameIdDto>> GetStudentsOfParents(int id);
+        Task<IEnumerable<StudentNameGender>> GetStudentsOfParents(int id);
 
     }
 }

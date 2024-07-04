@@ -123,7 +123,7 @@ namespace School.Services.Services.SubjectRecord
                 IEnumerable<Class> classes = await _classRepository.GetClassesByLevelDepartment(Record.LevelId, Record.DepartmentId);
                 foreach(Class _class in classes)
                 {
-                    _class.TeacherSubjectClasses.Add(new TeacherSubjectClass()
+                    _class.TeacherSubjectClasses.Add(new ClassTeacherSubjectDto()
                     {
                         ClassId = _class.Id,
                         SubjectId = Record.SubjectId
