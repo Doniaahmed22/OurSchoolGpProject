@@ -73,6 +73,12 @@ namespace School.API.Controllers
         }
 
 
+
+
+
+
+
+
         [HttpPost]
         [Route("AddParent")]
         public async Task<IActionResult> AddParent(ParentDto parentDto)
@@ -174,7 +180,7 @@ namespace School.API.Controllers
                 throw new Exception("User Email not found");
             }
 
-            _userManager.DeleteAsync(user);
+            await _userManager.DeleteAsync(user);
 
             await _parentServices.DeleteParent(id);
             return Ok();
