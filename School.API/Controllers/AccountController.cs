@@ -91,9 +91,19 @@ namespace School.API.Controllers
                 Email = user.Email,
                 DisplayName = user.DisplayName,
 
-        };
+            };
         }
 
+        [HttpGet]
+        [Route("api/GetUserId")]
+        [Authorize]
+        public async Task<ActionResult<String>> GetUserId()
+        {
+            var email = User?.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return user.Id;
+        }
 
 
 

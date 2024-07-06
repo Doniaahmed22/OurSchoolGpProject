@@ -73,6 +73,12 @@ namespace School.API.Controllers
         }
 
 
+
+
+
+
+
+
         [HttpPost]
         [Route("AddParent")]
         public async Task<IActionResult> AddParent(ParentDto parentDto)

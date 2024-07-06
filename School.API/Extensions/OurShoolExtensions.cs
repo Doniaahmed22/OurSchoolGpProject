@@ -30,6 +30,7 @@ using School.Services.Services.RequestMeetingService;
 using School.Services.Services.ChatService;
 using School.Repository.Interfaces.ChatHub;
 using School.Repository.Repositories.ChatHub;
+using School.Services.Services.ParentStudent;
 
 namespace School.API.Extensions
 {
@@ -75,6 +76,8 @@ namespace School.API.Extensions
 
             services.AddScoped<IParentRepository, ParentRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
+
+            services.AddScoped<IAddParentStudent, AddParentStudent>();
 
             services.AddScoped<IProgressReportService, ProgressReportService>();
             services.AddScoped<IProgressReportRepository, ProgressReportRepository>();

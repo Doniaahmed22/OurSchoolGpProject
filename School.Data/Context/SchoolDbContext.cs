@@ -83,6 +83,12 @@ namespace School.Data.Context
                 .HasOne(ac => ac.Announcement)
                 .WithMany(a => a.AnnouncementClasses)
                 .HasForeignKey(ac => ac.AnnouncementId);
+
+            //modelBuilder.Entity<Student>().HasOne(s => s.AppUser).WithOne().HasForeignKey<Student>(s => s.UserId);
+            //modelBuilder.Entity<Parent>().HasOne(s => s.AppUser).WithOne().HasForeignKey<Parent>(s => s.UserId);
+            //modelBuilder.Entity<Teacher>().HasOne(s => s.AppUser).WithOne().HasForeignKey<Teacher>(s => s.UserId);
+
+
         }
         
         public DbSet<Student> Students { get; set; }
