@@ -10,8 +10,8 @@ namespace School.Data.Entities
     public class Teacher:BaseEntity
     {
         public int Id { get; set; }
- //       public string UserId { get; set; }
- //       public AppUser User { get; set; }
+       public string UserId { get; set; }
+       // public AppUser User { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string GmailAddress { get; set; }
@@ -26,7 +26,6 @@ namespace School.Data.Entities
         public List<TeacherSubject> TeacherSubject { get; set; }
         public List<ClassTeacherSubjectDto> TeacherSubjectClasses { get; set; }
 
-        public string UserId { get; set; }
-        //public AppUser AppUser { get; set; }
+
     }
 }

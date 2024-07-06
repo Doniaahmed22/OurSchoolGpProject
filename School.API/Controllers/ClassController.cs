@@ -74,8 +74,15 @@ namespace School.API.Controllers
         [HttpPost]
         [Route("AddClass")]
         public async Task<IActionResult> AddClass(ClassAddUpdateDto classItem)
-        {
-           var c= await classServices.AddClass(classItem);
+        {/*
+            if(classItem.Number == 0)
+                return BadRequest("The Number Of Class Is Required");
+            */
+            var c = await classServices.AddClass(classItem);
+
+            if (c == null)
+                return BadRequest("Number Of Class in This Leve Already Exist");
+
 
             return Ok();
         }

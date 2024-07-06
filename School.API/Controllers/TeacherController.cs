@@ -206,7 +206,7 @@ namespace School.API.Controllers
                 throw new Exception("User Email not found");
             }
 
-            _userManager.DeleteAsync(user);
+           await _userManager.DeleteAsync(user);
 
             var teacher = await TeacherServices.DeleteTeacher(id);
             if (teacher == null)

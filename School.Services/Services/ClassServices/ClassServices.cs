@@ -126,6 +126,9 @@ namespace School.Services.Services.ClassServices
         
         public async Task<Class> AddClass(ClassAddUpdateDto classDto)
         {
+            Class c =await _classRepository.CheckClassNumInLevel(classDto.Number, classDto.LevelId);
+            if (c != null)
+                return null;
             var classItem = _mapper.Map<Class>(classDto);
 
             await _unitOfWork.repository<Class>().Add(classItem);

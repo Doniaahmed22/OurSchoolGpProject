@@ -47,7 +47,10 @@ namespace School.API.Controllers
         {
             if (recordDto == null)
                 return BadRequest("record is empty");
-            await subjectRecordServices.AddRecord(recordDto);
+
+           var error=  await subjectRecordServices.AddRecord(recordDto);
+            if(error != null)
+                return BadRequest(error);
             return Ok();
         }
 

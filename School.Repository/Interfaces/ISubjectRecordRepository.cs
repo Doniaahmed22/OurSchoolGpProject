@@ -14,6 +14,7 @@ namespace School.Repository.Interfaces
         IEnumerable<Subject> GetSubjectsByLevelDeptTerm(int LevelId, int DepartmentId, int TermId);
         Task<SubjectLevelDepartmentTerm> GetRecordById(int id);
         Task<IEnumerable<SubjectLevelDepartmentTerm>> GetRecordsBySubjectName(string name);
+        Task<SubjectLevelDepartmentTerm> CheckRecordExist(int SubjectId, int DepartId, int LevelId, int TermId);
 
 
     }

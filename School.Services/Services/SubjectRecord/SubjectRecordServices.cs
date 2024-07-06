@@ -100,11 +100,15 @@ namespace School.Services.Services.SubjectRecord
 
         }
 
-        public async Task AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto)
+        public async Task<String> AddRecord(Dtos.SubjectRecord.SubjectRecordAddUpdateDto dto)
         {
-            Term term =await _schoolRepository.GetCurrentTerm();
-            var Record = _mapper.Map<SubjectLevelDepartmentTerm>(dto);
+            Term term = await _schoolRepository.GetCurrentTerm();
+            SubjectLevelDepartmentTerm ExistingRecord = await _subjectRecordRepository.CheckRecordExist(dto.SubjectId,dto.DepartmentId,dto.LevelId,dto.TermId);
 
+            if (ExistingRecord != null)
+                return "Subject already Exist in this Level,Department and Term";
+
+            var Record = _mapper.Map<SubjectLevelDepartmentTerm>(dto);
              _unitOfWork.repository<SubjectLevelDepartmentTerm>().AddWithoutSave(Record);
             if (term.Id == Record.TermId)
             {
@@ -132,6 +136,7 @@ namespace School.Services.Services.SubjectRecord
 
             }
             await _unitOfWork.CompleteAsync();
+            return null;
         }
 
         public async Task< SubjectLevelDepartmentTerm>UpdateRecord(int id,SubjectRecordAddUpdateDto record)

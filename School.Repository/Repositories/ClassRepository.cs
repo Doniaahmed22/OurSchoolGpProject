@@ -70,6 +70,10 @@ namespace School.Repository.Repositories
                 .Where(c => c.LevelId == levelid && c.DepartmentId == departmentid)
                 .ToListAsync();
         }
+        public async Task<Class> CheckClassNumInLevel(int ClassNum, int LevelId)
+        {
+            return await _context.Classes.FirstOrDefaultAsync(c=>c.Number ==ClassNum&& c.LevelId==LevelId); 
+        }
 
 
     }

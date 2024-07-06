@@ -20,6 +20,7 @@ namespace School.Repository.Interfaces
         Task<IEnumerable<Class>> GetClassesbyClassNum(int classnum);
         Task<IEnumerable<Class>> GetTeacherClasses(int teacherId);
         Task<IEnumerable<Class>> GetClassesByLevelDepartment(int levelid, int departmentid);
+        Task<Class> CheckClassNumInLevel(int ClassNum, int LevelId);
 
 
     }

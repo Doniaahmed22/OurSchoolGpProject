@@ -100,6 +100,7 @@ namespace School.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -131,6 +132,7 @@ namespace School.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -163,24 +165,6 @@ namespace School.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnnouncementClasses",
-                columns: table => new
-                {
-                    AnnouncementId = table.Column<int>(type: "int", nullable: false),
-                    ClassId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnnouncementClasses", x => new { x.AnnouncementId, x.ClassId });
-                    table.ForeignKey(
-                        name: "FK_AnnouncementClasses_Announcements_AnnouncementId",
-                        column: x => x.AnnouncementId,
-                        principalTable: "Announcements",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -197,6 +181,26 @@ namespace School.Data.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActiveUserConnections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConnectionId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActiveUserConnections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActiveUserConnections_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -406,7 +410,10 @@ namespace School.Data.Migrations
                     Info = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rules = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrentTerm = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    LimitAbsentDays = table.Column<int>(type: "int", nullable: false)
+                    LimitAbsentDays = table.Column<int>(type: "int", nullable: false),
+                    FinalDegree = table.Column<int>(type: "int", nullable: false, defaultValue: 60),
+                    Midterm = table.Column<int>(type: "int", nullable: false, defaultValue: 20),
+                    Workyear = table.Column<int>(type: "int", nullable: false, defaultValue: 20)
                 },
                 constraints: table =>
                 {
@@ -460,11 +467,36 @@ namespace School.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AnnouncementClasses",
+                columns: table => new
+                {
+                    AnnouncementId = table.Column<int>(type: "int", nullable: false),
+                    ClassId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnnouncementClasses", x => new { x.AnnouncementId, x.ClassId });
+                    table.ForeignKey(
+                        name: "FK_AnnouncementClasses_Announcements_AnnouncementId",
+                        column: x => x.AnnouncementId,
+                        principalTable: "Announcements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AnnouncementClasses_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -689,6 +721,16 @@ namespace School.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ActiveUserConnections_UserId",
+                table: "ActiveUserConnections",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnnouncementClasses_ClassId",
+                table: "AnnouncementClasses",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -857,6 +899,9 @@ namespace School.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AbsenceWarnings");
+
+            migrationBuilder.DropTable(
+                name: "ActiveUserConnections");
 
             migrationBuilder.DropTable(
                 name: "AnnouncementClasses");

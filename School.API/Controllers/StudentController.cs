@@ -34,7 +34,7 @@ namespace School.API.Controllers
 
         [HttpGet]
         [Route("GetStudents")]
-        [Authorize(Roles ="Student")]
+        //[Authorize(Roles ="Student")]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
             var students = await _studentServices.GetAllStudents();
@@ -186,7 +186,7 @@ namespace School.API.Controllers
                     var parent = await _context.Parents.FindAsync(student.ParentId);
                     var par = await _userManager.FindByEmailAsync(parent.Email);
 
-                    _userManager.DeleteAsync(par);
+                   await _userManager.DeleteAsync(par);
                     _context.Parents.Remove(parent);
 
                 }
@@ -199,7 +199,7 @@ namespace School.API.Controllers
             {
                 throw new Exception("User Email not found");
             }
-            _userManager.DeleteAsync(user2);
+           await _userManager.DeleteAsync(user2);
 
             await _studentServices.DeleteStudent(id);
             return Ok();

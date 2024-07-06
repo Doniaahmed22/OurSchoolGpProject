@@ -208,6 +208,8 @@ namespace School.Data.Migrations
 
                     b.HasKey("AnnouncementId", "ClassId");
 
+                    b.HasIndex("ClassId");
+
                     b.ToTable("AnnouncementClasses");
                 });
 
@@ -955,7 +957,15 @@ namespace School.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("School.Data.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Announcement");
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
