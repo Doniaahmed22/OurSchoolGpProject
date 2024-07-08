@@ -12,8 +12,8 @@ using School.Data.Context;
 namespace School.Data.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20240704215903_addRelationToIdentity")]
-    partial class addRelationToIdentity
+    [Migration("20240706161329_addTables")]
+    partial class addTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,6 +209,8 @@ namespace School.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("AnnouncementId", "ClassId");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("AnnouncementClasses");
                 });
@@ -533,12 +535,9 @@ namespace School.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Parents");
                 });
@@ -705,7 +704,7 @@ namespace School.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -716,9 +715,6 @@ namespace School.Data.Migrations
                     b.HasIndex("LevelId");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Students");
                 });
@@ -847,12 +843,9 @@ namespace School.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -966,7 +959,15 @@ namespace School.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("School.Data.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Announcement");
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("School.Data.Entities.Attendance", b =>
@@ -1108,17 +1109,6 @@ namespace School.Data.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("School.Data.Entities.Parent", b =>
-                {
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("School.Data.Entities.Parent", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("School.Data.Entities.ProgressReport.ProgressReport", b =>
                 {
                     b.HasOne("School.Data.Entities.Student", "Student")
@@ -1191,14 +1181,6 @@ namespace School.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("School.Data.Entities.Student", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
                     b.Navigation("Class");
 
                     b.Navigation("Department");
@@ -1260,17 +1242,6 @@ namespace School.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Term");
-                });
-
-            modelBuilder.Entity("School.Data.Entities.Teacher", b =>
-                {
-                    b.HasOne("School.Data.Entities.Identity.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("School.Data.Entities.Teacher", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("School.Data.Entities.TeacherSubject", b =>

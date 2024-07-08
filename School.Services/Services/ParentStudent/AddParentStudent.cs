@@ -42,7 +42,7 @@ namespace School.Services.Services.ParentStudent
             Student studentDto = new Student();
             studentDto.Name = parentStudentdto.StudentName;
             studentDto.Address = parentStudentdto.StudentAddress;
-            studentDto.Age = parentStudentdto.StudebtAge;
+            studentDto.Age = parentStudentdto.StudentAge;
             studentDto.PhoneNumber = parentStudentdto.StudentPhoneNumber;
             studentDto.Religion = parentStudentdto.StudentReligion;
             studentDto.Nationality = parentStudentdto.StudentNationality;

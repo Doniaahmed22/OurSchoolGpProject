@@ -13,14 +13,14 @@ using School.Services.UserService.Dtos;
 namespace School.API.Controllers
 {
     [ApiController]
-    public class AddStudentAndParent : ControllerBase
+    public class AddStudentAndParentController : ControllerBase
     {
         private readonly IAddParentStudent _parentStudentServices;
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
 
 
-        public AddStudentAndParent(IAddParentStudent parentStudentServices, IUserService userService, UserManager<AppUser> userManager)
+        public AddStudentAndParentController(IAddParentStudent parentStudentServices, IUserService userService, UserManager<AppUser> userManager)
         {
             _parentStudentServices = parentStudentServices;
             _userService = userService;
@@ -98,7 +98,7 @@ namespace School.API.Controllers
                 return BadRequest("this is invalid Gmail address it must terminate with @gmail.com");
             }
 
-            if (parentStudentDto.StudebtAge < 14)
+            if (parentStudentDto.StudentAge < 14)
             {
                 return BadRequest("Age must be greater than 14 years");
             }

@@ -33,13 +33,19 @@ namespace School.Services.Services.StudentServices
         {
             var students = await _unitOfWork.repository<Student>().GetAll();
             return _mapper.Map<IEnumerable<StudentDtoWithId>>(students);
-        }
+        }/*
 
         public async Task<StudentDtoWithId> GetStudentById(int id)
         {
-            var student = await _unitOfWork.repository<Student>().GetById(id);
-            return _mapper.Map<StudentDtoWithId>(student);
-        }
+            StudentDtoWithId dto = new StudentDtoWithId();
+            var student = await studentRepository.GetStudentById(id);
+            dto.Id = student.Id;    
+            dto.Name = student.Name;
+            dto.Address = student.Address;
+            dto.Department = student.Department.Name;
+
+
+        }*/
 
         public async Task AddStudent(StudentDto studentDto)
         {

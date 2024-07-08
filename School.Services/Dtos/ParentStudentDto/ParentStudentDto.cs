@@ -20,7 +20,7 @@ namespace School.Services.Dtos.ParentStudentDto
         public string StudentGmailAddress { get; set; }
         public string StudentReligion { get; set; }
         public DateTime StudentBirthDay { get; set; }
-        public int StudebtAge { get; set; }
+        public int StudentAge { get; set; }
         public string StudentPhoneNumber { get; set; }
         public string? StudentAddress { get; set; }
         public string StudentNationality { get; set; }

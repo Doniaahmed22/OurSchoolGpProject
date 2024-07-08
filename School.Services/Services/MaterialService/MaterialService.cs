@@ -85,20 +85,20 @@ namespace School.Services.Services.MaterialService
             }
             return MaterialsDto;
         }
-        public async Task< string> UploadMaterial(IFormFile File , MaterialType materialType, MaterialAddDto dto)
+        public async Task<string> UploadMaterial(IFormFile File, MaterialType materialType, MaterialAddDto dto)
         {
-            string[] allowedExtension= allowedRevisionExtensions;
+            string[] allowedExtension = allowedRevisionExtensions;
             string subfolder = "";
-            Material mat = await _materialRepository.GetMaterialOfNameAsync(File.FileName, materialType, dto.TeacherId, dto.Levelid, dto.SubjectId);
+            Material mat = await _materialRepository.GetMaterialOfNameAsync(File.FileName, materialType, Int32.Parse(dto.TeacherId), Int32.Parse(dto.Levelid), Int32.Parse(dto.SubjectId));
             if (mat != null)
                 return null;
-            if (materialType==MaterialType.Video)
+            if (materialType == MaterialType.Video)
             {
                 allowedExtension = allowedVideoExtensions;
                 subfolder = "/Video";
 
             }
-            else if(materialType == MaterialType.Exam)
+            else if (materialType == MaterialType.Exam)
             {
                 allowedExtension = allowedExamExtensions;
                 subfolder = "/Exam";
@@ -118,34 +118,99 @@ namespace School.Services.Services.MaterialService
                 allowedExtension = allowedBookExtensions;
                 subfolder = "/Book";
             }
-            var filePath = await _fileService.SaveFileAsync(File, allowedExtension, BaseSubFolder + subfolder, false) ;
+            var filePath = await _fileService.SaveFileAsync(File, allowedExtension, BaseSubFolder + subfolder, false);
             if (string.IsNullOrEmpty(filePath))
             {
-                return null; 
+                return null;
             }
 
             var fileName = Path.GetFileName(filePath);
 
-            
+
             var uploadedMaterial = new Material
             {
                 MaterialName = fileName,
-                SubjectId = dto.SubjectId,
-                TeacherId = dto.TeacherId,
-                Levelid = dto.Levelid,
-                Type = materialType,
+                SubjectId =Int32.Parse(dto.SubjectId) ,
+                TeacherId = Int32.Parse(dto.TeacherId),
+                Levelid = Int32.Parse(dto.Levelid),
+                Type = materialType
 
             };
             await _materialRepository.Add(uploadedMaterial);
-            foreach(int _class in dto.MaterialClasses){
+            foreach (string _class in dto.MaterialClasses)
+            {
                 _unitOfWork.repository<ClassMaterial>()
-                    .AddWithoutSave(new ClassMaterial{ 
-                        ClassId = _class, MaterialId = uploadedMaterial.Id
+                    .AddWithoutSave(new ClassMaterial
+                    {
+                        ClassId = Int32.Parse(_class),
+                        MaterialId = uploadedMaterial.Id
                     });
             }
             await _unitOfWork.CompleteAsync();
             return fileName;
         }
+        public async Task<string> UploadMaterial(IFormFile File, MaterialType materialType, MaterialAddDto2 dto)
+        {
+            string[] allowedExtension = allowedRevisionExtensions;
+            string subfolder = "";
+            Material mat = await _materialRepository.GetMaterialOfNameAsync(File.FileName, materialType, Int32.Parse( dto.TeacherId), Int32.Parse( dto.Levelid), Int32.Parse(dto.SubjectId));
+            if (mat != null)
+                return null;
+            if (materialType == MaterialType.Video)
+            {
+                allowedExtension = allowedVideoExtensions;
+                subfolder = "/Video";
+
+            }
+            else if (materialType == MaterialType.Exam)
+            {
+                allowedExtension = allowedExamExtensions;
+                subfolder = "/Exam";
+            }
+            else if (materialType == MaterialType.Summary)
+            {
+                allowedExtension = allowedSummaryExtensions;
+                subfolder = "/Summary";
+            }
+            else if (materialType == MaterialType.Revision)
+            {
+                allowedExtension = allowedRevisionExtensions;
+                subfolder = "/Revision";
+            }
+            else if (materialType == MaterialType.Book)
+            {
+                allowedExtension = allowedBookExtensions;
+                subfolder = "/Book";
+            }
+            var filePath = await _fileService.SaveFileAsync(File, allowedExtension, BaseSubFolder + subfolder, false);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return null;
+            }
+
+            var fileName = Path.GetFileName(filePath);
+
+
+            var uploadedMaterial = new Material
+            {
+                MaterialName = fileName,
+                SubjectId = Int32.Parse( dto.SubjectId),
+                TeacherId = Int32.Parse(dto.TeacherId),
+                Levelid = Int32.Parse(dto.Levelid),
+                Type = materialType,
+
+            };
+            await _materialRepository.Add(uploadedMaterial);
+            _unitOfWork.repository<ClassMaterial>()
+                .AddWithoutSave(new ClassMaterial
+                {
+                    ClassId = Int32.Parse(dto.MaterialClass),
+                    MaterialId = uploadedMaterial.Id
+                });
+            await _unitOfWork.CompleteAsync();
+            return fileName;
+        }
+
 
         public async Task<(MemoryStream stream, string contentType, string fileName)> DownloadMaterial( int MaterialId)
 

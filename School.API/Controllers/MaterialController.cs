@@ -71,20 +71,20 @@ namespace School.API.Controllers
 
         [RequestFormLimits(MultipartBodyLengthLimit = 524288000)]
         [HttpPost("uploadMaterial/{MaterialType:int}")]
-        public async Task<IActionResult> UploadMaterial(IFormFile material , MaterialType MaterialType,[FromForm]MaterialAddDto dto)
+        public async Task<IActionResult> UploadMaterial( MaterialType MaterialType, [FromForm] MaterialAddDto dto)
         {
-            if (material == null)
+            if (dto.material == null)
             {
-                return BadRequest(new {msg="no material was sended"});
+                return BadRequest(new { msg = "no material was sended" });
             }
             try
             {
-                string filepath = await _materialService.UploadMaterial(material, MaterialType, dto);
+                string filepath = await _materialService.UploadMaterial(dto.material, MaterialType, dto);
                 if (string.IsNullOrEmpty(filepath))
                 {
                     return Conflict("A file with the same name already exists or failed to save.");
                 }
-                return Ok(new {filname= Path.GetFileName(filepath) });
+                return Ok(new { filname = Path.GetFileName(filepath) });
             }
             catch (Exception ex)
             {
@@ -93,6 +93,32 @@ namespace School.API.Controllers
             }
 
         }
+        [RequestFormLimits(MultipartBodyLengthLimit = 524288000)]
+        [HttpPost("uploadMaterial2/{MaterialType:int}")]
+        public async Task<IActionResult> UploadMaterial2( MaterialType MaterialType, [FromForm] MaterialAddDto2 dto)
+        {
+            if (dto.material == null)
+            {
+                return BadRequest(new { msg = "no material was sended" });
+            }
+            try
+            {
+                string filepath = await _materialService.UploadMaterial(dto.material, MaterialType, dto);
+                if (string.IsNullOrEmpty(filepath))
+                {
+                    return Conflict("A file with the same name already exists or failed to save.");
+                }
+                return Ok(new { filname = Path.GetFileName(filepath) });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); // Return a 400 Bad Request status with the exception message
+
+            }
+
+        }
+
+
         [HttpDelete("DeleteMaterial/{MaterialId:int}")]
         public async Task<IActionResult> DeleteMaterial(int MaterialId)
         {
