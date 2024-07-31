@@ -173,14 +173,16 @@ namespace School.API.Controllers
 
             var parent = await _context.Parents.FindAsync(id);
 
-            var user = await _userManager.FindByEmailAsync(parent.Email);
-
+            var user = await _userManager.FindByIdAsync(parent.UserId);
+/*
             if (user is null)
             {
                 throw new Exception("User Email not found");
             }
+            _userService.DeleteMessgeOfuserSender_Rec(user.Id);
 
-            await _userManager.DeleteAsync(user);
+
+           await _userManager.DeleteAsync(user);*/
 
             await _parentServices.DeleteParent(id);
             return Ok();

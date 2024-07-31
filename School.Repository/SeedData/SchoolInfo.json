@@ -1,0 +1,13 @@
+[
+  {
+    "Name": "Our School",
+    "Location": "Cairo",
+    "Info": "Secondary school",
+    "Rules": "Uniform",
+    "CurrentTerm": 1,
+    "LimitAbsentdays": 6,
+    "FinalDegree":60,
+    "Midterm":20,
+    "Workyear":20
+  }
+]

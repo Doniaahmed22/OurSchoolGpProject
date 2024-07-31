@@ -1,17 +1,22 @@
 [
-    {
-        "Name":"General"
-    },
-    {
-        "Name":"Scientific"
-    },
-    {
-        "Name":"Literature"
-    },
-    {
-        "Name":"Science - Biology"
-    },
-    {
-        "Name":"Science - Mathematics"
-    }
+  {
+    "Id": 1,
+    "Name": "General"
+  },
+  {
+    "Id": 2,
+   "Name": "Scientific"
+  },
+  {
+    "Id": 3,
+    "Name": "Literature"
+  },
+  {
+    "Id": 4,
+    "Name": "Science - Biology"
+  },
+  {
+    "Id": 5,
+    "Name": "Science - Mathematics"
+  }
 ]

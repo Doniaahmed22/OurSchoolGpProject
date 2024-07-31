@@ -1,17 +1,20 @@
 [
-    {
-        "Name":"One",
-        "fees":300,
-        "LevelNumber":1  
-    },
-    {
-        "Name":"Two",
-        "fees":400,
-        "LevelNumber":2  
-    },
-    {
-        "Name":"Three",
-        "fees":500,
-        "LevelNumber":3  
-    }
+  {
+    "Id": 1,
+    "Name": "First",
+    "fees": 300,
+    "LevelNumber": 1
+  },
+  {
+    "Id": 2,
+    "Name": "Second",
+    "fees": 400,
+    "LevelNumber": 2
+  },
+  {
+    "Id": 2,
+    "Name": "Thrid",
+    "fees": 500,
+    "LevelNumber": 3
+  }
 ]

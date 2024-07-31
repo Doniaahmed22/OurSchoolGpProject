@@ -33,19 +33,37 @@ namespace School.Services.Services.StudentServices
         {
             var students = await _unitOfWork.repository<Student>().GetAll();
             return _mapper.Map<IEnumerable<StudentDtoWithId>>(students);
-        }/*
+        }
 
-        public async Task<StudentDtoWithId> GetStudentById(int id)
+        public async Task<StudentProfile> GetStudentProfile(int id)
         {
-            StudentDtoWithId dto = new StudentDtoWithId();
+            StudentProfile dto = new StudentProfile();
             var student = await studentRepository.GetStudentById(id);
             dto.Id = student.Id;    
             dto.Name = student.Name;
             dto.Address = student.Address;
-            dto.Department = student.Department.Name;
-
-
-        }*/
+            dto.PhoneNumber = student.PhoneNumber;
+            dto.Email = student.Email;
+            dto.BirthDay = student.BirthDay;
+            dto.Gender = student.Gender;
+            dto.Age= student.Age;
+            dto.ClassNumber = student.Class.Number;
+            dto.ClassId = student.ClassId;
+            dto.LevelName = student.Level.Name;
+            //dto.LevelNumber = student.Level.LevelNumber;
+            dto.LevelId = student.LevelId;
+            dto.DepartmentId = student.DepartmentId;
+            dto.DepartmentName = student.Department.Name;
+            dto.Religion = student.Religion;
+            dto.Nationality = student.Nationality;
+            return dto;
+        }
+        
+        public async Task<StudentDtoWithId> GetStudentById(int id)
+        {
+            var student = await _unitOfWork.repository<Student>().GetById(id);
+            return _mapper.Map<StudentDtoWithId>(student);
+        }
 
         public async Task AddStudent(StudentDto studentDto)
         {
@@ -91,7 +109,6 @@ namespace School.Services.Services.StudentServices
                     await SetSubjectStudentGrades(id, studentDto.LevelId.Value, studentDto.DepartmentId.Value);
             }
             */
-            _mapper.Map(studentDto, existingStudent);
 
             await _unitOfWork.repository<Student>().Update( existingStudent);
 

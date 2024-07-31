@@ -21,7 +21,7 @@ namespace School.API.Controllers
         [HttpGet("{classid:int}/{subjectid:int}")]
         public async Task<ActionResult<IEnumerable<StudentGradeDto>>> GetStudentsWithGrades(int classid, int subjectid)
         {
-            var students = await _gradeServices.GetStudentsWithGradesInSubjectbyClassId(classid, subjectid, "");/////////////////////////////
+            var students = await _gradeServices.GetStudentsWithGradesInSubjectbyClassId(classid, subjectid, null);/////////////////////////////
             return Ok(students);
         }
         [HttpPut("updateGrade/{studentid:int}/{subjectid:int}")]

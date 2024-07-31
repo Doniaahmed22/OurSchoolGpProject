@@ -8,22 +8,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using School.Services.Services.StudentServices;
 
 namespace School.Services.Services.ParentStudent
 {
     public class AddParentStudent : IAddParentStudent
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IStudentServices _studentServices;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IParentRepository _parentRepository;
 
-        public AddParentStudent(IUnitOfWork unitOfWork, IMapper mapper, IParentRepository parentRepository, IStudentRepository studentRepository)
+        public AddParentStudent(IUnitOfWork unitOfWork, IMapper mapper, IParentRepository parentRepository, IStudentRepository studentRepository, IStudentServices studentServices)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _parentRepository = parentRepository;
             _studentRepository = studentRepository;
+            _studentServices = studentServices;
         }
 
         public async Task AddParentAndStudent (ParentStudentDto parentStudentdto)
@@ -57,9 +60,11 @@ namespace School.Services.Services.ParentStudent
             studentDto.ParentId = parentDto.Id;
 
             await _unitOfWork.repository<Student>().Add(studentDto);
-
+            if (studentDto.LevelId != 0 && studentDto.DepartmentId != 0)
+            {
+                await _studentServices.SetSubjectStudentRecords(studentDto.Id, studentDto.LevelId, studentDto.DepartmentId);
+            }
         }
-
 
     }
 }

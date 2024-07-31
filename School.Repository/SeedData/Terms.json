@@ -1,0 +1,16 @@
+[
+  {
+    "Id": 1,
+    "Name": "First Term",
+    "termNumber": 1,
+    "StartDate": "2024-09-12T00:00:00",
+    "EndDate": "2024-02-12T00:00:00"
+  },
+  {
+    "Id": 2,
+    "Name": "Second Term",
+    "termNumber": 2,
+    "StartDate": "2024-02-12T00:00:00",
+    "EndDate": "2024-07-12T00:00:00"
+  }
+]

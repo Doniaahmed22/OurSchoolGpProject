@@ -53,6 +53,13 @@ namespace School.API.Controllers
             return Ok(student);
         }
 
+        [HttpGet]
+        [Route("GetStudentProfile/{studentid:int}")]
+        public async Task<IActionResult> GetStudentProfile(int studentid)
+        {
+           var dto=  await _studentServices.GetStudentProfile(studentid);
+            return Ok(dto);
+        }
         [HttpPost]
         [Route("AddStudent")]
         public async Task<IActionResult> AddStudent(StudentDto studentDto)
@@ -184,22 +191,26 @@ namespace School.API.Controllers
                 if (flag == false)
                 {
                     var parent = await _context.Parents.FindAsync(student.ParentId);
-                    var par = await _userManager.FindByEmailAsync(parent.Email);
+                    //var par = await _userManager.FindByIdAsync(parent.UserId);
 
-                    await _userManager.DeleteAsync(par);
+ //                   _userService.DeleteMessgeOfuserSender_Rec(par.Id);
+
+                   // await _userManager.DeleteAsync(par);
                     _context.Parents.Remove(parent);
 
                 }
             }
 
-
-            var user2 = await _userManager.FindByEmailAsync(student.Email);
+            /*
+            var user2 = await _userManager.FindByIdAsync(student.UserId);
 
             if (user2 is null)
             {
                 throw new Exception("User Email not found");
             }
-            await _userManager.DeleteAsync(user2);
+            _userService.DeleteMessgeOfuserSender_Rec(user2.Id);
+
+            await _userManager.DeleteAsync(user2);*/
 
             await _studentServices.DeleteStudent(id);
             return Ok();

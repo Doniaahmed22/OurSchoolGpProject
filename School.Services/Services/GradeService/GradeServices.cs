@@ -32,7 +32,7 @@ namespace School.Services.Services.GradeService
             _schoolRepository = schoolRepository;
         }
 
-        public async Task<List<StudentGradeDto>> GetStudentsWithGradesInSubjectbyClassId(int classid, int subjectid, string name = "")
+        public async Task<List<StudentGradeDto>> GetStudentsWithGradesInSubjectbyClassId(int classid, int subjectid, string name = null)
         {
             List<StudentGradeDto> studentGradesDto = new List<StudentGradeDto>();
             IEnumerable<StudentSubject> studentSubjects;
@@ -95,7 +95,7 @@ namespace School.Services.Services.GradeService
         {
             IEnumerable<SchoolInfo> schools = await _unitOfWork.repository<SchoolInfo>().GetAll();
             int currentterm = schools.ToList()[0].CurrentTerm;
-            var subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelid, departmentid, currentterm);
+            var subjects = subjectRecordRepository.GetSubjectsByLevelDeptTerm(levelid, departmentid, currentterm).ToList();
             StudentsFinalDegresDto StudentsFinalDegres = new StudentsFinalDegresDto();
             foreach (Subject subject in subjects)
             {
@@ -108,6 +108,14 @@ namespace School.Services.Services.GradeService
                 students = await studentRepository.GetStudentsFinalGradesByName(levelid, departmentid, name);
             foreach (Student student in students)
             {
+                if (student.StudentSubjects.Count < subjects.Count) {
+                    student.StudentSubjects = new List<StudentSubject>();
+                    foreach (Subject subject in subjects)
+                    {
+                        student.StudentSubjects.Add(new StudentSubject() { StudentId = student.Id, SubjectId = subject.Id });
+                    }
+                   await _unitOfWork.CompleteAsync();
+                }
                 StudentFinalGrade studentFinalGrade = new StudentFinalGrade();
                 studentFinalGrade.Student.Name = student.Name;
                 studentFinalGrade.Student.Id = student.Id;

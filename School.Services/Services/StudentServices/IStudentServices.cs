@@ -17,11 +17,13 @@ namespace School.Services.Services.StudentServices
         Task AddStudent(StudentDto studentDto);
         Task UpdateStudent(int id,StudentDto entity);
         Task DeleteStudent(int id);
+        Task SetSubjectStudentRecords(int StuId, int levelId, int departmentId);
 
         Task<IEnumerable<NameIdDto>> GetStudentsByClassId(int ClassId);
         Task<IEnumerable<AbsentDaysDto>> GetStudentsWithAbsentDays();
         Task<IEnumerable<StudentWithParentDto>> GetStudentsWithParentByClassID(int ClassId, string studentname = null);
         Task<IEnumerable<StudentWithParentAllDto>> GetStudentsWithParent();
+        Task<StudentProfile> GetStudentProfile(int id);
 
 
     }

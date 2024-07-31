@@ -19,8 +19,9 @@ namespace School.Services.UserService
         private readonly IParentRepository _parentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IChatRepository _chatRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService,IParentRepository parentRepository, IStudentRepository studentRepository, ITeacherRepository teacherRepository,IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, EmailService emailService,IParentRepository parentRepository, IStudentRepository studentRepository, ITeacherRepository teacherRepository,IHttpContextAccessor httpContextAccessor,IChatRepository chatRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -30,6 +31,7 @@ namespace School.Services.UserService
             _parentRepository = parentRepository;
             _studentRepository = studentRepository;
             _teacherRepository = teacherRepository;
+            _chatRepository = chatRepository;
         }
 
 
@@ -171,7 +173,10 @@ namespace School.Services.UserService
             }
             return userId;
         }
+        public void DeleteMessgeOfuserSender_Rec(string userId) { 
+            _chatRepository.DeleteMessgeOfuserSender_Rec(userId);
 
+        }
 
 
     }

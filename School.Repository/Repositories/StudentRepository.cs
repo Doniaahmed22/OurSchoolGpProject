@@ -94,7 +94,12 @@ namespace School.Repository.Repositories
             var student = await _context.Students.Where(x => x.UserId == UserId).ToListAsync();
             return student[0].Id;
         }
-
+        public async Task<Student> GetStudentById(int Id)
+        {
+            var student = await _context.Students.Include(s => s.Class).Include(s => s.Level).Include(s=>s.Department)
+                .FirstOrDefaultAsync(x => x.Id == Id);
+            return student;
+        }
 
     }
 }

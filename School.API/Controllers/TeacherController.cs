@@ -198,16 +198,17 @@ namespace School.API.Controllers
         {
 
             var teach = await _context.Teachers.FindAsync(id);
+            /*
 
-            var user = await _userManager.FindByEmailAsync(teach.Email);
+            var user = await _userManager.FindByIdAsync(teach.UserId);
 
             if (user is null)
             {
                 throw new Exception("User Email not found");
             }
-
+            _userService.DeleteMessgeOfuserSender_Rec(user.Id);
             await _userManager.DeleteAsync(user);
-
+            */
             var teacher = await TeacherServices.DeleteTeacher(id);
             if (teacher == null)
                 return NotFound();

@@ -138,8 +138,8 @@ namespace School.Repository.Repositories
             return usersWithRoles;
 
         }
-        
-       public async Task<List<(AppUser user, string roleName)>> GetAllChatFriends(string userId)
+
+        public async Task<List<(AppUser user, string roleName)>> GetAllChatFriends(string userId)
         {
             var usersWithRoles = new List<(AppUser user, string roleName)>();
 
@@ -160,8 +160,8 @@ namespace School.Repository.Repositories
                })
                .OrderByDescending(d => d.Id)
                .AsQueryable();
-                 var chatList = await chatIdsQuery.ToListAsync();
-                 chatList = chatList.DistinctBy(i => i.PartnerId).ToList();
+            var chatList = await chatIdsQuery.ToListAsync();
+            chatList = chatList.DistinctBy(i => i.PartnerId).ToList();
 
             if (chatList.Count() > 0)
             {
@@ -176,20 +176,21 @@ namespace School.Repository.Repositories
                 return usersWithRoles;
             }
 
-            var currnt_user   = await _userManager.FindByIdAsync(userId);
-            var UserRole =await _userManager.GetRolesAsync(currnt_user);
+            var currnt_user = await _userManager.FindByIdAsync(userId);
+            var UserRole = await _userManager.GetRolesAsync(currnt_user);
             var users = await _userManager.Users
                         .Where(u => u.Id != userId)
                         .OrderBy(u => u.DisplayName)
                         .ToListAsync();
 
-            if (UserRole.Contains("Teacher")){
+            if (UserRole.Contains("Teacher"))
+            {
                 foreach (var user in users)
                 {
                     var roles = await _userManager.GetRolesAsync(user);
                     foreach (var role in roles)
                     {
-                        if (role == "Admin"||role=="Teacher")
+                        if (role == "Admin" || role == "Teacher")
                             continue;
                         usersWithRoles.Add((user, role));
                     }
@@ -202,7 +203,7 @@ namespace School.Repository.Repositories
                     var roles = await _userManager.GetRolesAsync(user);
                     foreach (var role in roles)
                     {
-                        if (role == "Admin"||role == "Parent")
+                        if (role == "Admin" || role == "Parent")
                             continue;
                         usersWithRoles.Add((user, role));
                     }
@@ -215,7 +216,7 @@ namespace School.Repository.Repositories
                     var roles = await _userManager.GetRolesAsync(user);
                     foreach (var role in roles)
                     {
-                        if (role == "Admin" || role == "Parent"||role=="Student")
+                        if (role == "Admin" || role == "Parent" || role == "Student")
                             continue;
                         usersWithRoles.Add((user, role));
                     }
@@ -223,5 +224,14 @@ namespace School.Repository.Repositories
             }
             return usersWithRoles;
         }
+        public void DeleteMessgeOfuserSender_Rec(string userId)
+        {
+            IEnumerable<Message> messes = _context.Messages.Where(m => (m.SenderId.Equals(userId) || m.ReceiverId.Equals(userId)));
+            foreach (var message in messes) {
+                _context.Messages.Remove(message);
+            }
+            _context.SaveChanges();
+        }
+
     }
 }

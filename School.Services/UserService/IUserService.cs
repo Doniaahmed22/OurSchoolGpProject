@@ -16,6 +16,9 @@ namespace School.Services.UserService
 
         Task<(bool Succeeded, string[] Errors)> ChangePasswordAsync(ChangePasswordModel model);
         string GetAuthenticatedUserId();
+        void DeleteMessgeOfuserSender_Rec(string userId);
 
+
+
+        }
     }
-}
