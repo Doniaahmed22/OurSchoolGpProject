@@ -2,10 +2,6 @@
 
 A comprehensive school management platform that facilitates communication and academic tracking between students, parents, teachers, and school administrators.
 
-## 🎯 Overview
-
-This system is designed to streamline communication and management for schools, enabling efficient collaboration among administrators, teachers, students, and parents.
-
 ## ✨ Features
 
 ### 🛡️ Administrator Features
