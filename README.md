@@ -1,5 +1,6 @@
 # School Management System
-📺 **Live Demo:** (https://drive.google.com/file/d/1zv1Ln8mXcDg6emfQn4gAEXOU547104yk/view?t=10)
+📺 **Video Demo:** [Watch on Google Drive](https://drive.google.com/file/d/1zv1Ln8mXcDg6emfQn4gAEXOU547104yk/view?t=10)
+
 A comprehensive school management platform that facilitates communication and academic tracking between students, parents, teachers, and school administrators.
 
 ## ✨ Features
